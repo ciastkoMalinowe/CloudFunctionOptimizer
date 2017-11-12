@@ -1,7 +1,7 @@
 function montageDecorateStrategy(tasks) {
     tasks.forEach(task => {
-        task.property = task.name;
-    })
+        task.deploymentType = "2048";
+    });
 }
 
 module.exports = montageDecorateStrategy;
