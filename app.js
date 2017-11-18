@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const config = require('./configuration/config');
-const decorateStrategy = require(config.strategyPath);
+const decorateStrategy = require('./strategies/montage-strategy');
 
 console.log("Starting Application");
 console.log("Configuration " + JSON.stringify(config));
