@@ -85,5 +85,36 @@ function avgExecutionTimes(functionNames, executionTimes) {
     });
 }
 
+function price(pricingData) {
+  return parseFile(pricingData, ';')
+    .then(data => {
+      let price = {};
+      data.forEach(line => price[line[0]] = line[1]);
+      return price;
+    });
+}
+
+function functionResourceTimes(functionNames, resourceTimes) {
+  return parseFile(resourceTimes, ';')
+    .then(data => {
+      let functionTimes = {};
+      functionNames.forEach(functionName => {
+        functionTimes[functionName] = {"128": 0, "256": 0, "512": 0, "1024": 0, "2048": 0};
+      });
+
+      data.forEach(function (line) {
+        functionTimes[line[0]]["128"] = parseFloat(line[1]);
+        functionTimes[line[0]]["256"] = parseFloat(line[2]);
+        functionTimes[line[0]]["512"] = parseFloat(line[3]);
+        functionTimes[line[0]]["1024"] = parseFloat(line[4]);
+        functionTimes[line[0]]["2048"] = parseFloat(line[5]);
+      });
+
+      return functionTimes;
+    });
+}
+
 exports.totalCost = totalCost;
 exports.avgExecutionTimes = avgExecutionTimes;
+exports.price = price;
+exports.functionResourceTimes = functionResourceTimes;
