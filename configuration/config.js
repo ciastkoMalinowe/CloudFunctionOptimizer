@@ -11,5 +11,7 @@ module.exports = {
     "strategyPath" : STRATEGY_MODULE_PATH,
     "functionExecutionTimes" : FUNCTION_EXECUTION_TIMES,
     "executionData": EXECUTION_DATA,
-    "pricingData": PRICING_DATA
+    "pricingData": PRICING_DATA,
+    "budgetParameter": 0.1,
+    "deadlineParameter": 0.3
 };

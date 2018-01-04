@@ -2,17 +2,34 @@ const staticData = require('../csv_reader/read_csv');
 const config = require('../configuration/config');
 const taskUtils = require('./task-utilities');
 
-function montageDecorateStrategy(dag) {
+function dbwsDecorateStrategy(dag) {
+
+    const maxDeadline = 3;
+    const minDeadline = 1;
+
+    const maxBudget = 3;
+    const minBudget = 1;
+
+    const userDeadline = calculateUserDeadline(maxDeadline, minDeadline);
+    const userBudget = calculateUserBudget(maxBudget, minBudget);
 
     const tasks = dag.tasks;
 
+    if (userBudget < minBudget){
+        throw new Error("No possible schedule map")
+    }else if(userBudget > maxBudget){
+        tasks.forEach(task => {
+            task.deploymentType = "2048";
+        });
+        return;
+    }
+
     const sortedTask = taskUtils.findTopologySortedList(tasks);
     decorateTasksWithLevels(sortedTask);
-    decorateTasksWithSubDeadline(sortedTask);
+    decorateTasksWithSubdeadline(sortedTask, userDeadline);
 
-    tasks.forEach(task => {
-        task.deploymentType = "2048";
-    });
+    //while part
+
 }
 
 function decorateTasksWithLevels(tasks) {
@@ -30,7 +47,7 @@ function decorateTasksWithLevels(tasks) {
     );
 }
 
-function decorateTasksWithSubDeadline(tasks) {
+function decorateTasksWithSubdeadline(tasks, userDeadline) {
 
     let levelExecutionTimeMap = findLevelExecutionTimeMap(tasks);
 
@@ -44,7 +61,7 @@ function decorateTasksWithSubDeadline(tasks) {
 
         //calculate deadline based on prevDeadline, levelExecutionTime and userParameter
         let levelExecutionTime = levelExecutionTimeMap.get(i);
-        let subDeadline = calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime);
+        let subDeadline = calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime, userDeadline);
 
         //decorate task at i-th level
         let levelTasks = taskUtils.findTasksFromLevel(tasks, i);
@@ -64,8 +81,7 @@ function findLevelExecutionTimeMap(tasks) {
 
         let maxTasksTime = levelTasks.map(
             ltask => {
-                //todo
-                //get max time for tasks + communication time
+                //todo get max time for tasks + communication time
                 // if communication time will be in maxTime return just maxTime
                 //ltask.maxTime + Math.max(...findPredecessorForTask(levelTasks, ltask).map(task => task.comTime))
                 return i;
@@ -79,10 +95,17 @@ function findLevelExecutionTimeMap(tasks) {
     return levelExecutionTimeMap;
 }
 
-function calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime) {
+function calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime, userDeadline) {
     //maybe use Math.round(num * 100) / 100 to cut double to 2 decimal places
-    let userDeadlineParameter = 1; //todo get from config
-    return prevLevelDeadline + userDeadlineParameter * ( levelExecutionTime / totalLevelExecutionTime);
+    return prevLevelDeadline + userDeadline * ( levelExecutionTime / totalLevelExecutionTime);
 }
 
-module.exports = montageDecorateStrategy;
+function calculateUserDeadline(maxDeadline, minDeadline) {
+    return minDeadline + config.deadlineParameter * (maxDeadline - minDeadline);
+}
+
+function calculateUserBudget(maxBudget, minBudget) {
+    return minBudget + config.budgetParameter * (maxBudget - minBudget);
+}
+
+module.exports = dbwsDecorateStrategy;

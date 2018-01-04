@@ -44,9 +44,11 @@ function findTasksMaxLevel(tasks) {
     return Math.max(...tasks.map(task => task.level));
 }
 
-module.exports.findTopologySortedList = findTopologySortedList;
-module.exports.findSuccessorsForTask = findSuccessorsForTask;
-module.exports.findPredecessorForTask = findPredecessorForTask;
-module.exports.findFirstTasks = findFirstTasks;
-module.exports.findTasksFromLevel = findTasksFromLevel;
-module.exports.findTasksMaxLevel = findTasksMaxLevel;
+module.exports = {
+    findTopologySortedList: findTopologySortedList,
+    findSuccessorsForTask: findSuccessorsForTask,
+    findPredecessorForTask: findPredecessorForTask,
+    findFirstTasks: findFirstTasks,
+    findTasksFromLevel: findTasksFromLevel,
+    findTasksMaxLevel: findTasksMaxLevel
+};
