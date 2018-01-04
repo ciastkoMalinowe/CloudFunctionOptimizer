@@ -4,7 +4,8 @@
   "main": "app.js",
   "dependencies": {
     "bluebird": "^3.5.0",
-    "csv-parse": "^2.0.0"
+    "csv-parse": "^2.0.0",
+    "toposort": "1.0.6"
   },
   "scripts": {
     "start": "node --use_strict app.js"
