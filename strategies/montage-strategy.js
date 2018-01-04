@@ -1,8 +1,11 @@
 const staticData = require('../csv_reader/read_csv');
 const config = require('../configuration/config');
+const algorithm = require('./algo');
 const taskUtils = require('./task-utilities');
 
 function dbwsDecorateStrategy(dag) {
+
+    const tasks = dag.tasks;
 
     const maxDeadline = 3;
     const minDeadline = 1;
@@ -10,14 +13,16 @@ function dbwsDecorateStrategy(dag) {
     const maxBudget = 3;
     const minBudget = 1;
 
+    algorithm.costLow(tasks).then(data => console.log(data));
+    algorithm.costHigh(tasks).then(data => console.log(data));
+
     const userDeadline = calculateUserDeadline(maxDeadline, minDeadline);
     const userBudget = calculateUserBudget(maxBudget, minBudget);
 
-    const tasks = dag.tasks;
 
-    if (userBudget < minBudget){
+    if (userBudget < minBudget) {
         throw new Error("No possible schedule map")
-    }else if(userBudget > maxBudget){
+    } else if(userBudget > maxBudget){
         tasks.forEach(task => {
             task.deploymentType = "2048";
         });
