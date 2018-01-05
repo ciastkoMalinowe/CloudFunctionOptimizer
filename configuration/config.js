@@ -5,6 +5,9 @@ const FUNCTION_EXECUTION_TIMES = '0.25.csv';
 const EXECUTION_DATA = 'grafana_data_export.csv';
 const PRICING_DATA = 'gcf_pricing.csv';
 const FUNCTION_RESOURCE_TIMES_DATA = 'function_resource_times.csv';
+const BUDGET_PARAMETER = 0.1;
+const DEADLINE_PARAMETER = 0.3;
+const FUNCTION_TYPES = ["128", "256", "512", "1024", "2048"];
 
 module.exports = {
     "path" : DAG_PATH,
@@ -14,6 +17,7 @@ module.exports = {
     "executionData": EXECUTION_DATA,
     "pricingData": PRICING_DATA,
     "functionResourceTimes" : FUNCTION_RESOURCE_TIMES_DATA,
-    "budgetParameter": 0.1,
-    "deadlineParameter": 0.3
+    "budgetParameter": BUDGET_PARAMETER,
+    "deadlineParameter": DEADLINE_PARAMETER,
+    "functionTypes"  : FUNCTION_TYPES
 };

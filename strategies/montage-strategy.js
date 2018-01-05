@@ -31,7 +31,69 @@ function dbwsDecorateStrategy(dag) {
     decorateTasksWithLevels(sortedTasks);
     decorateTasksWithSubdeadline(sortedTasks, userDeadline);
     decorateTaskWithRank(sortedTasks);
-    //while part
+    sortedTasks.sort((task1, task2) => task2.rank - task1.rank); //descending
+
+    const costEfficientFactor = minBudget / userBudget;
+    sortedTasks.forEach(
+        task => {
+
+            let resourceMap = new Map();
+
+            config.functionTypes.forEach(
+                functionType => resourceMap.set(
+                    functionType,
+                    computeQualityMeasureForResource(task, functionType, costEfficientFactor)
+                )
+            );
+
+            let maxQuality = Number.NEGATIVE_INFINITY;
+            let selectedResource;
+
+            for(let [functionType, quality] of resourceMap.entries()) {
+                if (maxQuality < quality){
+                    maxQuality = quality;
+                    selectedResource = functionType;
+                }
+            }
+
+            task.deploymentType = selectedResource;
+        }
+    )
+}
+
+function computeQualityMeasureForResource(task, functionType, costEfficientFactor) {
+
+    let timeQuality = computeTimeQuality(task, functionType);
+    let costQuality = computeCostQuality(task, functionType);
+
+    let taskQuality = timeQuality * (1 - costEfficientFactor) + costQuality * costEfficientFactor;
+
+    return taskQuality;
+}
+
+function computeTimeQuality(task, functionType) {
+
+    let taskFinishTime = taskUtils.findTaskExecutionTimeOnResource(task, functionType);
+    let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
+
+    let taskMaxFinishTime = taskUtils.findMaxTaskExecutionTime(task);
+    let taskMinFinishTime = taskUtils.findMinTaskExecutionTime(task);
+
+    let timeQuality = (inSubdeadline * task.subDeadline - taskFinishTime) / (taskMaxFinishTime - taskMinFinishTime);
+    return timeQuality;
+}
+
+function computeCostQuality(task, functionType) {
+
+    let taskFinishTime = taskUtils.findTaskExecutionTimeOnResource(task, functionType);
+    let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
+
+    let taskCost = taskUtils.findTaskExecutionCostOnResource(task, functionType);
+    let taskMaxCost = taskUtils.findMaxTaskExecutionCost(task);
+    let taskMinCost = taskUtils.findMinTaskExecutionCost(task);
+
+    let costQuality = ((taskMaxCost - taskCost) / (taskMaxCost - taskMinCost)) * inSubdeadline;
+    return costQuality;
 }
 
 function decorateTaskWithRank(tasks) {

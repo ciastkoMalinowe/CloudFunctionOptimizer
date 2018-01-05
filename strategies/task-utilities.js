@@ -53,12 +53,41 @@ function findTaskExecutionTime(task){
         "2048" : 16
     }
 }
+
+function findTaskExecutionTimeOnResource(task, resourceType) {
+    return findTaskExecutionTime(task)[resourceType];
+}
+
 function findMaxTaskExecutionTime(task){
     return 16;
 }
+
 function findMinTaskExecutionTime(task){
     return 1;
 }
+
+function findTaskExecutionCost(task){
+    return {
+        "128" : 0.000001,
+        "256" : 0.000002,
+        "512" : 0.000004,
+        "1024" : 0.000008,
+        "2048" : 0.000016
+    }
+}
+
+function findTaskExecutionCostOnResource(task, resourceType) {
+    return findTaskExecutionTime(task)[resourceType];
+}
+
+function findMaxTaskExecutionCost(task){
+    return 0.000016;
+}
+
+function findMinTaskExecutionCost(task){
+    return 0.000001;
+}
+
 
 module.exports = {
     findTopologySortedList: findTopologySortedList,
@@ -69,5 +98,10 @@ module.exports = {
     findTasksMaxLevel: findTasksMaxLevel,
     findTaskExecutionTime: findTaskExecutionTime,
     findMaxTaskExecutionTime: findMaxTaskExecutionTime,
-    findMinTaskExecutionTime: findMinTaskExecutionTime
+    findMinTaskExecutionTime: findMinTaskExecutionTime,
+    findTaskExecutionTimeOnResource: findTaskExecutionTimeOnResource,
+    findTaskExecutionCost: findTaskExecutionCost,
+    findMaxTaskExecutionCost: findMaxTaskExecutionCost,
+    findMinTaskExecutionCost: findMinTaskExecutionCost,
+    findTaskExecutionCostOnResource: findTaskExecutionCostOnResource
 };
