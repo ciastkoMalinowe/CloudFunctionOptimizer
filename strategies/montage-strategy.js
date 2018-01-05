@@ -13,8 +13,6 @@ function dbwsDecorateStrategy(dag) {
     const maxBudget = 3;
     const minBudget = 1;
 
-    algorithm.costLow(tasks).then(data => console.log(data));
-    algorithm.costHigh(tasks).then(data => console.log(data));
 
     const userDeadline = calculateUserDeadline(maxDeadline, minDeadline);
     const userBudget = calculateUserBudget(maxBudget, minBudget);
@@ -29,12 +27,36 @@ function dbwsDecorateStrategy(dag) {
         return;
     }
 
-    const sortedTask = taskUtils.findTopologySortedList(tasks);
-    decorateTasksWithLevels(sortedTask);
-    decorateTasksWithSubdeadline(sortedTask, userDeadline);
-
+    const sortedTasks = taskUtils.findTopologySortedList(tasks);
+    decorateTasksWithLevels(sortedTasks);
+    decorateTasksWithSubdeadline(sortedTasks, userDeadline);
+    decorateTaskWithRank(sortedTasks);
     //while part
+}
 
+function decorateTaskWithRank(tasks) {
+    tasks.forEach(task => task.rank = computeRank(tasks, task));
+}
+
+function computeRank(tasks, task) {
+
+    let successors = taskUtils.findSuccessorsForTask(tasks, task);
+    if (successors.length === 0){
+        return computeAverageExecutionTime(task);
+    }
+    let successorsExecutionTimes = successors.map(sTask => computeRank(tasks, sTask));
+
+    return computeAverageExecutionTime(task) + Math.max(...successorsExecutionTimes);
+}
+
+function computeAverageExecutionTime(task) {
+    let executionTimes = taskUtils.findTaskExecutionTime(task);
+
+    let total = 0;
+    Object.keys(executionTimes).forEach(functionType => total += parseInt(executionTimes[functionType]));
+
+    let average = total / Object.keys(executionTimes).length;
+    return average;
 }
 
 function decorateTasksWithLevels(tasks) {
@@ -84,16 +106,9 @@ function findLevelExecutionTimeMap(tasks) {
 
         let levelTasks = taskUtils.findTasksFromLevel(tasks, i);
 
-        let maxTasksTime = levelTasks.map(
-            ltask => {
-                //todo get max time for tasks + communication time
-                // if communication time will be in maxTime return just maxTime
-                //ltask.maxTime + Math.max(...findPredecessorForTask(levelTasks, ltask).map(task => task.comTime))
-                return i;
-            }
-        );
-
+        let maxTasksTime = levelTasks.map(ltask => taskUtils.findMaxTaskExecutionTime(ltask));
         let levelExecutionTime = Math.max(...maxTasksTime);
+
         levelExecutionTimeMap.set(i, levelExecutionTime);
     }
 

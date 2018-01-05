@@ -44,11 +44,30 @@ function findTasksMaxLevel(tasks) {
     return Math.max(...tasks.map(task => task.level));
 }
 
+function findTaskExecutionTime(task){
+    return {
+        "128" : 1,
+        "256" : 2,
+        "512" : 4,
+        "1024" : 8,
+        "2048" : 16
+    }
+}
+function findMaxTaskExecutionTime(task){
+    return 16;
+}
+function findMinTaskExecutionTime(task){
+    return 1;
+}
+
 module.exports = {
     findTopologySortedList: findTopologySortedList,
     findSuccessorsForTask: findSuccessorsForTask,
     findPredecessorForTask: findPredecessorForTask,
     findFirstTasks: findFirstTasks,
     findTasksFromLevel: findTasksFromLevel,
-    findTasksMaxLevel: findTasksMaxLevel
+    findTasksMaxLevel: findTasksMaxLevel,
+    findTaskExecutionTime: findTaskExecutionTime,
+    findMaxTaskExecutionTime: findMaxTaskExecutionTime,
+    findMinTaskExecutionTime: findMinTaskExecutionTime
 };
