@@ -15,6 +15,7 @@ function init(dag, config) {
   return Promise.all([resource_times_promise, price_promise, execution_times_promise, total_cost_promise])
     .then(function([resource_times, price, execution_times, total_cost]) {
       return {
+        resources: ['128', '256', '512', '1024', '2048'],
         resourceTimes: resource_times,
         price: price,
         executionTimes: execution_times,
@@ -129,6 +130,7 @@ function functionResourceTimes(functionNames, resourceTimes) {
         functionTimes[line[0]]["512"] = parseFloat(line[3]);
         functionTimes[line[0]]["1024"] = parseFloat(line[4]);
         functionTimes[line[0]]["2048"] = parseFloat(line[5]);
+
       });
 
       return functionTimes;
