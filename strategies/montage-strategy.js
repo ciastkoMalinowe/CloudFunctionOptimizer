@@ -1,9 +1,8 @@
-const staticData = require('../csv_reader/read_csv');
 const config = require('../configuration/config');
 const algorithm = require('./algo');
 const taskUtils = require('./task-utilities');
 
-function dbwsDecorateStrategy(dag) {
+function dbwsDecorateStrategy(dag, data) {
 
     const tasks = dag.tasks;
 

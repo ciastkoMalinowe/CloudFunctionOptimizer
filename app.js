@@ -11,16 +11,16 @@ console.log("Configuration " + JSON.stringify(config));
 fs.readFileAsync(config.path)
     .then(data => JSON.parse(data))
     .then(dag => initData(dag, config))
-    .then(dag => decorateDag(dag, decorateStrategy))
+    .then(data => decorateDag(data.dag, data.data, decorateStrategy))
     .then(dag => savePrettifyDag(dag))
     .then(() => console.log("Saved decorated DAG file as " + config.resultPath))
     .catch(console.error);
 
-function decorateDag(dag, decorateStrategy) {
+function decorateDag(dag, data, decorateStrategy) {
     if(!dag.tasks) {
         throw new Error("DAG file doesn't contain tasks within.")
     }
-    decorateStrategy(dag);
+    decorateStrategy(dag, data);
     return dag;
 }
 
@@ -31,5 +31,11 @@ function savePrettifyDag(dag) {
 }
 
 function initData(dag, config) {
-    return staticData.init(dag, config);
+    return staticData.init(dag, config)
+      .then(data => {
+          return {
+            data: data,
+            dag: dag
+          }
+    });
 }
