@@ -2,6 +2,27 @@ const Promise = require('bluebird');
 const fs = require('fs');
 const parse = require('csv-parse');
 
+function init(dag, config) {
+
+  let tasks = dag.tasks;
+
+  let functionNames = new Set(tasks.map(task => task.name));
+  let price_promise = price(config.pricingData);
+  let resource_times_promise = functionResourceTimes(functionNames, config.functionResourceTimes);
+  let execution_times_promise = avgExecutionTimes(functionNames, config.functionExecutionTimes);
+  let total_cost_promise = totalCost(config.pricingData, config.executionData);
+
+  return Promise.all([resource_times_promise, price_promise, execution_times_promise, total_cost_promise])
+    .then(function([resource_times, price, execution_times, total_cost]) {
+      return {
+        resourceTimes: resource_times,
+        price: price,
+        executionTimes: execution_times,
+        totalCost: total_cost
+      }
+    });
+}
+
 let parseFile = function (file, delimiter) {
   return new Promise(function (resolve, reject) {
     let parser = parse({delimiter: delimiter, from: 2},
@@ -118,3 +139,4 @@ exports.totalCost = totalCost;
 exports.avgExecutionTimes = avgExecutionTimes;
 exports.price = price;
 exports.functionResourceTimes = functionResourceTimes;
+exports.init = init;
