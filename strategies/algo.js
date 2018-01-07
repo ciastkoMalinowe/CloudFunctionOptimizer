@@ -7,7 +7,7 @@ function costLow(tasks, data) {
     tasks.forEach(task => {
       let resource = cheapestResource(task, data);
       let task_duration = data.resourceTimes[task.name][resource];
-      let time_slots = task_duration/100;   //check time format
+      let time_slots = task_duration/100;   //todo check time format
       let resource_price = data.price[resource];
       let task_cost = time_slots * resource_price;
       cost = cost + task_cost;
@@ -21,7 +21,7 @@ function costHigh(tasks, data) {
     tasks.forEach(task => {
       let resource = mostExpensiveResource(task, data);
       let task_duration = data.resourceTimes[task.name][resource];
-      let time_slots = task_duration/100;   //check time format
+      let time_slots = task_duration/100;   //todo check time format
       let resource_price = data.price[resource];
       let task_cost = time_slots * resource_price;
       cost = cost + task_cost;
@@ -72,5 +72,23 @@ function mostExpensiveResource(task, data) {
   return resource;
 }
 
+function maxDeadline(tasks, data) {
+  let time = 0.0;
+  tasks.forEach(task => {
+    time = time + taskUtils.findMaxTaskExecutionTime(task, data);
+  });
+  return time;
+}
+
+function minDeadline(tasks, data) {
+  let time = 0.0;
+  tasks.forEach(task => {
+    time = time + taskUtils.findMinTaskExecutionTime(task, data);
+  });
+  return time;
+}
+
 exports.costLow = costLow;
 exports.costHigh = costHigh;
+exports.maxDeadline = maxDeadline;
+exports.minDeadline = minDeadline;

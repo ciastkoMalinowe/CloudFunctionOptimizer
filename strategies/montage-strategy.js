@@ -6,8 +6,8 @@ function dbwsDecorateStrategy(dag, data) {
 
     const tasks = dag.tasks;
 
-    const maxDeadline = 3;
-    const minDeadline = 1;
+    const maxDeadline = algorithm.maxDeadline(tasks, data);
+    const minDeadline = algorithm.minDeadline(tasks, data);
 
     const maxBudget = algorithm.costHigh(tasks, data);
     const minBudget = algorithm.costLow(tasks, data);
