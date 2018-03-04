@@ -2,7 +2,6 @@ const DAG_PATH = "dag.json";
 const RESULT_DAG_PATH = "decorated-dag.json";
 const STRATEGY_MODULE_PATH = './strategies/montage-strategy';
 const FUNCTION_EXECUTION_TIMES = '0.25.csv';
-const EXECUTION_DATA = 'grafana_data_export.csv';
 const PRICING_DATA = 'gcf_pricing.csv';
 const FUNCTION_RESOURCE_TIMES_DATA = 'function_resource_times.csv';
 const BUDGET_PARAMETER = 0.1;
@@ -14,7 +13,6 @@ module.exports = {
     "resultPath" : RESULT_DAG_PATH,
     "strategyPath" : STRATEGY_MODULE_PATH,
     "functionExecutionTimes" : FUNCTION_EXECUTION_TIMES,
-    "executionData": EXECUTION_DATA,
     "pricingData": PRICING_DATA,
     "functionResourceTimes" : FUNCTION_RESOURCE_TIMES_DATA,
     "budgetParameter": BUDGET_PARAMETER,
