@@ -1,16 +1,16 @@
 const config = require('../configuration/config');
-const algorithm = require('./algo');
+const costFunctions = require('./cost-functions');
 const taskUtils = require('./task-utilities');
 
 function dbwsDecorateStrategy(dag, data) {
 
     const tasks = dag.tasks;
 
-    const maxDeadline = algorithm.maxDeadline(tasks, data);
-    const minDeadline = algorithm.minDeadline(tasks, data);
+    const maxDeadline = costFunctions.maxDeadline(tasks, data);
+    const minDeadline = costFunctions.minDeadline(tasks, data);
 
-    const maxBudget = algorithm.costHigh(tasks, data);
-    const minBudget = algorithm.costLow(tasks, data);
+    const maxBudget = costFunctions.costHigh(tasks, data);
+    const minBudget = costFunctions.costLow(tasks, data);
 
 
     const userDeadline = calculateUserDeadline(maxDeadline, minDeadline);

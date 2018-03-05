@@ -1,8 +1,8 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const config = require('./configuration/config');
-const decorateStrategy = require('./strategies/montage-strategy');
-const staticData = require('./csv_reader/read_csv');
+const decorateStrategy = require('./strategies/dbws-strategy');
+const staticData = require('./csv_reader/csv-reader');
 
 console.log("Starting Application");
 console.log("Configuration " + JSON.stringify(config));
