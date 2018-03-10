@@ -1,4 +1,5 @@
 const toposort = require('toposort');
+const config = require('../configuration/config');
 
 function findTopologySortedList(tasks) {
 
@@ -44,11 +45,11 @@ function findTasksMaxLevel(tasks) {
     return Math.max(...tasks.map(task => task.level));
 }
 
-function findTaskExecutionTime(task, data) {
+function findTaskExecutionTime(task) {
     // todo what if csv file has more than one walue per function
     let times = {"128": 0, "256": 0, "512": 0, "1024": 0, "2048": 0};
-    data.resources.forEach(resource => {
-        let timesForResource = data.resourceTimes[task.name][resource];
+    config.functionTypes.forEach(resource => {
+        let timesForResource = task.resourceTimes[resource];
         // let sum = 0;
         // let count = 0;
         // console.log(data.resourceTimes[task.name]);
@@ -63,39 +64,39 @@ function findTaskExecutionTime(task, data) {
     return times;
 }
 
-function findTaskExecutionTimeOnResource(task, resourceType, data) {
-    return findTaskExecutionTime(task, data)[resourceType];
+function findTaskExecutionTimeOnResource(task, resourceType) {
+    return findTaskExecutionTime(task)[resourceType];
 }
 
-function findMaxTaskExecutionTime(task, data) {
-    let times = findTaskExecutionTime(task, data);
+function findMaxTaskExecutionTime(task) {
+    let times = findTaskExecutionTime(task);
     return Math.max(...Object.values(times));
 }
 
-function findMinTaskExecutionTime(task, data){
-  let times = findTaskExecutionTime(task, data);
+function findMinTaskExecutionTime(task){
+  let times = findTaskExecutionTime(task);
   return Math.min(...Object.values(times));
 }
 
-function findTaskExecutionCost(task, data) {
+function findTaskExecutionCost(task) {
     let cost = {"128": 0, "256": 0, "512": 0, "1024": 0, "2048": 0};
-    data.resources.forEach(resource => {
-      cost[resource] = findTaskExecutionTimeOnResource(task, resource, data);
+    config.functionTypes.forEach(resource => {
+      cost[resource] = findTaskExecutionTimeOnResource(task, resource);
     });
     return cost;
 }
 
-function findTaskExecutionCostOnResource(task, resourceType, data) {
-    return findTaskExecutionCost(task, data)[resourceType];
+function findTaskExecutionCostOnResource(task, resourceType) {
+    return findTaskExecutionCost(task)[resourceType];
 }
 
-function findMaxTaskExecutionCost(task, data) {
-    let cost = findTaskExecutionCost(task, data);
+function findMaxTaskExecutionCost(task) {
+    let cost = findTaskExecutionCost(task);
     return Math.max(...Object.values(cost));
 }
 
-function findMinTaskExecutionCost(task, data){
-  let cost = findTaskExecutionCost(task, data);
+function findMinTaskExecutionCost(task){
+  let cost = findTaskExecutionCost(task);
   return Math.min(...Object.values(cost));
 }
 

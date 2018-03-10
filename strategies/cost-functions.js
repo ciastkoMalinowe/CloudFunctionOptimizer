@@ -1,12 +1,12 @@
 const taskUtils = require('./task-utilities');
 const config = require('../configuration/config');
 
-function costLow(tasks, data) {
+function costLow(tasks) {
 
     let cost = 0.0;
 
     tasks.forEach(task => {
-      let resource = cheapestResource(task, data);
+      let resource = cheapestResource(task);
       let task_duration = task.resourceTimes[resource];
       let time_slots = task_duration/100;   //todo check time format
       let resource_price = config.gcf[resource].price;
@@ -16,25 +16,25 @@ function costLow(tasks, data) {
     return cost;
 }
 
-function costHigh(tasks, data) {
+function costHigh(tasks) {
     let cost = 0.0;
 
     tasks.forEach(task => {
-      let resource = mostExpensiveResource(task, data);
+      let resource = mostExpensiveResource(task);
       let task_duration = task.resourceTimes[resource];
       let time_slots = task_duration/100;   //todo check time format
-      let resource_price = data.price[resource];
+      let resource_price = config.gcf[resource].price;
       let task_cost = time_slots * resource_price;
       cost = cost + task_cost;
     });
     return cost;
 }
 
-function cheapestResource(task, data) {
+function cheapestResource(task) {
 
-  let resourceCosts = data.resources.map(resource => {
-    let taskTimeOnResource = taskUtils.findTaskExecutionTimeOnResource(task, resource, data);
-    let resourceCost = taskTimeOnResource * data.price[resource];
+  let resourceCosts = config.functionTypes.map(resource => {
+    let taskTimeOnResource = taskUtils.findTaskExecutionTimeOnResource(task, resource);
+    let resourceCost = taskTimeOnResource * config.gcf[resource].price;
     return {
       resource: resource,
       cost: resourceCost
@@ -52,10 +52,10 @@ function cheapestResource(task, data) {
   return resource;
 }
 
-function mostExpensiveResource(task, data) {
-  let resourceCosts = data.resources.map(resource => {
-    let taskTimeOnResource = taskUtils.findTaskExecutionTimeOnResource(task, resource, data);
-    let resourceCost = taskTimeOnResource * data.price[resource];
+function mostExpensiveResource(task) {
+  let resourceCosts = config.functionTypes.map(resource => {
+    let taskTimeOnResource = taskUtils.findTaskExecutionTimeOnResource(task, resource);
+    let resourceCost = taskTimeOnResource * config.gcf[resource].price;
     return {
       resource: resource,
       cost: resourceCost
@@ -73,18 +73,18 @@ function mostExpensiveResource(task, data) {
   return resource;
 }
 
-function maxDeadline(tasks, data) {
+function maxDeadline(tasks) {
   let time = 0.0;
   tasks.forEach(task => {
-    time = time + taskUtils.findMaxTaskExecutionTime(task, data);
+    time = time + taskUtils.findMaxTaskExecutionTime(task);
   });
   return time;
 }
 
-function minDeadline(tasks, data) {
+function minDeadline(tasks) {
   let time = 0.0;
   tasks.forEach(task => {
-    time = time + taskUtils.findMinTaskExecutionTime(task, data);
+    time = time + taskUtils.findMinTaskExecutionTime(task);
   });
   return time;
 }
