@@ -10,6 +10,7 @@ console.log("Configuration " + JSON.stringify(config));
 // read dag file
 fs.readFileAsync(config.path)
     .then(data => JSON.parse(data))
+    .then(dag => scaleTimes(dag, config))
     .then(dag => initData(dag, config))
     .then(data => decorateDag(data.dag, data.data, decorateStrategy))
     .then(dag => savePrettifyDag(dag))
@@ -38,4 +39,21 @@ function initData(dag, config) {
             dag: dag
           }
     });
+}
+
+function scaleTimes(dag, config) {
+  dag.tasks.forEach(task => {
+    task.resourceTimes = {};
+    let bestTime = task.runtime;
+    let bestResource = "2048";
+    config.functionTypes.forEach(type => {
+      if (type === bestResource) {
+        task.resourceTimes[type] = parseFloat(bestTime);
+      } else {
+        let resource = config.gcf[type];
+        task.resourceTimes[type] = (bestTime/resource.cpu) * config.gcf[bestResource].cpu;
+      }
+    })
+  });
+  return dag;
 }
