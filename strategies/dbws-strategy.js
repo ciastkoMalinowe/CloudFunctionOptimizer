@@ -96,7 +96,7 @@ function computeCostQuality(task, functionType) {
 }
 
 function decorateTaskWithRank(tasks) {
-    tasks.forEach(task => task.rank = computeRank(tasks, task));
+    tasks.forEach(task => task.rank = Math.round(computeRank(tasks, task) * 100)/100);
 }
 
 function computeRank(tasks, task) {
@@ -178,7 +178,8 @@ function findLevelExecutionTimeMap(tasks) {
 
 function calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime, userDeadline) {
     //maybe use Math.round(num * 100) / 100 to cut double to 2 decimal places
-    return prevLevelDeadline + userDeadline * ( levelExecutionTime / totalLevelExecutionTime);
+    let subdeadline = prevLevelDeadline + userDeadline * ( levelExecutionTime / totalLevelExecutionTime);
+    return Math.round(subdeadline * 100) / 100;
 }
 
 function calculateUserDeadline(maxDeadline, minDeadline) {
