@@ -15,8 +15,31 @@ fs.readFileAsync(config.path)
     .then(() => console.log("Saved decorated DAG file as " + config.resultPath))
     .catch(console.error);
 
+function scaleTimes(dag, config) {
+    dag.tasks.forEach(task => {
+        task.resourceTimes = {};
+        const bestTime = task.runtime;
+        const bestResource = "2048";
+
+        config.functionTypes.forEach(type => {
+            assignResourceTimes(task, type, bestResource, bestTime);
+        })
+    });
+    return dag;
+}
+
+function assignResourceTimes(task, type, bestResource, bestTime) {
+    if (type === bestResource) {
+        task.resourceTimes[type] = parseFloat(bestTime);
+    } else {
+        let resource = config.gcf[type];
+        let time = bestTime / resource.cpu * config.gcf[bestResource].cpu;
+        task.resourceTimes[type] = Math.round(time * 1000) / 1000;
+    }
+}
+
 function decorateDag(dag, decorateStrategy) {
-    if(!dag.tasks) {
+    if (!dag.tasks) {
         throw new Error("DAG file doesn't contain tasks within.")
     }
     decorateStrategy(dag);
@@ -27,21 +50,4 @@ function savePrettifyDag(dag) {
     let path = config.resultPath;
     let objectToSave = JSON.stringify(dag, null, 2);
     return fs.writeFileAsync(path, objectToSave);
-}
-
-function scaleTimes(dag, config) {
-  dag.tasks.forEach(task => {
-    task.resourceTimes = {};
-    let bestTime = task.runtime;
-    let bestResource = "2048";
-    config.functionTypes.forEach(type => {
-      if (type === bestResource) {
-        task.resourceTimes[type] = parseFloat(bestTime);
-      } else {
-        let resource = config.gcf[type];
-        task.resourceTimes[type] = (bestTime/resource.cpu) * config.gcf[bestResource].cpu;
-      }
-    })
-  });
-  return dag;
 }
