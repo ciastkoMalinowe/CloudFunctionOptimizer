@@ -79,11 +79,11 @@ function findMinTaskExecutionTime(task){
 }
 
 function findTaskExecutionCost(task) {
-    let cost = {"128": 0, "256": 0, "512": 0, "1024": 0, "2048": 0};
-    config.functionTypes.forEach(resource => {
-      cost[resource] = findTaskExecutionTimeOnResource(task, resource);
-    });
-    return cost;
+  let cost = {"128": 0, "256": 0, "512": 0, "1024": 0, "2048": 0};
+  config.functionTypes.forEach(resource => {
+    cost[resource] = findTaskExecutionTimeOnResource(task, resource) * config.gcf[resource].price;
+  });
+  return cost;
 }
 
 function findTaskExecutionCostOnResource(task, resourceType) {
