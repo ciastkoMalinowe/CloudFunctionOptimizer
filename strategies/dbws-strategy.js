@@ -6,12 +6,14 @@ function dbwsDecorateStrategy(dag) {
 
     const tasks = dag.tasks;
 
+    const sortedTasks = taskUtils.findTopologySortedList(tasks);
+    decorateTasksWithLevels(sortedTasks);
+
     const maxDeadline = costFunctions.maxDeadline(tasks);
     const minDeadline = costFunctions.minDeadline(tasks);
 
     const maxBudget = costFunctions.costHigh(tasks);
     const minBudget = costFunctions.costLow(tasks);
-
 
     const userDeadline = calculateUserDeadline(maxDeadline, minDeadline);
     const userBudget = calculateUserBudget(maxBudget, minBudget);
@@ -26,8 +28,6 @@ function dbwsDecorateStrategy(dag) {
         return;
     }
 
-    const sortedTasks = taskUtils.findTopologySortedList(tasks);
-    decorateTasksWithLevels(sortedTasks);
     decorateTasksWithSubdeadline(sortedTasks, userDeadline);
     decorateTaskWithRank(sortedTasks);
     sortedTasks.sort((task1, task2) => task2.rank - task1.rank); //descending

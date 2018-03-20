@@ -76,17 +76,19 @@ function mostExpensiveResource(task) {
 
 function maxDeadline(tasks) {
   let time = 0.0;
-  tasks.forEach(task => {
-    time = time + taskUtils.findMaxTaskExecutionTime(task);
-  });
+  for (let level = 1; level <= taskUtils.findTasksMaxLevel(tasks); level++) {
+    time = time + Math.max(...taskUtils.findTasksFromLevel(tasks, level).map(task =>
+        taskUtils.findMaxTaskExecutionTime(task)));
+  }
   return time;
 }
 
 function minDeadline(tasks) {
   let time = 0.0;
-  tasks.forEach(task => {
-    time = time + taskUtils.findMinTaskExecutionTime(task);
-  });
+  for (let level = 1; level <= taskUtils.findTasksMaxLevel(tasks); level++) {
+    time = time + Math.max(...taskUtils.findTasksFromLevel(tasks, level).map(task =>
+      taskUtils.findMinTaskExecutionTime(task)));
+  }
   return time;
 }
 
