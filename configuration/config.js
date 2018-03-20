@@ -1,5 +1,5 @@
-const DAG_PATH = "dag.json";
-const RESULT_DAG_PATH = "decorated-dag.json";
+const DAG_PATH = "dags/dag.json";
+const RESULT_DAG_PATH = "dags/output/decorated-dag.json";
 const BUDGET_PARAMETER = 0.3;
 const DEADLINE_PARAMETER = 0.3;
 const FUNCTION_TYPES = ["128", "256", "512", "1024", "2048"];
