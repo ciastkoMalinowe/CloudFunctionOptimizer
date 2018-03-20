@@ -46,22 +46,7 @@ function findTasksMaxLevel(tasks) {
 }
 
 function findTaskExecutionTime(task) {
-    // todo what if csv file has more than one walue per function
-    let times = {"128": 0, "256": 0, "512": 0, "1024": 0, "2048": 0};
-    config.functionTypes.forEach(resource => {
-        let timesForResource = task.resourceTimes[resource];
-        // let sum = 0;
-        // let count = 0;
-        // console.log(data.resourceTimes[task.name]);
-        // timesForResource.forEach(time => {
-        //     sum += time;
-        //     count += 1;
-        // });
-        // let avgTime = sum / count;
-        // return { resource: avgTime }
-        times[resource] = timesForResource;
-    });
-    return times;
+    return task.resourceTimes;
 }
 
 function findTaskExecutionTimeOnResource(task, resourceType) {
@@ -79,9 +64,10 @@ function findMinTaskExecutionTime(task){
 }
 
 function findTaskExecutionCost(task) {
-  let cost = {"128": 0, "256": 0, "512": 0, "1024": 0, "2048": 0};
+  let cost = {};
   config.functionTypes.forEach(resource => {
-    cost[resource] = findTaskExecutionTimeOnResource(task, resource) * config.gcf[resource].price;
+    let slotTimes = Math.ceil(findTaskExecutionTimeOnResource(task, resource) * 10);
+    cost[resource] = slotTimes * config.gcf[resource].price;
   });
   return cost;
 }

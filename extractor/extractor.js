@@ -53,7 +53,8 @@ function appendTimeAndPriceByType(tasks, type) {
 
     let time = 0;
     tasks.forEach(task => time += task.resourceTimes[type]);
-    let price = time * prices[type];
+    let timeSlots = Math.ceil(time * 10);
+    let price = timeSlots * prices[type];
 
     time = normalizeDouble(time);
     price = normalizeDouble(price, 10);
@@ -70,8 +71,9 @@ function appendTimeAndPriceByDeploymentType(tasks) {
 
     tasks.forEach(task => {
         let taskTime = task.resourceTimes[task.deploymentType];
+        let timeSlots = Math.ceil(taskTime * 10);
         time += taskTime;
-        price += taskTime * prices[task.deploymentType];
+        price += timeSlots * prices[task.deploymentType];
     });
 
     time = normalizeDouble(time);
