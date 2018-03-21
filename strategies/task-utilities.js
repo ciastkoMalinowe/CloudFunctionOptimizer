@@ -6,25 +6,25 @@ function findTopologySortedList(tasks) {
     const graph = [];
 
     tasks.forEach(task => {
-        let connectedTasks = findSuccessorsForTask(tasks, task);
-        connectedTasks.forEach(connectedTasks => graph.push([task, connectedTasks]))
+        let successors = findSuccessorsForTask(tasks, task);
+        successors.forEach(successorTask => graph.push([task, successorTask]))
     });
 
     return toposort(graph);
-}
-
-function findSuccessorsForTask(tasks, task) {
-    return tasks.filter(
-        filteredTask => filteredTask.ins.some(
-            input => task.outs.includes(input)
-        )
-    )
 }
 
 function findPredecessorForTask(tasks, task) {
     return tasks.filter(
         filteredTask => task.ins.some(
             input => filteredTask.outs.includes(input)
+        )
+    )
+}
+
+function findSuccessorsForTask(tasks, task) {
+    return tasks.filter(
+        filteredTask => filteredTask.ins.some(
+            input => task.outs.includes(input)
         )
     )
 }
@@ -45,29 +45,29 @@ function findTasksMaxLevel(tasks) {
     return Math.max(...tasks.map(task => task.level));
 }
 
-function findTaskExecutionTime(task) {
+function findTaskExecutionTimes(task) {
     return task.resourceTimes;
 }
 
 function findTaskExecutionTimeOnResource(task, resourceType) {
-    return findTaskExecutionTime(task)[resourceType];
+    return findTaskExecutionTimes(task)[resourceType];
 }
 
 function findMaxTaskExecutionTime(task) {
-    let times = findTaskExecutionTime(task);
+    let times = findTaskExecutionTimes(task);
     return Math.max(...Object.values(times));
 }
 
 function findMinTaskExecutionTime(task){
-  let times = findTaskExecutionTime(task);
+  let times = findTaskExecutionTimes(task);
   return Math.min(...Object.values(times));
 }
 
 function findTaskExecutionCost(task) {
   let cost = {};
-  config.functionTypes.forEach(resource => {
-    let slotTimes = Math.ceil(findTaskExecutionTimeOnResource(task, resource) * 10);
-    cost[resource] = slotTimes * config.gcf[resource].price;
+  config.functionTypes.forEach(resourceType => {
+    let slotTimes = Math.ceil(findTaskExecutionTimeOnResource(task, resourceType) * 10);
+    cost[resourceType] = slotTimes * config.gcf[resourceType].price;
   });
   return cost;
 }
@@ -94,7 +94,7 @@ module.exports = {
     findFirstTasks: findFirstTasks,
     findTasksFromLevel: findTasksFromLevel,
     findTasksMaxLevel: findTasksMaxLevel,
-    findTaskExecutionTime: findTaskExecutionTime,
+    findTaskExecutionTime: findTaskExecutionTimes,
     findMaxTaskExecutionTime: findMaxTaskExecutionTime,
     findMinTaskExecutionTime: findMinTaskExecutionTime,
     findTaskExecutionTimeOnResource: findTaskExecutionTimeOnResource,
