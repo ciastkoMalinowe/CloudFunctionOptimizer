@@ -18,10 +18,13 @@ function dbwsDecorateStrategy(dag) {
     const userDeadline = calculateUserDeadline(maxDeadline, minDeadline);
     const userBudget = calculateUserBudget(maxBudget, minBudget);
 
+    console.log("userDeadline: " + userDeadline);
+    console.log("userBudget: " + userBudget);
+
 
     if (userBudget < minBudget) {
         throw new Error("No possible schedule map")
-    } else if(userBudget > maxBudget){
+    } else if(userBudget >= maxBudget){
         tasks.forEach(task => {
             task.deploymentType = "2048";
         });
@@ -41,7 +44,7 @@ function dbwsDecorateStrategy(dag) {
             config.functionTypes.forEach(
                 functionType => resourceMap.set(
                     functionType,
-                    computeQualityMeasureForResource(task, functionType, costEfficientFactor)
+                    computeQualityMeasureForResource(sortedTasks, task, functionType, costEfficientFactor)
                 )
             );
 
@@ -60,19 +63,19 @@ function dbwsDecorateStrategy(dag) {
     )
 }
 
-function computeQualityMeasureForResource(task, functionType, costEfficientFactor) {
+function computeQualityMeasureForResource(tasks, task, functionType, costEfficientFactor) {
 
-    let timeQuality = computeTimeQuality(task, functionType);
-    let costQuality = computeCostQuality(task, functionType);
+    let timeQuality = computeTimeQuality(tasks, task, functionType);
+    let costQuality = computeCostQuality(tasks, task, functionType);
 
     let taskQuality = timeQuality * (1 - costEfficientFactor) + costQuality * costEfficientFactor;
 
     return taskQuality;
 }
 
-function computeTimeQuality(task, functionType) {
+function computeTimeQuality(tasks, task, functionType) {
 
-    let taskFinishTime = taskUtils.findTaskExecutionTimeOnResource(task, functionType);
+    let taskFinishTime = taskUtils.findTaskFinishTime(tasks, task, functionType);
     let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskMaxFinishTime = taskUtils.findMaxTaskExecutionTime(task);
@@ -82,9 +85,9 @@ function computeTimeQuality(task, functionType) {
     return timeQuality;
 }
 
-function computeCostQuality(task, functionType) {
+function computeCostQuality(tasks, task, functionType) {
 
-    let taskFinishTime = taskUtils.findTaskExecutionTimeOnResource(task, functionType);
+    let taskFinishTime = taskUtils.findTaskFinishTime(tasks, task, functionType);
     let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskCost = taskUtils.findTaskExecutionCostOnResource(task, functionType);

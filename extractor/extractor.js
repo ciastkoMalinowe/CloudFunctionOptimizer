@@ -1,5 +1,7 @@
 const fs = require('fs');
 const prices = require("./price.config");
+const taskUtils = require('../strategies/task-utilities');
+
 
 const dirPath = process.argv[2];
 const csvPath = process.argv[3];
@@ -51,10 +53,19 @@ function isDAGValid(dag) {
 
 function appendTimeAndPriceByType(tasks, type) {
 
-    let time = 0;
-    tasks.forEach(task => time += task.resourceTimes[type]);
-    let timeSlots = Math.ceil(time * 10);
-    let price = timeSlots * prices[type];
+    let time = 0.0;
+    let price = 0;
+
+    for (let level = 1; level <= taskUtils.findTasksMaxLevel(tasks); level++) {
+      time = time + Math.max(...taskUtils.findTasksFromLevel(tasks, level)
+          .map(task => task.resourceTimes[type]))
+    }
+
+    tasks.forEach(task => {
+      let taskTime = task.resourceTimes[type];
+      let timeSlots = Math.ceil(taskTime * 10);
+      price += timeSlots * prices[type];
+    });
 
     time = normalizeDouble(time);
     price = normalizeDouble(price, 10);
@@ -69,10 +80,15 @@ function appendTimeAndPriceByDeploymentType(tasks) {
     let time = 0;
     let price = 0;
 
+    for (let level = 1; level <= taskUtils.findTasksMaxLevel(tasks); level++) {
+      time = time + Math.max(...taskUtils.findTasksFromLevel(tasks, level)
+          .map(task => task.resourceTimes[task.deploymentType]))
+
+    }
+
     tasks.forEach(task => {
         let taskTime = task.resourceTimes[task.deploymentType];
         let timeSlots = Math.ceil(taskTime * 10);
-        time += taskTime;
         price += timeSlots * prices[task.deploymentType];
     });
 

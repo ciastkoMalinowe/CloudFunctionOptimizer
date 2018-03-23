@@ -3,17 +3,37 @@ const fs = Promise.promisifyAll(require('fs'));
 const config = require('./configuration/config');
 const decorateStrategy = require('./strategies/dbws-strategy');
 
+const dirPath = process.argv[2];
+
+if(!dirPath){
+  throw new Error("Provide valid arguments: node app.js DIR_PATH");
+}
+
 console.log("Starting Application");
 console.log("Configuration " + JSON.stringify(config));
 
+const stats = fs.statSync(dirPath);
+if(!stats.isDirectory()) {
+  throw new Error("Given path is not directory");
+}
+
+fs.readdir(dirPath, (err,files) => files.forEach(
+  file => decorate(dirPath + "/" + file, dirPath + "/output/" + file)
+));
+
 // read dag file
-fs.readFileAsync(config.path)
-    .then(data => JSON.parse(data))
-    .then(dag => scaleTimes(dag, config))
-    .then(dag => decorateDag(dag, decorateStrategy))
-    .then(dag => savePrettifyDag(dag))
-    .then(() => console.log("Saved decorated DAG file as " + config.resultPath))
-    .catch(console.error);
+function decorate(inputPath, outputPath) {
+  let stats = fs.statSync(inputPath);
+  if (!stats.isDirectory()) {
+    fs.readFileAsync(inputPath)
+      .then(data => JSON.parse(data))
+      .then(dag => scaleTimes(dag, config))
+      .then(dag => decorateDag(dag, decorateStrategy))
+      .then(dag => savePrettifyDag(dag, outputPath))
+      .then(() => console.log("Saved decorated DAG file as " + outputPath))
+      .catch(console.error);
+  }
+}
 
 function scaleTimes(dag, config) {
     dag.tasks.forEach(task => {
@@ -46,8 +66,7 @@ function decorateDag(dag, decorateStrategy) {
     return dag;
 }
 
-function savePrettifyDag(dag) {
-    let path = config.resultPath;
+function savePrettifyDag(dag, outputPath) {
     let objectToSave = JSON.stringify(dag, null, 2);
-    return fs.writeFileAsync(path, objectToSave);
+    return fs.writeFileAsync(outputPath, objectToSave);
 }
