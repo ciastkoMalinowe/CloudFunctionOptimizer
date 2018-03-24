@@ -13,27 +13,25 @@ function findTopologySortedList(tasks) {
     return toposort(graph);
 }
 
-function findFinishTimeOfTask(tasks, task, resourceType) {
+function decorateWithFinishTime(tasks, task, resourceType) {
 
   let predecessors = findPredecessorsForTask(tasks, task);
 
   if(!predecessors || predecessors.length === 0){
-    return findTaskExecutionTimeOnResource(task, resourceType);
+    let time = findTaskExecutionTimeOnResource(task, resourceType);
+    task.finishTime[resourceType] = time;
+    return time;
   }
 
-  let maxTime = Math.max(...predecessors.map(ptask => findTaskExecutionTimeOnResource(ptask, resourceType)));
-
-  let predTask = predecessors
-    .map(ptask => {
-      return {"task": ptask, "time": findTaskExecutionTimeOnResource(ptask, resourceType)}
-    })
-    .filter(obj => obj.time === maxTime)
-    .map(obj => obj.task)
-    .pop();
-
-  return findTaskExecutionTimeOnResource(task, resourceType) + findFinishTimeOfTask(tasks, predTask, resourceType);
+  let predMaxTime = Math.max(...predecessors.map(ptask => decorateWithFinishTime(tasks, ptask, resourceType)));
+  let time = findTaskExecutionTimeOnResource(task, resourceType) + predMaxTime;
+  task.finishTime[resourceType] = time;
+  return time;
 }
 
+function findTaskFinishTimeOnResource(task, resourceType) {
+    return task.finishTime[resourceType];
+}
 
 function findPredecessorsForTask(tasks, task) {
     return tasks.filter(
@@ -124,5 +122,6 @@ module.exports = {
     findMaxTaskExecutionCost: findMaxTaskExecutionCost,
     findMinTaskExecutionCost: findMinTaskExecutionCost,
     findTaskExecutionCostOnResource: findTaskExecutionCostOnResource,
-    findTaskFinishTime: findFinishTimeOfTask
+    decorateWithFinishTime: decorateWithFinishTime,
+    findTaskFinishTimeOnResource: findTaskFinishTimeOnResource
 };
