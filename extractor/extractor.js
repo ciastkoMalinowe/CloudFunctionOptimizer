@@ -82,14 +82,14 @@ function appendTimeAndPriceByDeploymentType(tasks) {
 
     for (let level = 1; level <= taskUtils.findTasksMaxLevel(tasks); level++) {
       time = time + Math.max(...taskUtils.findTasksFromLevel(tasks, level)
-          .map(task => task.resourceTimes[task.deploymentType]))
+          .map(task => task.resourceTimes[task.config.deploymentType]))
 
     }
 
     tasks.forEach(task => {
-        let taskTime = task.resourceTimes[task.deploymentType];
+        let taskTime = task.resourceTimes[task.config.deploymentType];
         let timeSlots = Math.ceil(taskTime * 10);
-        price += timeSlots * prices[task.deploymentType];
+        price += timeSlots * prices[task.config.deploymentType];
     });
 
     time = normalizeDouble(time);

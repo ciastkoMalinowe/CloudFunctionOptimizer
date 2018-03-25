@@ -26,7 +26,7 @@ function dbwsDecorateStrategy(dag) {
         throw new Error("No possible schedule map")
     } else if(userBudget >= maxBudget){
         tasks.forEach(task => {
-            task.deploymentType = "2048";
+            task.config.deploymentType = "2048";
         });
         return;
     }
@@ -59,7 +59,7 @@ function dbwsDecorateStrategy(dag) {
                 }
             }
 
-            task.deploymentType = selectedResource;
+            task.config.deploymentType = selectedResource;
         }
     )
 }
