@@ -1,16 +1,22 @@
-var GCF_URL  = process.env.GCF_URL ? process.env.GCF_URL : "https://us-central1-hello-173219.cloudfunctions.net/hyperflow_executor";
-//var GCF_URL  = process.env.GCF_URL ? process.env.GCF_URL :  'http://localhost:2000'
+var DEFAULT_URL  = "https://us-central1-hello-173219.cloudfunctions.net/hyperflow_executor";
 
-var GOOGLE_BUCKET = process.env.GOOGLE_BUCKET ? process.env.GOOGLE_BUCKET : "gcf-test123";
-var GOOGLE_PATH   = process.env.GOOGLE_PATH ? process.env.GOOGLE_PATH : "data/0.25"; //prefix in a bucket with no leading or trailing slashes
+var GOOGLE_BUCKET = "gcf-test123";
+var GOOGLE_PATH   = "data/0.25";
 
-exports.gcf_url = GCF_URL;
+exports.default_url = DEFAULT_URL;
 
+exports.resources = {
+    "128": "url1",
+    "256": "url2",
+    "512": "url3",
+    "1024": "url4",
+    "2048": "url5"
+};
 
 // Google cloud storage
 exports.options = {
      "storage": "google",
      "bucket": GOOGLE_BUCKET,
-     "prefix": GOOGLE_PATH
+     "prefix": GOOGLE_PATH,
  };
 

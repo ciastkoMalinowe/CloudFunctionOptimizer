@@ -3,8 +3,6 @@ var request = require('requestretry');
 var executor_config = require('./gcfCommand.config.js');
 var identity = function(e) {return e};
 
-
-
 function gcfCommand(ins, outs, config, cb) {
 
     var options = executor_config.options;
@@ -26,9 +24,10 @@ function gcfCommand(ins, outs, config, cb) {
         "options":    options
     };
 
-    console.log("Executing:  " + JSON.stringify(jobMessage))
+    console.log("Executing:  " + JSON.stringify(jobMessage));
 
-    var url = executor_config.gcf_url
+    var deploymentType = config.deploymentType;
+    var url = deploymentType ? executor_config.resources[deploymentType] : executor_config.default_url;
 
     function optionalCallback(err, response, body) {
         if (err) {
@@ -47,8 +46,6 @@ function gcfCommand(ins, outs, config, cb) {
     var req = request.post(
         {timeout:600000, url:url, json:jobMessage, headers: {'Content-Type' : 'application/json', 'Accept': '*/*'}}, optionalCallback);
 
-
 }
-
 
 exports.gcfCommand = gcfCommand;

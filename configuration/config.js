@@ -23,7 +23,7 @@ const GCF = {
   "2048": {
     cpu: 2400,
     price: 0.000002900
-  },
+  }
 };
 
 module.exports = {
