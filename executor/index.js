@@ -153,7 +153,7 @@ async.waterfall([
 };
 
 function clearTmp() {
-    fs.readdirSync('/tmp', (err,files) => files.forEach(
-        file => fs.unlinkSync('/tmp/' + file)
-    ));
+    fs
+      .readdirSync('/tmp')
+      .forEach(file => fs.unlinkSync('/tmp/' + file));
 }
