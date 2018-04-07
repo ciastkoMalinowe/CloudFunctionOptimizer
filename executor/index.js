@@ -7,6 +7,7 @@ var async = require('async');
 
 exports.hyperflow_executor = function (req, res) {
 
+  logMemoryUsage("START LOG");
   clearTmp();
   var executable = req.body.executable;
   var args = req.body.args;
@@ -33,7 +34,8 @@ var gcs = gcloud.storage({
 
 function download(callback) {
 
-  async.each(inputs, function (file_name, callback) {
+    logMemoryUsage("BEFORE DOWNLOAD");
+    async.each(inputs, function (file_name, callback) {
 
     file_name = file_name.name
     var full_path = bucket_name + "/" +  prefix + "/" + file_name
@@ -65,11 +67,14 @@ function download(callback) {
         callback()
       }
   });
+  logMemoryUsage("AFTER DOWNLOAD");
 }
 
 
 function execute(callback) {
-  var proc_name = __dirname + '/' + executable // use __dirname so we don't need to set env[PATH] and pass env 
+    logMemoryUsage("BEFORE EXECUTE");
+
+    var proc_name = __dirname + '/' + executable // use __dirname so we don't need to set env[PATH] and pass env
 
   console.log('spawning ' + proc_name);
   process.env.PATH = '.:'+ __dirname; // add . and __dirname to PATH since e.g. in Montage mDiffFit calls external executables
@@ -97,9 +102,11 @@ function execute(callback) {
          console.log('My GCF exe exit' + executable);
        });
 
+  logMemoryUsage("AFTER EXECTUE");
 }
 
 function upload(callback) {
+  logMemoryUsage("BEFORE UPLOAD");
 
   async.each(outputs, function (file_name, callback) {
 
@@ -131,6 +138,7 @@ function upload(callback) {
         callback()
       }
   });
+    logMemoryUsage("AFTER UPLOAD");
 }
 
 
@@ -140,7 +148,7 @@ async.waterfall([
   upload
 ], function (err, result) {
       if( err ) {
-        console.error('Error: ' + err);
+        console.error('Error: ' + err``);
         res.status(400).send('Bad Request ' + JSON.stringify(err));
       } else {
         console.log('Success');
@@ -148,6 +156,7 @@ async.waterfall([
 	var duration = t_end-t_start;
         res.send('GCF Function exit: start ' + t_start + ' end ' + t_end + ' duration ' + duration + ' ms, executable: ' + executable + ' args: ' + args);    
       }
+    logMemoryUsage("AT THE END");
 })
 
 };
@@ -156,4 +165,11 @@ function clearTmp() {
     fs
       .readdirSync('/tmp')
       .forEach(file => fs.unlinkSync('/tmp/' + file));
+}
+
+function logMemoryUsage(message) {
+    const used = process.memoryUsage();
+    for (let key in used) {
+        console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
+    }
 }
