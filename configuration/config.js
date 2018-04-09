@@ -2,12 +2,12 @@ const DAG_PATH = "dags/dag.json";
 const RESULT_DAG_PATH = "dags/output/decorated-dag.json";
 const BUDGET_PARAMETER = 0.3;
 const DEADLINE_PARAMETER = 0.1;
-const FUNCTION_TYPES = ["128", "256", "512", "1024", "2048"];
+const FUNCTION_TYPES = ["256", "512", "1024", "2048"]; //"128",
 const GCF = {
-  "128": {
-    cpu: 200,
-    price: 0.000000231
-  },
+  // "128": {
+  //   cpu: 200,
+  //   price: 0.000000231
+  // },
   "256": {
     cpu: 400,
     price: 0.000000463
