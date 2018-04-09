@@ -31,7 +31,7 @@ function addIDToDag(file) {
         let count = 1;
         tasks.forEach(task => task.config.id = count++);
 
-        fs.writeFile("./output/" + path.basename(file), JSON.stringify(dag, null, 2), (err) => {
+        fs.writeFile(dirPath + "/output/" + path.basename(file), JSON.stringify(dag, null, 2), (err) => {
             if(err) throw err;
         })
     });
