@@ -21,8 +21,10 @@ if(!stats.isDirectory()) {
 
 fs.writeFileSync(csvPath, "type,time,price\n");
 
-fs.readdir(dirPath, (err,files) => files.forEach(
-    file => saveToCSV(dirPath + "/" + file)
+fs.readdir(dirPath, (err,files) =>
+    files
+    .filter(file => file.endsWith(".json"))
+    .forEach(file => saveToCSV(dirPath + "/" + file)
 ));
 
 function saveToCSV(file) {
@@ -31,7 +33,9 @@ function saveToCSV(file) {
         dag = JSON.parse(dag);
         isDAGValid(dag);
         const tasks = dag.tasks;
-        Object.keys(prices).forEach(type => appendTimeAndPriceByType(tasks, type));
+        let functionTypes = Object.keys(prices);
+        functionTypes.forEach(type => appendTimeAndPriceByType(tasks, type));
+        appendTimeAndPriceForRealTimes(tasks);
         appendTimeAndPriceByDeploymentType(tasks);
     });
 }
@@ -73,6 +77,32 @@ function appendTimeAndPriceByType(tasks, type) {
     console.log(`${type} ${time} ${price}`);
 
     fs.appendFile(csvPath,`${type},${time},${price}\n`, console.err)
+}
+
+function appendTimeAndPriceForRealTimes(tasks) {
+
+    let time = 0;
+    let price = 0;
+
+    for (let level = 1; level <= taskUtils.findTasksMaxLevel(tasks); level++) {
+        time = time + Math.max(...taskUtils.findTasksFromLevel(tasks, level)
+            .map(task => task.resourceTimes['real']))
+
+    }
+
+    tasks.forEach(task => {
+        let taskTime = task.resourceTimes['real'];
+        let timeSlots = Math.ceil(taskTime * 10);
+        price += timeSlots * prices[task.config.deploymentType];
+    });
+
+    time = normalizeDouble(time);
+    price = normalizeDouble(price, 10);
+
+    console.log(`real ${time} ${price}`);
+
+    fs.appendFile(csvPath,`real,${time},${price}\n`, console.err)
+
 }
 
 function appendTimeAndPriceByDeploymentType(tasks) {
