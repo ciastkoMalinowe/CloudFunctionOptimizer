@@ -27,7 +27,7 @@ function decorate(inputPath, outputPath) {
   if (!stats.isDirectory()) {
     fs.readFileAsync(inputPath)
       .then(data => JSON.parse(data))
-      .then(dag => scaleTimes(dag, config))
+      // .then(dag => scaleTimes(dag, config))
       .then(dag => decorateDag(dag, decorateStrategy))
       .then(dag => savePrettifyDag(dag, outputPath))
       .then(() => console.log("Saved decorated DAG file as " + outputPath))
