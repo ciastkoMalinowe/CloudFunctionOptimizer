@@ -35,7 +35,7 @@ csvParser
     })
     .on("end", function () {
         decorateTaskWithTime(tasks, resourceTimes);
-        fs.writeFile("./output/" + path.basename(dagPath), JSON.stringify(dag, null, 2), (err) => {
+        fs.writeFile(process.argv[4], JSON.stringify(dag, null, 2), (err) => {
             if (err) throw err;
         });
     });

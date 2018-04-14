@@ -18,7 +18,7 @@ if(!stats.isDirectory()) {
 }
 
 fs.readdir(dirPath, (err,files) => files.forEach(
-  file => decorate(dirPath + "/" + file, dirPath + "/output/" + file)
+  file => decorate(dirPath + "/" + file, process.argv[3])
 ));
 
 // read dag file
