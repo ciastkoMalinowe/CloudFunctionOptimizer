@@ -22,7 +22,8 @@ if(!dag.tasks){
 }
 
 let tasks = dag.tasks;
-let resourceTimes = {};
+
+let idTypeMap = new Map();
 
 csvParser
     .fromPath(csvPath, {delimiter: ' '})
@@ -30,15 +31,41 @@ csvParser
         let id = data[1];
         let time = data[4];
         let type = data[5];
-        if(!resourceTimes[id]) resourceTimes[id] = {};
-        resourceTimes[id][type] = Number(time)/1000;
+        if(!idTypeMap.has(id)) idTypeMap.set(id, new Map());
+        let typeTimeMap = idTypeMap.get(id);
+        if(!typeTimeMap.get(type)) typeTimeMap.push(type, []);
+        idTypeMap.get(id).get(type).push( Number(time) / 1000 );
     })
     .on("end", function () {
+        let resourceTimes = calculateResourceTimes(idTypeMap);
         decorateTaskWithTime(tasks, resourceTimes);
         fs.writeFile(process.argv[4], JSON.stringify(dag, null, 2), (err) => {
             if (err) throw err;
         });
     });
+
+function calculateResourceTimes(idTimeMap) {
+    let resourceTimes = {};
+    idTimeMap.keys().forEach(id => {
+        let typeTimeMap = idTimeMap.get(id);
+        typeTimeMap.keys().forEach(type => {
+            let times = typeTimeMap.get(type);
+            let average = calculateAverage(times);
+            if (!resourceTimes[id]) resourceTimes[id] = {};
+            resourceTimes[id][type] = average;
+        })
+    });
+    return resourceTimes;
+}
+
+function calculateAverage(times) {
+
+    let sum = 0;
+    for(let i=0; i< times.length; i++){
+        sum += times[i];
+    }
+    return Math.round(sum / times.length * 1000)/1000;
+}
 
 function decorateTaskWithTime(tasks, times) {
     tasks.forEach(task => {
@@ -46,6 +73,4 @@ function decorateTaskWithTime(tasks, times) {
         let resourceTimes = times[id];
         task[resourceTimesString] = resourceTimes;
     })
-
 }
-
