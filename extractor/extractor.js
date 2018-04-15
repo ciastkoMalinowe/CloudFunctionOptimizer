@@ -24,8 +24,8 @@ fs.writeFileSync(csvPath, "type,time,price\n");
 fs.readdir(dirPath, (err,files) =>
     files
     .filter(file => file.endsWith(".json"))
-    .forEach(file => saveToCSV(dirPath + "/" + file)
-));
+    .forEach(file => saveToCSV(dirPath + "/" + file))
+);
 
 function saveToCSV(file) {
 
@@ -33,7 +33,7 @@ function saveToCSV(file) {
         dag = JSON.parse(dag);
         isDAGValid(dag);
         const tasks = dag.tasks;
-        let functionTypes = Object.keys(prices);
+        const functionTypes = Object.keys(prices);
         functionTypes.forEach(type => appendTimeAndPriceByType(tasks, type));
         appendTimeAndPriceForRealTimes(tasks);
         appendTimeAndPriceByDeploymentType(tasks);

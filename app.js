@@ -17,7 +17,7 @@ if(!stats.isDirectory()) {
   throw new Error("Given path is not directory");
 }
 
-fs.readdir(dirPath, (err,files) => files.forEach(
+fs.readdir(dirPath, (err,files) => files.filter(file => file.endsWith(".json")).forEach(
   file => decorate(dirPath + "/" + file, process.argv[3])
 ));
 

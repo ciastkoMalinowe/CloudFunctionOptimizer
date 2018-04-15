@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # run 10 times on default resource
-DAG_PATH=~/Programming/magisterka/data/0.25/workdir/dag.json
+DAG_PATH=./data/0.25/workdir/dag.json
 OUTPUT=$1
 echo Output path: ${OUTPUT}
 

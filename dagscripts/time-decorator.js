@@ -33,8 +33,8 @@ csvParser
         let type = data[5];
         if(!idTypeMap.has(id)) idTypeMap.set(id, new Map());
         let typeTimeMap = idTypeMap.get(id);
-        if(!typeTimeMap.get(type)) typeTimeMap.push(type, []);
-        idTypeMap.get(id).get(type).push( Number(time) / 1000 );
+        if(!typeTimeMap.get(type)) typeTimeMap.set(type, []);
+        typeTimeMap.get(type).push( Number(time) / 1000 );
     })
     .on("end", function () {
         let resourceTimes = calculateResourceTimes(idTypeMap);
@@ -46,15 +46,16 @@ csvParser
 
 function calculateResourceTimes(idTimeMap) {
     let resourceTimes = {};
-    idTimeMap.keys().forEach(id => {
-        let typeTimeMap = idTimeMap.get(id);
-        typeTimeMap.keys().forEach(type => {
-            let times = typeTimeMap.get(type);
-            let average = calculateAverage(times);
-            if (!resourceTimes[id]) resourceTimes[id] = {};
-            resourceTimes[id][type] = average;
-        })
-    });
+
+    for(let id of idTimeMap.keys()){
+      let typeTimeMap = idTimeMap.get(id);
+      for(let type of typeTimeMap.keys()){
+        let times = typeTimeMap.get(type);
+        let average = calculateAverage(times);
+        if (!resourceTimes[id]) resourceTimes[id] = {};
+        resourceTimes[id][type] = average;
+      }
+    }
     return resourceTimes;
 }
 
