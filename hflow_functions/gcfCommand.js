@@ -28,6 +28,7 @@ function gcfCommand(ins, outs, config, cb) {
 
     var deploymentType = config.deploymentType;
     var url = deploymentType ? executor_config.resources[deploymentType] : executor_config.default_url;
+    var resource = deploymentType ? deploymentType : executor_config.default_resource;
 
     function optionalCallback(err, response, body) {
         if (err) {
@@ -38,7 +39,7 @@ function gcfCommand(ins, outs, config, cb) {
         if (response) {
             console.log("Function: " + executable + " response status code: " + response.statusCode + " number of request attempts: " + response.attempts)
         }
-        console.log("Function: " + executable + " id: "+ config.id + " data: " + body.toString());
+        console.log("Function: " + executable + " id: "+ config.id + "resource: " + resource + " data: " + body.toString());
         cb(null, outs);
     }
 

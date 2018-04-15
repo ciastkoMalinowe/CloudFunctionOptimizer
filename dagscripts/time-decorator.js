@@ -30,8 +30,8 @@ csvParser
     .fromPath(csvPath, {delimiter: ' '})
     .on("data", data => {
         let id = data[1];
-        let time = data[4];
-        let type = data[5];
+        let time = data[5];
+        let type = data[6];
         if(!idTypeMap.has(id)) idTypeMap.set(id, new Map());
         let typeTimeMap = idTypeMap.get(id);
         if(!typeTimeMap.get(type)) typeTimeMap.set(type, []);
