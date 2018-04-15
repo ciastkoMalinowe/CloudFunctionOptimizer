@@ -6,9 +6,10 @@ const resourceTimesString = "resourceTimes";
 
 const dagPath = process.argv[2];
 const csvPath = process.argv[3];
+const outputPath = process.argv[4];
 
-if(!csvPath || ! dagPath){
-    throw new Error("Provide valid arguments: node time-decorator.js DAG_PATH CSV_PATH");
+if(!csvPath || !dagPath || !outputPath){
+    throw new Error("Provide valid arguments: node time-decorator.js DAG_PATH CSV_PATH OUTPUT_PATH");
 }
 
 console.log(`DAG file path is ${dagPath}`);

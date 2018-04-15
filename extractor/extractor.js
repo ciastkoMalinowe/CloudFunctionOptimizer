@@ -2,30 +2,24 @@ const fs = require('fs');
 const prices = require("./price.config");
 const taskUtils = require('../strategies/task-utilities');
 
-
-const dirPath = process.argv[2];
+const dagPath = process.argv[2];
 const csvPath = process.argv[3];
 
-if(!dirPath || !csvPath){
+if(!dagPath || !csvPath){
     throw new Error("Provide valid arguments: node extractor.js DIR_PATH CSV_PATH");
 }
 
-console.log(`Path to folder with DAG is ${dirPath}`);
+console.log(`Path to DAG is ${dagPath}`);
 console.log(`Output CSV path is ${csvPath}`);
 
-const stats = fs.statSync(dirPath);
+const stats = fs.statSync(dagPath);
 
-if(!stats.isDirectory()) {
-    throw new Error("Given path is not directory");
+if(!stats.isFile()) {
+    throw new Error("Given path is not a file");
 }
 
 fs.writeFileSync(csvPath, "type,time,price\n");
-
-fs.readdir(dirPath, (err,files) =>
-    files
-    .filter(file => file.endsWith(".json"))
-    .forEach(file => saveToCSV(dirPath + "/" + file))
-);
+saveToCSV(dagPath);
 
 function saveToCSV(file) {
 
@@ -51,6 +45,14 @@ function isDAGValid(dag) {
     tasks.forEach(task => {
         if(!task.resourceTimes){
             throw new Error("There are no resourceTimes in DAG!");
+        }
+
+        if(!task.resourceTimes['real']){
+            throw new Error("There are no real times in tasks")
+        }
+
+        if(!task.config.deploymentType){
+            throw new Error("There is no deploymentType in task");
         }
     })
 }
