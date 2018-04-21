@@ -39,7 +39,7 @@ function gcfCommand(ins, outs, config, cb) {
         if (response) {
             console.log("Function: " + executable + " response status code: " + response.statusCode + " number of request attempts: " + response.attempts)
         }
-        console.log("Function: " + executable + " id: "+ config.id + "resource: " + resource + " data: " + body.toString());
+        console.log("Function: " + executable + " id: "+ config.id + " resource: " + resource + " data: " + body.toString());
         cb(null, outs);
     }
 

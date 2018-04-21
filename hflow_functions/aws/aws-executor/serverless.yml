@@ -1,0 +1,62 @@
+service: aws-executor
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-central-1
+  timeout: 300
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:GetObject
+      Resource: "arn:aws:s3:::aws-montage/*"
+
+functions:
+
+  aws-executor-128:
+    handler: handler.executor
+    description: AWS executor 128MB memory size
+    memorySize: 128
+    events:
+    - http:
+        path: aws-executor-128
+        method: post
+
+  aws-executor-256:
+    handler: handler.executor
+    description: AWS executor 256MB memory size
+    memorySize: 256
+    events:
+    - http:
+        path: aws-executor-256
+        method: post
+
+  aws-executor-512:
+    handler: handler.executor
+    description: AWS executor 512MB memory size
+    memorySize: 512
+    events:
+    - http:
+        path: aws-executor-512
+        method: post
+
+  aws-executor-1024:
+    handler: handler.executor
+    description: AWS executor 1024MB memory size
+    memorySize: 1024
+    events:
+    - http:
+        path: aws-executor-1024
+        method: post
+  
+  aws-executor-1536:
+    handler: handler.executor
+    description: AWS executor 1536MB memory size
+    memorySize: 1536
+    events:
+    - http:
+        path: aws-executor-1536
+        method: post
+      
