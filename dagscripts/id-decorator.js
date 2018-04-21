@@ -1,25 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 
-const dirPath = process.argv[2];
+const dagPath = process.argv[2];
+const outputPath = process.argv[3];
 
-if(!dirPath){
-    throw new Error("Provide valid arguments: node id-decorator.js DIR_PATH");
+if(!dagPath){
+    throw new Error("Provide valid arguments: node id-decorator.js DAG_PATH");
 }
 
-console.log(`Path to folder with DAG is ${dirPath}`);
+console.log(`Path to DAG is ${dagPath}`);
 
-const stats = fs.statSync(dirPath);
+const stats = fs.statSync(dagPath);
 
-if(!stats.isDirectory()) {
-    throw new Error("Given path is not directory");
+if(stats.isDirectory()) {
+    throw new Error("Given path is directory");
 }
 
-fs.readdir(dirPath, (err,files) =>
-    files
-    .filter(file => file.endsWith(".json"))
-    .forEach(file => addIDToDag(dirPath + "/" + file)
-));
+addIDToDag(dagPath);
 
 function addIDToDag(file) {
 
@@ -31,7 +28,7 @@ function addIDToDag(file) {
         let count = 1;
         tasks.forEach(task => task.config.id = count++);
 
-        fs.writeFile(dirPath + "/output/" + path.basename(file), JSON.stringify(dag, null, 2), (err) => {
+        fs.writeFile(outputPath, JSON.stringify(dag, null, 2), (err) => {
             if(err) throw err;
         })
     });

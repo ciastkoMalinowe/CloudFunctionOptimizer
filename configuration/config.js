@@ -2,7 +2,7 @@ const DAG_PATH = "dags/dag.json";
 const RESULT_DAG_PATH = "dags/output/decorated-dag.json";
 const BUDGET_PARAMETER = 0.3;
 const DEADLINE_PARAMETER = 0.1;
-const FUNCTION_TYPES = ["256", "512", "1024", "2048"]; //"128",
+const FUNCTION_TYPES = ["256", "512", "1024", "1536"]; //"128",
 const GCF = {
   // "128": {
   //   cpu: 200,
@@ -26,11 +26,30 @@ const GCF = {
   }
 };
 
+const AWS = {
+  "256": {
+    cpu: 400,
+    price: 0.000000417
+  },
+  "512": {
+    cpu: 800,
+    price: 0.000000834
+  },
+  "1024": {
+    cpu: 1400,
+    price: 0.000001667
+  },
+  "1536": {
+    cpu: 2400,
+    price: 0.000002501
+  }
+};
+
 module.exports = {
     "path" : DAG_PATH,
     "resultPath" : RESULT_DAG_PATH,
     "budgetParameter": BUDGET_PARAMETER,
     "deadlineParameter": DEADLINE_PARAMETER,
     "functionTypes"  : FUNCTION_TYPES,
-    "gcf": GCF
+    "gcf": AWS
 };
