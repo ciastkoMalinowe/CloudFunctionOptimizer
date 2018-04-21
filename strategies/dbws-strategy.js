@@ -6,6 +6,8 @@ function dbwsDecorateStrategy(dag) {
 
     const tasks = dag.tasks;
 
+    addOverheads(tasks);
+
     const sortedTasks = taskUtils.findTopologySortedList(tasks);
     decorateTasksWithLevels(sortedTasks);
 
@@ -24,7 +26,7 @@ function dbwsDecorateStrategy(dag) {
 
     if (userBudget < minBudget) {
         throw new Error("No possible schedule map")
-    } else if(userBudget >= maxBudget){
+    } else if (userBudget >= maxBudget) {
         tasks.forEach(task => {
             task.config.deploymentType = "2048";
         });
@@ -52,8 +54,8 @@ function dbwsDecorateStrategy(dag) {
             let maxQuality = Number.NEGATIVE_INFINITY;
             let selectedResource;
 
-            for(let [functionType, quality] of resourceMap.entries()) {
-                if (maxQuality < quality){
+            for (let [functionType, quality] of resourceMap.entries()) {
+                if (maxQuality < quality) {
                     maxQuality = quality;
                     selectedResource = functionType;
                 }
@@ -62,6 +64,14 @@ function dbwsDecorateStrategy(dag) {
             task.config.deploymentType = selectedResource;
         }
     )
+}
+
+function addOverheads(tasks) {
+    tasks.forEach(task => {
+        config.functionTypes.forEach(resourceType => {
+            task.resourceTimes[resourceType] += config.overheads[config.provider];
+        })
+    })
 }
 
 function computeQualityMeasureForResource(task, functionType, costEfficientFactor) {
