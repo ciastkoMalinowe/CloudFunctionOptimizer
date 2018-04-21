@@ -1,16 +1,50 @@
 #!/usr/bin/env bash
 
 dagPath=$1
+logs_dir=$2
 
-./logs/parse_log.sh ./logs/withresources/logs10_2048.txt 2048 >> ./logs/withresources/logs10.csv
-./logs/parse_log.sh ./logs/withresources/logs10_1024.txt 1024 >> ./logs/withresources/logs10.csv
-./logs/parse_log.sh ./logs/withresources/logs10_512.txt 512 >> ./logs/withresources/logs10.csv
-./logs/parse_log.sh ./logs/withresources/logs10_256.txt 256 >> ./logs/withresources/logs10.csv
+parsedLogsPath=./${logs_dir}/logs_parsed.csv
+dbwsDagPath=./${logs_dir}/dag-dbws.json
+extractedDagPath=./${logs_dir}/dag-extracted.json
+extractedResultsPath=./${logs_dir}/extracted_results.csv
+dbwsPlannedExecutionPath=./${logs_dir}/dbws_planned_execution.csv
 
-./run_dbws.sh ${dagPath} ./logs/withresources/logs10.csv ./dag-dbws.json
+echo Dag path: ${dagPath}
+echo Logs dir is: ${logs_dir}
 
-./run.sh ./dag-dbws.json ./logs/withresources/logs10_real.txt
-./logs/parse_log.sh ./logs/withresources/logs10_real.txt real >> ./logs/withresources/logs10.csv
+echo Started parsing logs...
 
-./extract.sh ./dag-dbws.json ./logs/withresources/logs10.csv ./dag-output.json ./result.csv
+./parse_log.sh ./${logs_dir}/logs_2048.txt 2048 >> ${parsedLogsPath}
+./parse_log.sh ./${logs_dir}/logs_1024.txt 1024 >> ${parsedLogsPath}
+./parse_log.sh ./${logs_dir}/logs_512.txt 512 >> ${parsedLogsPath}
+./parse_log.sh ./${logs_dir}/logs_256.txt 256 >> ${parsedLogsPath}
 
+echo Logs parsed! Output file is: ${parsedLogsPath}
+echo Preparing dbws dag...
+
+./run_dbws.sh ${dagPath} ${parsedLogsPath} ${dbwsDagPath}
+
+echo DBWS dag done! Path to dag: ${dbwsDagPath}
+
+echo Executing dbws dag...
+
+./run.sh ${dbwsDagPath} ./${logs_dir}/logs_real.txt
+
+echo Execution done!
+echo Parsing dbws logs...
+
+./parse_log.sh ./${logs_dir}/logs_real.txt real >> ${parsedLogsPath}
+
+echo Extracting times and prices...
+
+./extract.sh ${dbwsDagPath} ${parsedLogsPath} ${extractedDagPath} ${extractedResultsPath}
+
+echo Done! Extracted times and prices: ${extractedResultsPath}
+
+echo Extracting dbws planned timestamps
+
+./extract_dbws.sh ${extractedDagPath} ${dbwsPlannedExecutionPath}
+
+echo Output: ${dbwsPlannedExecutionPath}
+
+echo DONE!!

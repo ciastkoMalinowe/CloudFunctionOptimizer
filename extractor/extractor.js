@@ -18,7 +18,7 @@ if(!stats.isFile()) {
     throw new Error("Given path is not a file");
 }
 
-fs.writeFileSync(csvPath, "type,time,price\n");
+fs.writeFileSync(csvPath, "type time price\n");
 saveToCSV(dagPath);
 
 function saveToCSV(file) {
@@ -78,7 +78,7 @@ function appendTimeAndPriceByType(tasks, type) {
 
     console.log(`${type} ${finishTime} ${price}`);
 
-    fs.appendFile(csvPath,`${type},${finishTime},${price}\n`, console.err)
+    fs.appendFile(csvPath,`${type} ${finishTime} ${price}\n`, console.err)
 }
 
 function decorateWithFinishTimeForReal(tasks) {
@@ -146,7 +146,7 @@ function appendTimeAndPriceForRealTimes(tasks) {
 
     console.log(`real ${time} ${price}`);
 
-    fs.appendFile(csvPath,`real,${time},${price}\n`, console.err)
+    fs.appendFile(csvPath,`real ${time} ${price}\n`, console.err)
 
 }
 
@@ -171,7 +171,7 @@ function appendTimeAndPriceByDeploymentType(tasks) {
 
     console.log(`dbws ${time} ${price}`);
 
-    fs.appendFile(csvPath,`dbws,${time},${price}\n`, console.err)
+    fs.appendFile(csvPath,`dbws ${time} ${price}\n`, console.err)
 }
 
 
