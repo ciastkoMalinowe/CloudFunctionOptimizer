@@ -6,16 +6,14 @@ function dbwsDecorateStrategy(dag) {
 
     const tasks = dag.tasks;
 
-    addOverheads(tasks);
-
     const sortedTasks = taskUtils.findTopologySortedList(tasks);
     decorateTasksWithLevels(sortedTasks);
 
     const maxDeadline = costFunctions.maxDeadline(tasks);
     const minDeadline = costFunctions.minDeadline(tasks);
 
-    const maxBudget = costFunctions.costHigh(tasks);
-    const minBudget = costFunctions.costLow(tasks);
+    const maxBudget = costFunctions.maxBudget(tasks);
+    const minBudget = costFunctions.minBudget(tasks);
 
     const userDeadline = calculateUserDeadline(maxDeadline, minDeadline);
     const userBudget = calculateUserBudget(maxBudget, minBudget);
@@ -23,18 +21,16 @@ function dbwsDecorateStrategy(dag) {
     console.log("userDeadline: " + userDeadline);
     console.log("userBudget: " + userBudget);
 
-
     if (userBudget < minBudget) {
         throw new Error("No possible schedule map")
     } else if (userBudget >= maxBudget) {
         tasks.forEach(task => {
-            task.config.deploymentType = "2048";
+            task.config.deploymentType = "1536";
         });
         return;
     }
 
     decorateTasksWithSubdeadline(sortedTasks, userDeadline);
-    decorateTasksWithFinishTime(sortedTasks);
     decorateTasksWithRank(sortedTasks);
     sortedTasks.sort((task1, task2) => task2.rank - task1.rank); //descending
 
@@ -86,7 +82,7 @@ function computeQualityMeasureForResource(task, functionType, costEfficientFacto
 
 function computeTimeQuality(task, functionType) {
 
-    let taskFinishTime = taskUtils.findTaskFinishTimeOnResource(task, functionType);
+    let taskFinishTime = task.finishTime[functionType];
     let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskMaxFinishTime = taskUtils.findMaxTaskExecutionTime(task);
@@ -98,7 +94,7 @@ function computeTimeQuality(task, functionType) {
 
 function computeCostQuality(task, functionType) {
 
-    let taskFinishTime = taskUtils.findTaskFinishTimeOnResource(task, functionType);
+    let taskFinishTime = task.finishTime[functionType];
     let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskCost = taskUtils.findTaskExecutionCostOnResource(task, functionType);
@@ -107,16 +103,6 @@ function computeCostQuality(task, functionType) {
 
     let costQuality = ((taskMaxCost - taskCost) / (taskMaxCost - taskMinCost)) * inSubdeadline;
     return costQuality;
-}
-
-function decorateTasksWithFinishTime(sortedTasks) {
-
-    sortedTasks.forEach(task => task.finishTime = {});
-
-    let lastTask = sortedTasks[sortedTasks.length - 1];
-    config.functionTypes.forEach(
-        resourceType => taskUtils.decorateWithFinishTime(sortedTasks, lastTask, resourceType)
-    )
 }
 
 function decorateTasksWithRank(tasks) {
@@ -135,13 +121,14 @@ function computeRank(tasks, task) {
 }
 
 function computeAverageExecutionTime(task) {
-    let executionTimes = taskUtils.findTaskExecutionTime(task);
 
     let total = 0;
-    Object.keys(executionTimes).forEach(functionType => total += parseInt(executionTimes[functionType]));
+    let times = config.functionTypes.map(functionType => {
+        return task.finishTime[functionType] - task.startTime[functionType];
+    });
 
-    let average = total / Object.keys(executionTimes).length;
-    return average;
+    times.forEach(time => total += time);
+    return total / times.length;
 }
 
 function decorateTasksWithLevels(tasks) {
@@ -191,7 +178,7 @@ function findLevelExecutionTimeMap(tasks) {
 
         let levelTasks = taskUtils.findTasksFromLevel(tasks, i);
 
-        let maxTasksTime = levelTasks.map(ltask => taskUtils.findMaxTaskExecutionTime(ltask));
+        let maxTasksTime = levelTasks.map(task => taskUtils.findMaxTaskExecutionTime(task));
         let levelExecutionTime = Math.max(...maxTasksTime);
 
         levelExecutionTimeMap.set(i, levelExecutionTime);
@@ -201,7 +188,6 @@ function findLevelExecutionTimeMap(tasks) {
 }
 
 function calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime, userDeadline) {
-    //maybe use Math.round(num * 100) / 100 to cut double to 2 decimal places
     let subdeadline = prevLevelDeadline + userDeadline * ( levelExecutionTime / totalLevelExecutionTime);
     return Math.round(subdeadline * 100) / 100;
 }

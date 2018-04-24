@@ -24,34 +24,10 @@ decorate(dagPath, process.argv[3]);
 function decorate(inputPath, outputPath) {
     fs.readFileAsync(inputPath)
       .then(data => JSON.parse(data))
-      // .then(dag => scaleTimes(dag, config))
       .then(dag => decorateDag(dag, decorateStrategy))
       .then(dag => savePrettifyDag(dag, outputPath))
       .then(() => console.log("Saved decorated DAG file as " + outputPath))
       .catch(console.error);
-}
-
-function scaleTimes(dag, config) {
-    dag.tasks.forEach(task => {
-        task.resourceTimes = {};
-        const bestTime = task.runtime;
-        const bestResource = "2048";
-
-        config.functionTypes.forEach(type => {
-            assignResourceTimes(task, type, bestResource, bestTime);
-        })
-    });
-    return dag;
-}
-
-function assignResourceTimes(task, type, bestResource, bestTime) {
-    if (type === bestResource) {
-        task.resourceTimes[type] = parseFloat(bestTime);
-    } else {
-        let resource = config.gcf[type];
-        let time = bestTime / resource.cpu * config.gcf[bestResource].cpu;
-        task.resourceTimes[type] = Math.round(time * 1000) / 1000;
-    }
 }
 
 function decorateDag(dag, decorateStrategy) {
