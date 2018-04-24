@@ -4,13 +4,15 @@ const taskUtils = require('../strategies/task-utilities');
 
 const dagPath = process.argv[2];
 const csvPath = process.argv[3];
+const timestampsCSVPath = process.argv[4];
 
-if(!dagPath || !csvPath){
-    throw new Error("Provide valid arguments: node extractor.js DIR_PATH CSV_PATH");
+if(!dagPath || !csvPath || !timestampsCSVPath){
+    throw new Error("Provide valid arguments: node extractor.js DIR_PATH CSV_PATH TIMESTAMPS_CSV_PATH");
 }
 
 console.log(`Path to DAG is ${dagPath}`);
 console.log(`Output CSV path is ${csvPath}`);
+console.log(`Output timestamps CSV path is ${timestampsCSVPath}`);
 
 const stats = fs.statSync(dagPath);
 
@@ -19,6 +21,8 @@ if(!stats.isFile()) {
 }
 
 fs.writeFileSync(csvPath, "type time price\n");
+fs.writeFileSync(timestampsCSVPath, "task id resource start end time type\n");
+
 saveToCSV(dagPath);
 
 function saveToCSV(file) {
@@ -29,10 +33,8 @@ function saveToCSV(file) {
         const tasks = dag.tasks;
         const functionTypes = Object.keys(prices);
         functionTypes.forEach(type => appendTimeAndPriceByType(tasks, type));
-        decorateWithFinishTimeForReal(tasks);
-        decorateWithFinishTimeForDeploymentType(tasks);
-        appendTimeAndPriceForRealTimes(tasks);
-        appendTimeAndPriceByDeploymentType(tasks);
+        appendFinishTimeAndPriceForReal(tasks);
+        appendTimestampsForDBWS(tasks);
     });
 }
 
@@ -65,115 +67,85 @@ function appendTimeAndPriceByType(tasks, type) {
 
     let maxLevel = taskUtils.findTasksMaxLevel(tasks);
     let maxLevelTasks = taskUtils.findTasksFromLevel(tasks, maxLevel);
-    let finishTime = Math.max(...maxLevelTasks.map(task => task.finishTime[type]));
+    let maxFinishTime = Math.max(...maxLevelTasks.map(task => task.finishTime[type]));
 
     tasks.forEach(task => {
-      let taskTime = task.resourceTimes[type];
-      let timeSlots = Math.ceil(taskTime * 10);
+      let taskTime = task.finishTime[type] - task.startTime[type];
+      let timeSlots = Math.ceil(taskTime/100);
       price += timeSlots * prices[type];
     });
 
-    finishTime = normalizeDouble(finishTime);
+    maxFinishTime = normalizeDouble(maxFinishTime);
     price = normalizeDouble(price, 10);
 
-    console.log(`${type} ${finishTime} ${price}`);
+    console.log(`${type} ${maxFinishTime} ${price}`);
 
-    fs.appendFile(csvPath,`${type} ${finishTime} ${price}\n`, console.err)
+    fs.appendFile(csvPath,`${type} ${maxFinishTime} ${price}\n`, console.err)
 }
 
-function decorateWithFinishTimeForReal(tasks) {
-
-  let time = 0.0;
-
-  for (let level = 1; level <= taskUtils.findTasksMaxLevel(tasks); level++) {
-    let tasksFromLevel = taskUtils.findTasksFromLevel(tasks, level);
-
-    tasksFromLevel.forEach(task => {
-      let predecessors = taskUtils.findPredecessorForTask(tasks, task);
-
-      if(!predecessors || predecessors.length === 0){
-        time = task.resourceTimes['real'];
-        task.finishTime['real'] = time;
-      } else {
-        let predMaxFinishTime = Math.max(...predecessors.map(ptask => ptask.finishTime['real']));
-        time = task.resourceTimes['real'] + predMaxFinishTime;
-        task.finishTime['real'] = time;
-      }
-    });
-  }
-}
-
-
-function decorateWithFinishTimeForDeploymentType(tasks) {
-
-  let time = 0.0;
-
-  for (let level = 1; level <= taskUtils.findTasksMaxLevel(tasks); level++) {
-    let tasksFromLevel = taskUtils.findTasksFromLevel(tasks, level);
-
-    tasksFromLevel.forEach(task => {
-      let predecessors = taskUtils.findPredecessorForTask(tasks, task);
-
-      if(!predecessors || predecessors.length === 0){
-        time = taskUtils.findTaskExecutionTimeOnResource(task, task.config.deploymentType);
-        task.finishTime['dbws'] = time;
-      } else {
-        let predMaxFinishTime = Math.max(...predecessors.map(ptask => ptask.finishTime['dbws']));
-        time = taskUtils.findTaskExecutionTimeOnResource(task, task.config.deploymentType) + predMaxFinishTime;
-        task.finishTime['dbws'] = time;
-      }
-    });
-  }
-}
-
-function appendTimeAndPriceForRealTimes(tasks) {
-
-    let time = 0;
+function appendFinishTimeAndPriceForReal(tasks) {
     let price = 0;
 
     let maxLevel = taskUtils.findTasksMaxLevel(tasks);
     let maxLevelTasks = taskUtils.findTasksFromLevel(tasks, maxLevel);
-    let finishTime = Math.max(...maxLevelTasks.map(task => task.finishTime['real']));
+    let maxFinishTime = Math.max(...maxLevelTasks.map(task => task.finishTime['real']));
 
     tasks.forEach(task => {
-        let taskTime = task.resourceTimes['real'];
-        let timeSlots = Math.ceil(taskTime * 10);
+        let taskTime = task.finishTime['real'] - task.startTime['real'];
+        let timeSlots = Math.ceil(taskTime/100);
         price += timeSlots * prices[task.config.deploymentType];
     });
 
-    time = normalizeDouble(finishTime);
+    maxFinishTime = normalizeDouble(maxFinishTime);
     price = normalizeDouble(price, 10);
 
-    console.log(`real ${time} ${price}`);
+    console.log(`real ${maxFinishTime} ${price}`);
 
-    fs.appendFile(csvPath,`real ${time} ${price}\n`, console.err)
-
+    fs.appendFile(csvPath,`${type} ${maxFinishTime} ${price}\n`, console.err)
 }
 
-function appendTimeAndPriceByDeploymentType(tasks) {
 
-    let time = 0;
+function appendTimestampsForDBWS(tasks) {
+    let maxLevel = taskUtils.findTasksMaxLevel(tasks);
+
+    for (let level = 1; level <= maxLevel; level++) {
+        let tasksFromLevel = taskUtils.findTasksFromLevel(tasks, level);
+        tasksFromLevel.forEach(task => {
+
+            let time = task.finishTime[task.config.deploymentType] - task.startTime[task.config.deploymentType];
+            let predecessors = taskUtils.findPredecessorForTask(tasks, task);
+            if(!predecessors || predecessors.length === 0) {
+                task.startTime['dbws'] = 0;
+            } else {
+                task.startTime['dbws'] = Math.max(...predecessors.map(ptask => ptask.endTime['dbws']));
+            }
+            task.endTime['dbws'] = task.startTime['dbws'] + time;
+            appendToTimestampsCSVfile(task);
+        });
+    }
+
     let price = 0;
 
-    let maxLevel = taskUtils.findTasksMaxLevel(tasks);
     let maxLevelTasks = taskUtils.findTasksFromLevel(tasks, maxLevel);
-    let finishTime = Math.max(...maxLevelTasks.map(task => task.finishTime['dbws']));
-
+    let maxFinishTime = Math.max(...maxLevelTasks.map(task => task.finishTime['dbws']));
 
     tasks.forEach(task => {
-        let taskTime = task.resourceTimes[task.config.deploymentType];
-        let timeSlots = Math.ceil(taskTime * 10);
+        let taskTime = task.finishTime['dbws'] - task.startTime['dbws'];
+        let timeSlots = Math.ceil(taskTime/100);
         price += timeSlots * prices[task.config.deploymentType];
     });
 
-    time = normalizeDouble(finishTime);
+    maxFinishTime = normalizeDouble(maxFinishTime);
     price = normalizeDouble(price, 10);
 
-    console.log(`dbws ${time} ${price}`);
+    console.log(`dbws ${maxFinishTime} ${price}`);
 
-    fs.appendFile(csvPath,`dbws ${time} ${price}\n`, console.err)
+    fs.appendFile(csvPath,`dbws ${maxFinishTime} ${price}\n`, console.err)
 }
 
+function appendToTimestampsCSVfile(task) {
+    fs.appendFile(timestampsCSVPath,`${task.name} ${task.config.id} ${task.config.deploymentType} ${task.startTime['dbws']} ${task.endTime['dbws']} ${time} dbws \n`, console.err)
+}
 
 function normalizeDouble(number, n = 3) {
     return Math.round(number * Math.pow(10, n)) / Math.pow(10, n);

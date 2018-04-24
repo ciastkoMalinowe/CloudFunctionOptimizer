@@ -6,7 +6,7 @@ function dbwsDecorateStrategy(dag) {
 
     const tasks = dag.tasks;
 
-    addOverheads(tasks);
+    // addOverheads(tasks);
 
     const sortedTasks = taskUtils.findTopologySortedList(tasks);
     decorateTasksWithLevels(sortedTasks);

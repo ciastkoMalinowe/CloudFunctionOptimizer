@@ -38,14 +38,14 @@ echo Parsing dbws logs...
 
 echo Extracting times and prices...
 
-./extract.sh ${dbwsDagPath} ${parsedLogsPath} ${extractedDagPath} ${extractedResultsPath}
+./extract.sh ${dbwsDagPath} ${parsedLogsPath} ${extractedDagPath} ${extractedResultsPath} ${dbwsPlannedExecutionPath}
 
 echo Done! Extracted times and prices: ${extractedResultsPath}
 
-echo Extracting dbws planned timestamps
+#echo Extracting dbws planned timestamps
+#
+#./extract_dbws.sh ${extractedDagPath} ${dbwsPlannedExecutionPath}
 
-./extract_dbws.sh ${extractedDagPath} ${dbwsPlannedExecutionPath}
-
-echo Output: ${dbwsPlannedExecutionPath}
+echo Extracted planned dbws timestamps: ${dbwsPlannedExecutionPath}
 
 echo DONE!!

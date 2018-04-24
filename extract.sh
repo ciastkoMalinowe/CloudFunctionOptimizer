@@ -8,8 +8,9 @@ dagPath=$1
 csvPath=$2
 outputDag=$3
 outputCsv=$4
+outputTimestampsCSV=$5
 
 echo parameters: $@
 
 node ${timeDecorator} ${dagPath} ${csvPath} ${outputDag}
-node ${extractor} ${outputDag} ${outputCsv}
+node ${extractor} ${outputDag} ${outputCsv} ${outputTimestampsCSV}
