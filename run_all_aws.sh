@@ -12,12 +12,12 @@ dbwsPlannedExecutionPath=./${logs_dir}/dbws_planned_execution.csv
 echo Dag path: ${dagPath}
 echo Logs dir is: ${logs_dir}
 
-echo Started parsing logs...
+#echo Started parsing logs...
 
-./parse_log_aws.sh ./${logs_dir}/logs_1536.txt 1536 >> ${parsedLogsPath}
-./parse_log_aws.sh ./${logs_dir}/logs_1024.txt 1024 >> ${parsedLogsPath}
-./parse_log_aws.sh ./${logs_dir}/logs_512.txt 512 >> ${parsedLogsPath}
-./parse_log_aws.sh ./${logs_dir}/logs_256.txt 256 >> ${parsedLogsPath}
+#./parse_log_aws.sh ./${logs_dir}/logs_1536.txt 1536 >> ${parsedLogsPath}
+#./parse_log_aws.sh ./${logs_dir}/logs_1024.txt 1024 >> ${parsedLogsPath}
+#./parse_log_aws.sh ./${logs_dir}/logs_512.txt 512 >> ${parsedLogsPath}
+#./parse_log_aws.sh ./${logs_dir}/logs_256.txt 256 >> ${parsedLogsPath}
 #./parse_log_aws.sh ./${logs_dir}/logs_128.txt 128 >> ${parsedLogsPath}
 
 echo Logs parsed! Output file is: ${parsedLogsPath}
@@ -29,7 +29,7 @@ echo DBWS dag done! Path to dag: ${dbwsDagPath}
 
 echo Executing dbws dag...
 
-./run.sh ${dbwsDagPath} ./${logs_dir}/logs_real.txt
+./run.sh ${dbwsDagPath} ./${logs_dir} real
 
 echo Execution done!
 echo Parsing dbws logs...

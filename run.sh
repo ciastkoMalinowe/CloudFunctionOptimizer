@@ -2,11 +2,13 @@
 
 # run 10 times on default resource
 DAG_PATH=$1
-OUTPUT=$2
-echo Output path: ${OUTPUT}
+OUTPUT_DIR=$2
+TYPE=$3
+echo Output path: ${TYPE}
 
 for i in `seq 10`
 do
-    echo ${i}
-    hflow run ${DAG_PATH} -s >> ${OUTPUT}
+    echo Saving to ${OUTPUT_DIR}/logs_${TYPE}_${i}.txt
+    hflow run ${DAG_PATH} -s >> ${OUTPUT_DIR}/logs_${TYPE}_${i}.txt
+    ./parse_log_aws.sh ${OUTPUT_DIR}/logs_${TYPE}_${i}.txt ${TYPE} >> ${OUTPUT_DIR}/parsed/logs_${TYPE}_${i}.csv
 done
