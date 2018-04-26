@@ -47,13 +47,13 @@ function isDAGValid(dag) {
     }
 
     tasks.forEach(task => {
-        if(!task.resourceTimes){
-            throw new Error("There are no resourceTimes in DAG!");
-        }
-
-        if(!task.resourceTimes['real']){
-            throw new Error("There are no real times in tasks")
-        }
+        // if(!task.resourceTimes){
+        //     throw new Error("There are no resourceTimes in DAG!");
+        // }
+        //
+        // if(!task.resourceTimes['real']){
+        //     throw new Error("There are no real times in tasks")
+        // }
 
         if(!task.config.deploymentType){
             throw new Error("There is no deploymentType in task");
@@ -101,7 +101,7 @@ function appendFinishTimeAndPriceForReal(tasks) {
 
     console.log(`real ${maxFinishTime} ${price}`);
 
-    fs.appendFile(csvPath,`${type} ${maxFinishTime} ${price}\n`, console.err)
+    fs.appendFile(csvPath,`real ${maxFinishTime} ${price}\n`, console.err)
 }
 
 
@@ -117,10 +117,10 @@ function appendTimestampsForDBWS(tasks) {
             if(!predecessors || predecessors.length === 0) {
                 task.startTime['dbws'] = 0;
             } else {
-                task.startTime['dbws'] = Math.max(...predecessors.map(ptask => ptask.endTime['dbws']));
+                task.startTime['dbws'] = Math.max(...predecessors.map(ptask => ptask.finishTime['dbws']));
             }
-            task.endTime['dbws'] = task.startTime['dbws'] + time;
-            appendToTimestampsCSVfile(task);
+            task.finishTime['dbws'] = task.startTime['dbws'] + time;
+            appendToTimestampsCSVfile(task, time);
         });
     }
 
@@ -140,11 +140,11 @@ function appendTimestampsForDBWS(tasks) {
 
     console.log(`dbws ${maxFinishTime} ${price}`);
 
-    fs.appendFile(csvPath,`dbws ${maxFinishTime} ${price}\n`, console.err)
+    fs.appendFileSync(csvPath,`dbws ${maxFinishTime} ${price}\n`)
 }
 
-function appendToTimestampsCSVfile(task) {
-    fs.appendFile(timestampsCSVPath,`${task.name} ${task.config.id} ${task.config.deploymentType} ${task.startTime['dbws']} ${task.endTime['dbws']} ${time} dbws \n`, console.err)
+function appendToTimestampsCSVfile(task, time) {
+    fs.appendFileSync(timestampsCSVPath,`${task.name} ${task.config.id} ${task.config.deploymentType} ${task.startTime['dbws']} ${task.finishTime['dbws']} ${time} dbws \n`)
 }
 
 function normalizeDouble(number, n = 3) {

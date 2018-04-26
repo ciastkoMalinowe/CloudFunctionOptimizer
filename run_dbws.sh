@@ -12,6 +12,15 @@ dagDirPath=$(dirname "${dagPath}")
 dagBaseName=$(basename "${dagPath}" .json)
 tmp=tmp-times.json
 
+echo args: $@
+echo Will decorate with times
+
 node ${timeDecorator} ${dagPath} ${csvPath} ./${tmp}
+
+echo Decorated with times
+
 node --harmony ${dbwsDecorator}  ./${tmp} ${outputPath}
-rm ./${tmp}
+
+echo Dbws dag ready
+
+#rm ./${tmp}

@@ -4,7 +4,10 @@
 DAG_PATH=$1
 OUTPUT_DIR=$2
 TYPE=$3
+
 echo Output path: ${TYPE}
+
+mkdir ${OUTPUT_DIR}/parsed
 
 for i in `seq 10`
 do

@@ -3,7 +3,7 @@ const path = require('path');
 const csvParser = require('fast-csv');
 
 const startTimesString = "startTime";
-const endTimesString = "endTime";
+const finishTimesString = "finishTime";
 
 const dagPath = process.argv[2];
 const csvPath = process.argv[3];
@@ -34,13 +34,13 @@ csvParser
         let id = data[1];
         let resource = data[2];
         let start = data[3];
-        let end = data[4];
+        let finish = data[4];
         let time = data[5];
         let type = data[6];
         if(!idTypeMap.has(id)) idTypeMap.set(id, new Map());
         let typeTimeMap = idTypeMap.get(id);
         if(!typeTimeMap.get(type)) typeTimeMap.set(type, []);
-        typeTimeMap.get(type).push( { startTime: Number(start), endTime: Number(end) } );
+        typeTimeMap.get(type).push( { startTime: Number(start), finishTime: Number(finish) } );
     })
     .on("end", function () {
         let resourceTimes = calculateResourceTimes(idTypeMap);
@@ -52,7 +52,7 @@ csvParser
 
 function calculateResourceTimes(idTimeMap) {
     let startTimes = {};
-    let endTimes = {};
+    let finishTimes = {};
 
     for(let id of idTimeMap.keys()){
       let typeTimeMap = idTimeMap.get(id);
@@ -60,23 +60,23 @@ function calculateResourceTimes(idTimeMap) {
         let timestamps = typeTimeMap.get(type);
         let average = calculateAverage(timestamps);
         if (!startTimes[id]) startTimes[id] = {};
-        if (!endTimes[id]) endTimes[id] = {};
+        if (!finishTimes[id]) finishTimes[id] = {};
           startTimes[id][type] = average.startTime;
-          endTimes[id][type] = average.endTime;
+          finishTimes[id][type] = average.finishTime;
       }
     }
-    return { startTimes: startTimes, endTimes: endTimes };
+    return { startTimes: startTimes, finishTimes: finishTimes };
 }
 
 function calculateAverage(times) {
 
     let startSum = 0;
-    let endSum = 0;
+    let finishSum = 0;
     for(let i=0; i< times.length; i++){
         startSum += times[i].startTime;
-        endSum += times[i].endTime;
+        finishSum += times[i].finishTime;
     }
-    let avgTimestamps = { startTime: Math.round(startSum / times.length), endTime: Math.round(endSum / times.length) };
+    let avgTimestamps = { startTime: Math.round(startSum / times.length), finishTime: Math.round(finishSum / times.length) };
     return avgTimestamps;
 }
 
@@ -84,8 +84,8 @@ function decorateTaskWithTime(tasks, times) {
     tasks.forEach(task => {
         let id = task.config.id;
         let startTimes = times.startTimes[id];
-        let endTimes = times.endTimes[id];
+        let finishTimes = times.finishTimes[id];
         task[startTimesString] = startTimes;
-        task[endTimesString] = endTimes;
+        task[finishTimesString] = finishTimes;
     })
 }
