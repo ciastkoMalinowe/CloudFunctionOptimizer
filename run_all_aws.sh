@@ -9,19 +9,13 @@ dbwsDagPath=./${logs_dir}/dag-dbws.json
 extractedDagPath=./${logs_dir}/dag-extracted.json
 extractedResultsPath=./${logs_dir}/extracted_results.csv
 dbwsPlannedExecutionPath=./${logs_dir}/dbws_planned_execution.csv
+realAvgExecutionPath=./${logs_dir}/real_avg_execution.csv
 
 normalizer=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/normalizer.js
+realExtractor=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/extract-real-avg.js
 
 echo Dag path: ${dagPath}
 echo Logs dir is: ${logs_dir}
-
-#echo Started parsing logs...
-
-#./parse_log_aws.sh ./${logs_dir}/logs_1536.txt 1536 >> ${parsedLogsPath}
-#./parse_log_aws.sh ./${logs_dir}/logs_1024.txt 1024 >> ${parsedLogsPath}
-#./parse_log_aws.sh ./${logs_dir}/logs_512.txt 512 >> ${parsedLogsPath}
-#./parse_log_aws.sh ./${logs_dir}/logs_256.txt 256 >> ${parsedLogsPath}
-#./parse_log_aws.sh ./${logs_dir}/logs_128.txt 128 >> ${parsedLogsPath}
 
 echo Normalize timestamps
 
@@ -39,9 +33,8 @@ echo Executing dbws dag...
 ./run.sh ${dbwsDagPath} ./${logs_dir} real
 
 echo Execution done!
-echo Normalize dbws logs...
+echo Normalize real logs...
 
-#./parse_log_aws.sh ./${logs_dir}/logs_real.txt real >> ${parsedLogsPath}
 node ${normalizer} ${logs_dir}/parsed ${dbwsParsedLogsPath}
 
 echo Extracting times and prices...
@@ -50,10 +43,14 @@ echo Extracting times and prices...
 
 echo Done! Extracted times and prices: ${extractedResultsPath}
 
-echo Extracting dbws planned timestamps
-
-./extract_dbws.sh ${extractedDagPath} ${dbwsPlannedExecutionPath}
+#echo Extracting dbws planned timestamps
+#
+#./extract_dbws.sh ${extractedDagPath} ${dbwsPlannedExecutionPath}
 
 echo Extracted planned dbws timestamps: ${dbwsPlannedExecutionPath}
+
+echo Extracting real avg timestamps
+
+node ${realExtractor} ${extractedDagPath} ${realAvgExecutionPath}
 
 echo DONE!!

@@ -50,7 +50,7 @@ function normalize(file) {
 
         let normalized_start = start - minTimestamp;
         let normalized_end = end - minTimestamp;
-        fs.appendFile(outputPath,`${task} ${id} ${resource} ${normalized_start} ${normalized_end} ${time} ${type}\n`, console.err);
+        fs.appendFileSync(outputPath,`${task} ${id} ${resource} ${normalized_start} ${normalized_end} ${time} ${type}\n`, console.err);
       })
     });
 }
