@@ -7,7 +7,7 @@ TYPE=$3
 
 #echo Output path: ${TYPE}
 
-#mkdir ${OUTPUT_DIR}/parsed
+mkdir ${OUTPUT_DIR}/parsed
 
 for i in `seq 10`
 do
