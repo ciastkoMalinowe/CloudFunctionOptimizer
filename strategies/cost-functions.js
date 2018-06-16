@@ -41,7 +41,7 @@ function minDeadline(tasks) {
     config.functionTypes.forEach(
         functionType => {
             finishTimes.push(
-                Math.min(...tasksFromMaxLevel.map(task => task.finishTime[functionType]))
+                Math.max(...tasksFromMaxLevel.map(task => task.finishTime[functionType]))
             )
         }
     );

@@ -68,8 +68,8 @@ function findMinTaskExecutionCost(task){
     return Math.min(...costs);
 }
 
-function findPredecessorWithLongestFinishTime(task, resourceType){
-    let predecessors = findPredecessorsForTask(task);
+function findPredecessorWithLongestFinishTime(tasks, task, resourceType){
+    let predecessors = findPredecessorsForTask(tasks, task);
     let finishTime = 0;
     let resultTask;
     predecessors.forEach(ptask => {
@@ -78,7 +78,6 @@ function findPredecessorWithLongestFinishTime(task, resourceType){
             resultTask = ptask;
         }
     });
-
     return resultTask;
 }
 

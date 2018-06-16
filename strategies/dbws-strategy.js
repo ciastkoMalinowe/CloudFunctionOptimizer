@@ -41,7 +41,7 @@ function dbwsDecorateStrategy(dag) {
             config.functionTypes.forEach(
                 functionType => resourceMap.set(
                     functionType,
-                    computeQualityMeasureForResource(task, functionType, costEfficientFactor)
+                    computeQualityMeasureForResource(tasks, task, functionType, costEfficientFactor)
                 )
             );
 
@@ -57,7 +57,7 @@ function dbwsDecorateStrategy(dag) {
 
             task.config.deploymentType = selectedResource;
             // copy schedulded times to config
-            Object.assign(task.config, getScheduldedTimesOnResource(task, selectedResource))
+            Object.assign(task.config, getScheduldedTimesOnResource(tasks, task, selectedResource))
         }
     )
 }
@@ -85,19 +85,19 @@ function addOverheads(tasks) {
     })
 }
 
-function computeQualityMeasureForResource(task, functionType, costEfficientFactor) {
+function computeQualityMeasureForResource(tasks, task, functionType, costEfficientFactor) {
 
-    let timeQuality = computeTimeQuality(task, functionType);
-    let costQuality = computeCostQuality(task, functionType);
+    let timeQuality = computeTimeQuality(tasks, task, functionType);
+    let costQuality = computeCostQuality(tasks, task, functionType);
 
     let taskQuality = timeQuality * (1 - costEfficientFactor) + costQuality * costEfficientFactor;
 
     return taskQuality;
 }
 
-function computeTimeQuality(task, functionType) {
+function computeTimeQuality(tasks, task, functionType) {
 
-    let taskFinishTime = getScheduldedTimesOnResource(task, functionType).scheduledFinishTime;
+    let taskFinishTime = getScheduldedTimesOnResource(tasks, task, functionType).scheduledFinishTime;
     let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskMaxFinishTime = taskUtils.findMaxTaskExecutionTime(task);
@@ -107,9 +107,9 @@ function computeTimeQuality(task, functionType) {
     return timeQuality;
 }
 
-function computeCostQuality(task, functionType) {
+function computeCostQuality(tasks, task, functionType) {
 
-    let taskFinishTime = getScheduldedTimesOnResource(task, functionType).scheduledFinishTime;
+    let taskFinishTime = getScheduldedTimesOnResource(tasks, task, functionType).scheduledFinishTime;
     let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskCost = taskUtils.findTaskExecutionCostOnResource(task, functionType);
@@ -120,14 +120,14 @@ function computeCostQuality(task, functionType) {
     return costQuality;
 }
 
-function getScheduldedTimesOnResource(task, functionType) {
+function getScheduldedTimesOnResource(tasks, task, functionType) {
 
-    let predecessors = taskUtils.findPredecessorForTask();
+    let predecessors = taskUtils.findPredecessorForTask(tasks, task);
     let delay = 0;
     let predecessorsMaxFinishTime = 0;
 
-    if(predecessors){
-        let pTask = taskUtils.findPredecessorWithLongestFinishTime(task, functionType);
+    if(predecessors.length > 0){
+        let pTask = taskUtils.findPredecessorWithLongestFinishTime(tasks, task, functionType);
         delay = task.startTime[functionType] - pTask.finishTime[functionType];
 
         let predecessorsScheduldedFinishTimes = predecessors.map(pTask => pTask.config.scheduledFinishTime);

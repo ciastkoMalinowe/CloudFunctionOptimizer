@@ -11,5 +11,4 @@ ggplot(tasks, aes(colour=resource)) + geom_segment(aes(x=start, xend=end, y=1:nr
 
 #+ theme (axis.text.y = element_text(size=6)) + theme(legend.justification=c(1,0), legend.position=c(1,0)) + theme(legend.text = element_text(size = 8))
 
-ggsave("real_avg_execution_resources_small.pdf", width = 9, height = 9, units = "cm")
-#ggsave("real_avg_execution_resources_small.pdf", width = 16, height = 24, units = "cm")
+ggsave("real_avg_execution_resources.pdf", width = 12, height = 9, units = "cm")
