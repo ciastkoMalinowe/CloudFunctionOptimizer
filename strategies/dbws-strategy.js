@@ -122,16 +122,24 @@ function computeCostQuality(task, functionType) {
 
 function getScheduldedTimesOnResource(task, functionType) {
 
-    let pTask = taskUtils.findPredecessorWithLongestFinishTime(task, functionType);
-    let delay = task.startTime[functionType] - pTask.finishTime[functionType];
-
     let predecessors = taskUtils.findPredecessorForTask();
-    let scheduldedFinishTimes = predecessors.map(pTask => pTask.config.scheduledFinishTime);
-    let maxFinishTime = Math.max(...scheduldedFinishTimes);
+    let delay = 0;
+    let predecessorsMaxFinishTime = 0;
+
+    if(predecessors){
+        let pTask = taskUtils.findPredecessorWithLongestFinishTime(task, functionType);
+        delay = task.startTime[functionType] - pTask.finishTime[functionType];
+
+        let predecessorsScheduldedFinishTimes = predecessors.map(pTask => pTask.config.scheduledFinishTime);
+        predecessorsMaxFinishTime = Math.max(...predecessorsScheduldedFinishTimes);
+    }else{
+        //level 1 executor delay
+        delay = task.startTime[functionType];
+    }
+
+    let newStartTime = predecessorsMaxFinishTime + delay;
 
     let executionTime = task.finishTime[functionType] - task.startTime[functionType];
-
-    let newStartTime = maxFinishTime + delay;
     let newFinishTime = newStartTime + executionTime;
 
     return {
