@@ -6,8 +6,8 @@ function dbwsDecorateStrategy(dag) {
 
     const tasks = dag.tasks;
 
-    const sortedTasks = taskUtils.findTopologySortedList(tasks);
-    decorateTasksWithLevels(sortedTasks);
+    decorateTasksWithLevels(tasks);
+    const sortedTasks = tasks.sort((task1, task2) => task1.level - task2.level);
 
     const maxDeadline = costFunctions.maxDeadline(tasks);
     const minDeadline = costFunctions.minDeadline(tasks);
@@ -31,8 +31,6 @@ function dbwsDecorateStrategy(dag) {
     }
 
     decorateTasksWithSubdeadline(sortedTasks, userDeadline);
-    decorateTasksWithRank(sortedTasks);
-    sortedTasks.sort((task1, task2) => task2.rank - task1.rank); //descending
 
     const costEfficientFactor = minBudget / userBudget;
     sortedTasks.forEach(
@@ -58,8 +56,25 @@ function dbwsDecorateStrategy(dag) {
             }
 
             task.config.deploymentType = selectedResource;
+            // copy schedulded times to config
+            Object.assign(task.config, getScheduldedTimesOnResource(task, selectedResource))
         }
     )
+}
+
+function decorateTasksWithLevels(tasks) {
+    tasks.forEach(
+        task => {
+            let predecessors = taskUtils.findPredecessorForTask(tasks, task);
+            if (predecessors.length === 0) {
+                task.level = 1
+            } else {
+                let levels = predecessors.map(pTask => pTask.level);
+                let maxLevel = Math.max(...levels);
+                task.level = maxLevel + 1;
+            }
+        }
+    );
 }
 
 function addOverheads(tasks) {
@@ -82,7 +97,7 @@ function computeQualityMeasureForResource(task, functionType, costEfficientFacto
 
 function computeTimeQuality(task, functionType) {
 
-    let taskFinishTime = task.finishTime[functionType];
+    let taskFinishTime = getScheduldedTimesOnResource(task, functionType).scheduledFinishTime;
     let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskMaxFinishTime = taskUtils.findMaxTaskExecutionTime(task);
@@ -94,7 +109,7 @@ function computeTimeQuality(task, functionType) {
 
 function computeCostQuality(task, functionType) {
 
-    let taskFinishTime = task.finishTime[functionType];
+    let taskFinishTime = getScheduldedTimesOnResource(task, functionType).scheduledFinishTime;
     let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskCost = taskUtils.findTaskExecutionCostOnResource(task, functionType);
@@ -105,19 +120,24 @@ function computeCostQuality(task, functionType) {
     return costQuality;
 }
 
-function decorateTasksWithRank(tasks) {
-    tasks.forEach(task => task.rank = Math.round(computeRank(tasks, task) * 100)/100);
-}
+function getScheduldedTimesOnResource(task, functionType) {
 
-function computeRank(tasks, task) {
+    let pTask = taskUtils.findPredecessorWithLongestFinishTime(task, functionType);
+    let delay = task.startTime[functionType] - pTask.finishTime[functionType];
 
-    let successors = taskUtils.findSuccessorsForTask(tasks, task);
-    if (successors.length === 0){
-        return computeAverageExecutionTime(task);
+    let predecessors = taskUtils.findPredecessorForTask();
+    let scheduldedFinishTimes = predecessors.map(pTask => pTask.config.scheduledFinishTime);
+    let maxFinishTime = Math.max(...scheduldedFinishTimes);
+
+    let executionTime = task.finishTime[functionType] - task.startTime[functionType];
+
+    let newStartTime = maxFinishTime + delay;
+    let newFinishTime = newStartTime + executionTime;
+
+    return {
+        "scheduledStartTime" : newStartTime,
+        "scheduledFinishTime" : newFinishTime
     }
-    let successorsExecutionTimes = successors.map(sTask => computeRank(tasks, sTask));
-
-    return computeAverageExecutionTime(task) + Math.max(...successorsExecutionTimes);
 }
 
 function computeAverageExecutionTime(task) {
@@ -129,21 +149,6 @@ function computeAverageExecutionTime(task) {
 
     times.forEach(time => total += time);
     return total / times.length;
-}
-
-function decorateTasksWithLevels(tasks) {
-    tasks.forEach(
-        task => {
-            let predecessors = taskUtils.findPredecessorForTask(tasks, task);
-            if (predecessors.length === 0) {
-                task.level = 1
-            } else {
-                let levels = predecessors.map(pTask => pTask.level);
-                let maxLevel = Math.max(...levels);
-                task.level = maxLevel + 1;
-            }
-        }
-    );
 }
 
 function decorateTasksWithSubdeadline(tasks, userDeadline) {

@@ -68,6 +68,21 @@ function findMinTaskExecutionCost(task){
     return Math.min(...costs);
 }
 
+function findPredecessorWithLongestFinishTime(task, resourceType){
+    let predecessors = findPredecessorsForTask(task);
+    let finishTime = 0;
+    let resultTask;
+    predecessors.forEach(ptask => {
+        if (finishTime < ptask.finishTime[resourceType]) {
+            finishTime = ptask.finishTime[resourceType];
+            resultTask = ptask;
+        }
+    });
+
+    return resultTask;
+}
+
+
 module.exports = {
     findTopologySortedList: findTopologySortedList,
     findSuccessorsForTask: findSuccessorsForTask,
@@ -79,4 +94,5 @@ module.exports = {
     findMaxTaskExecutionCost: findMaxTaskExecutionCost,
     findMinTaskExecutionCost: findMinTaskExecutionCost,
     findTaskExecutionCostOnResource: findTaskExecutionCostOnResource,
+    findPredecessorWithLongestFinishTime: findPredecessorWithLongestFinishTime
 };
