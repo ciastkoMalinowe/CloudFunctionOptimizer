@@ -1,5 +1,5 @@
 const fs = require('fs');
-const prices = require("./price.config");
+const config = require('../configuration/config');
 const taskUtils = require('../strategies/task-utilities');
 
 const dagPath = process.argv[2];
@@ -31,7 +31,7 @@ function saveToCSV(file) {
         dag = JSON.parse(dag);
         isDAGValid(dag);
         const tasks = dag.tasks;
-        const functionTypes = Object.keys(prices);
+        const functionTypes = Object.keys(config.prices);
         functionTypes.forEach(type => appendTimeAndPriceByType(tasks, type));
         appendFinishTimeAndPriceForReal(tasks);
         appendTimestampsForDBWS(tasks);
@@ -72,7 +72,7 @@ function appendTimeAndPriceByType(tasks, type) {
     tasks.forEach(task => {
       let taskTime = task.finishTime[type] - task.startTime[type];
       let timeSlots = Math.ceil(taskTime/100);
-      price += timeSlots * prices[type];
+      price += timeSlots * config.prices[type];
     });
 
     maxFinishTime = normalizeDouble(maxFinishTime);
@@ -93,7 +93,7 @@ function appendFinishTimeAndPriceForReal(tasks) {
     tasks.forEach(task => {
         let taskTime = task.finishTime['real'] - task.startTime['real'];
         let timeSlots = Math.ceil(taskTime/100);
-        price += timeSlots * prices[task.config.deploymentType];
+        price += timeSlots * config.prices[task.config.deploymentType];
     });
 
     maxFinishTime = normalizeDouble(maxFinishTime);
@@ -132,7 +132,7 @@ function appendTimestampsForDBWS(tasks) {
     tasks.forEach(task => {
         let taskTime = task.finishTime['dbws'] - task.startTime['dbws'];
         let timeSlots = Math.ceil(taskTime/100);
-        price += timeSlots * prices[task.config.deploymentType];
+        price += timeSlots * config.prices[task.config.deploymentType];
     });
 
     maxFinishTime = normalizeDouble(maxFinishTime);
