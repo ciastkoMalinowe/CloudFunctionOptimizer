@@ -1,6 +1,6 @@
 const fs = require('fs');
-const config = require('../configuration/config');
-const taskUtils = require('../strategies/task-utilities');
+const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config');
+const taskUtils = require('../src/task-utilities');
 
 const dagPath = process.argv[2];
 const csvPath = process.argv[3];

@@ -1,5 +1,5 @@
 const fs = require('fs');
-const taskUtils = require('../strategies/task-utilities');
+const taskUtils = require('../src/task-utilities');
 
 const dagPath = process.argv[2];
 const csvPath = process.argv[3];

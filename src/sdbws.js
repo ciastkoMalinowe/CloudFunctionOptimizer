@@ -1,4 +1,4 @@
-const config = require('../configuration/config');
+const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config');
 const costFunctions = require('./cost-functions');
 const taskUtils = require('./task-utilities');
 
@@ -25,7 +25,7 @@ function dbwsDecorateStrategy(dag) {
         throw new Error("No possible schedule map")
     } else if (userBudget >= maxBudget) {
         tasks.forEach(task => {
-            task.config.deploymentType = "3008";
+            task.config.deploymentType = getMostExpensiveResource();
         });
         return;
     }
@@ -98,7 +98,7 @@ function computeQualityMeasureForResource(tasks, task, functionType, costEfficie
 function computeTimeQuality(tasks, task, functionType) {
 
     let taskFinishTime = getScheduldedTimesOnResource(tasks, task, functionType).scheduledFinishTime;
-    let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
+    let inSubdeadline = taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskMaxFinishTime = taskUtils.findMaxTaskExecutionTime(task);
     let taskMinFinishTime = taskUtils.findMinTaskExecutionTime(task);
@@ -110,7 +110,7 @@ function computeTimeQuality(tasks, task, functionType) {
 function computeCostQuality(tasks, task, functionType) {
 
     let taskFinishTime = getScheduldedTimesOnResource(tasks, task, functionType).scheduledFinishTime;
-    let inSubdeadline =  taskFinishTime < task.subDeadline ? 1 : 0;
+    let inSubdeadline = taskFinishTime < task.subDeadline ? 1 : 0;
 
     let taskCost = taskUtils.findTaskExecutionCostOnResource(task, functionType);
     let taskMaxCost = taskUtils.findMaxTaskExecutionCost(task);
@@ -126,13 +126,13 @@ function getScheduldedTimesOnResource(tasks, task, functionType) {
     let delay = 0;
     let predecessorsMaxFinishTime = 0;
 
-    if(predecessors.length > 0){
+    if (predecessors.length > 0) {
         let pTask = taskUtils.findPredecessorWithLongestFinishTime(tasks, task, functionType);
         delay = task.startTime[functionType] - pTask.finishTime[functionType];
 
         let predecessorsScheduldedFinishTimes = predecessors.map(pTask => pTask.config.scheduledFinishTime);
         predecessorsMaxFinishTime = Math.max(...predecessorsScheduldedFinishTimes);
-    }else{
+    } else {
         //level 1 executor delay
         delay = task.startTime[functionType];
     }
@@ -143,8 +143,8 @@ function getScheduldedTimesOnResource(tasks, task, functionType) {
     let newFinishTime = newStartTime + executionTime;
 
     return {
-        "scheduledStartTime" : newStartTime,
-        "scheduledFinishTime" : newFinishTime
+        "scheduledStartTime": newStartTime,
+        "scheduledFinishTime": newFinishTime
     }
 }
 
@@ -164,12 +164,12 @@ function decorateTasksWithSubdeadline(tasks, userDeadline) {
     let levelExecutionTimeMap = findLevelExecutionTimeMap(tasks);
 
     let totalLevelExecutionTime = 0;
-    for(let value of levelExecutionTimeMap.values()){
+    for (let value of levelExecutionTimeMap.values()) {
         totalLevelExecutionTime += value
     }
 
     let prevLevelDeadline = 0;
-    for(let i=1; i <= taskUtils.findTasksMaxLevel(tasks); i++){
+    for (let i = 1; i <= taskUtils.findTasksMaxLevel(tasks); i++) {
 
         //calculate deadline based on prevDeadline, levelExecutionTime and userParameter
         let levelExecutionTime = levelExecutionTimeMap.get(i);
@@ -187,7 +187,7 @@ function findLevelExecutionTimeMap(tasks) {
 
     let levelExecutionTimeMap = new Map();
 
-    for(let i=1; i <= taskUtils.findTasksMaxLevel(tasks); i++){
+    for (let i = 1; i <= taskUtils.findTasksMaxLevel(tasks); i++) {
 
         let levelTasks = taskUtils.findTasksFromLevel(tasks, i);
 
@@ -201,7 +201,7 @@ function findLevelExecutionTimeMap(tasks) {
 }
 
 function calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime, userDeadline) {
-    let subdeadline = prevLevelDeadline + userDeadline * ( levelExecutionTime / totalLevelExecutionTime);
+    let subdeadline = prevLevelDeadline + userDeadline * (levelExecutionTime / totalLevelExecutionTime);
     return Math.round(subdeadline * 100) / 100;
 }
 
@@ -211,6 +211,12 @@ function calculateUserDeadline(maxDeadline, minDeadline) {
 
 function calculateUserBudget(maxBudget, minBudget) {
     return minBudget + config.budgetParameter * (maxBudget - minBudget);
+}
+
+function getMostExpensiveResource() {
+    let prices = config.prices;
+    let sortedByPrice = Object.keys(prices).sort((p1, p2) => prices[p1] - prices[p2]);
+    return sortedByPrice[sortedByPrice.length - 1]; // return the most expensive resource
 }
 
 module.exports = dbwsDecorateStrategy;

@@ -1,5 +1,3 @@
-const DAG_PATH = "dags/dag.json";
-const RESULT_DAG_PATH = "dags/output/decorated-dag.json";
 const BUDGET_PARAMETER = 0.3;
 const DEADLINE_PARAMETER = 0.7;
 const FUNCTION_TYPES = ["1536", "2048", "2560", "3008"]; //["256", "512", "1024", "1536"]; //"128", "256",
@@ -30,8 +28,6 @@ const OVERHEADS = {
 };
 
 module.exports = {
-    "path": DAG_PATH,
-    "resultPath": RESULT_DAG_PATH,
     "budgetParameter": BUDGET_PARAMETER,
     "deadlineParameter": DEADLINE_PARAMETER,
     "functionTypes": FUNCTION_TYPES,
