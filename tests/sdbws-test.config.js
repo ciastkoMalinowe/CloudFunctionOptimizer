@@ -5,7 +5,7 @@ const PROVIDER = "TEST";
 
 const PRICES = {
     "TEST" : {
-        "type1": 0.2,
+        "type1": 0.25,
         "type2": 0.1,
     }
 };
