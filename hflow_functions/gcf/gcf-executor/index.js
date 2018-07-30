@@ -3,7 +3,7 @@
 var projectId = process.env.GCLOUD_PROJECT; // E.g. 'grape-spaceship-123'
 
 var spawn = require('child_process').spawn;
-var gcloud = require('google-cloud');
+const Storage = require('@google-cloud/storage');
 var async = require('async');
 
 function gcfExecutor (req, res) {
@@ -27,7 +27,7 @@ function gcfExecutor (req, res) {
     console.log('prefix:     ' + prefix);
 
 
-    var gcs = gcloud.storage({
+    var gcs = new Storage({
         projectId: projectId
     });
 
@@ -35,7 +35,7 @@ function gcfExecutor (req, res) {
 
         async.each(inputs, function (file_name, callback) {
 
-            file_name = file_name.name
+            file_name = file_name.name;
             var full_path = bucket_name + "/" +  prefix + "/" + file_name
             console.log('downloading ' + full_path);
 
@@ -103,16 +103,20 @@ function gcfExecutor (req, res) {
 
         async.each(outputs, function (file_name, callback) {
 
-            file_name = file_name.name
+            file_name = file_name.name;
 
-            var full_path = bucket_name + "/" +  prefix + "/" + file_name
+            var full_path = bucket_name + "/" +  prefix + "/" + file_name;
             console.log('uploading ' + full_path);
 
             // Reference an existing bucket.
             var bucket = gcs.bucket(bucket_name );
 
             // Upload a file to your bucket.
-            bucket.upload('/tmp/' + file_name, {destination:  prefix + "/" + file_name}, function(err) {
+            bucket.upload('/tmp/' + file_name,
+                {
+                    destination:  prefix + "/" + file_name,
+                    resumable: false
+                }, function(err) {
                 if( err ) {
                     console.error("Error uploading file " + full_path);
                     console.error(err);
