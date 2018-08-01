@@ -12,7 +12,8 @@
     "toposort": "^1.0.7"
   },
   "scripts": {
-    "start": "node --use_strict app.js"
+    "start": "node --use_strict app.js",
+    "test": "./tests/test.sh"
   },
   "devDependencies": {
     "mocha": "^5.2.0"

@@ -81,6 +81,15 @@ function findPredecessorWithLongestFinishTime(tasks, task, resourceType){
     return resultTask;
 }
 
+function findMaxTaskFinishTime(task) {
+    let times = config.functionTypes.map(functionType => task.finishTime[functionType]);
+    return Math.max(...times)
+}
+function findMinTaskFinishTime(task) {
+    let times = config.functionTypes.map(functionType => task.finishTime[functionType]);
+    return Math.min(...times)
+}
+
 
 module.exports = {
     findTopologySortedList: findTopologySortedList,
@@ -93,5 +102,7 @@ module.exports = {
     findMaxTaskExecutionCost: findMaxTaskExecutionCost,
     findMinTaskExecutionCost: findMinTaskExecutionCost,
     findTaskExecutionCostOnResource: findTaskExecutionCostOnResource,
-    findPredecessorWithLongestFinishTime: findPredecessorWithLongestFinishTime
+    findPredecessorWithLongestFinishTime: findPredecessorWithLongestFinishTime,
+    findMaxTaskFinishTime,
+    findMinTaskFinishTime
 };

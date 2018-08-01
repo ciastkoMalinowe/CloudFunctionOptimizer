@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config');
-const decorateStrategy = require('./src/sdbws');
+const decorateStrategy = require('./src/sdbws').decorateStrategy;
 
 const dagPath = process.argv[2];
 const outputPath = process.argv[3];

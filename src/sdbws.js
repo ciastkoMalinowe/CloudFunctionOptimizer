@@ -25,7 +25,7 @@ function dbwsDecorateStrategy(dag) {
         throw new Error("No possible schedule map")
     } else if (userBudget >= maxBudget) {
         tasks.forEach(task => {
-            task.config.deploymentType = getMostExpensiveResource();
+            task.config.deploymentType = getMostExpensiveResourceType();
         });
         return;
     }
@@ -100,8 +100,8 @@ function computeTimeQuality(tasks, task, functionType) {
     let taskFinishTime = getScheduldedTimesOnResource(tasks, task, functionType).scheduledFinishTime;
     let inSubdeadline = taskFinishTime < task.subDeadline ? 1 : 0;
 
-    let taskMaxFinishTime = taskUtils.findMaxTaskExecutionTime(task);
-    let taskMinFinishTime = taskUtils.findMinTaskExecutionTime(task);
+    let taskMaxFinishTime = taskUtils.findMaxTaskFinishTime(task);
+    let taskMinFinishTime = taskUtils.findMinTaskFinishTime(task);
 
     let timeQuality = (inSubdeadline * task.subDeadline - taskFinishTime) / (taskMaxFinishTime - taskMinFinishTime);
     return timeQuality;
@@ -213,10 +213,19 @@ function calculateUserBudget(maxBudget, minBudget) {
     return minBudget + config.budgetParameter * (maxBudget - minBudget);
 }
 
-function getMostExpensiveResource() {
+function getMostExpensiveResourceType() {
     let prices = config.prices;
     let sortedByPrice = Object.keys(prices).sort((p1, p2) => prices[p1] - prices[p2]);
     return sortedByPrice[sortedByPrice.length - 1]; // return the most expensive resource
 }
 
-module.exports = dbwsDecorateStrategy;
+module.exports = {
+    computeAverageExecutionTime,
+    calculateUserDeadline,
+    calculateUserBudget,
+    getMostExpensiveResourceType,
+    computeTimeQuality,
+    computeCostQuality,
+    computeQualityMeasureForResource,
+    decorateStrategy: dbwsDecorateStrategy
+};
