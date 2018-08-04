@@ -1,5 +1,5 @@
 const taskUtils = require('./task-utilities');
-const config = require('../configuration/config');
+const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config');
 
 function minBudget(tasks) {
 

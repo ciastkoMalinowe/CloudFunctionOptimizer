@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
-const config = require('./configuration/config');
-const decorateStrategy = require('./strategies/dbws-strategy');
+const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config');
+const decorateStrategy = require('./src/sdbws').decorateStrategy;
 
 const dagPath = process.argv[2];
 const outputPath = process.argv[3];
@@ -18,7 +18,7 @@ if(!stats.isFile()) {
   throw new Error("Given path is not a file");
 }
 
-decorate(dagPath, process.argv[3]);
+decorate(dagPath, outputPath);
 
 // read dag file
 function decorate(inputPath, outputPath) {
