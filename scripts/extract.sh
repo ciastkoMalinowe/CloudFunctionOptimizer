@@ -2,7 +2,7 @@
 #./extract.sh ./dag.json ./logs_10.csv ./output.json ./output.csv
 
 timeDecorator=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/time-decorator.js
-extractor=/home/asia/WebstormProjects/CloudFunctionOptimizer/extractor/extractor.js
+extractor=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/extractor.js
 
 dagPath=$1
 csvPath=$2

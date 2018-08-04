@@ -138,9 +138,9 @@ function appendTimestampsForDBWS(tasks) {
     maxFinishTime = normalizeDouble(maxFinishTime);
     price = normalizeDouble(price, 10);
 
-    console.log(`dbws ${maxFinishTime} ${price}`);
+    console.log(`sdbws ${maxFinishTime} ${price}`);
 
-    fs.appendFileSync(csvPath,`dbws ${maxFinishTime} ${price}\n`)
+    fs.appendFileSync(csvPath,`sdbws ${maxFinishTime} ${price}\n`)
 }
 
 function appendToTimestampsCSVfile(task, time) {

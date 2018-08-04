@@ -25,13 +25,13 @@ node ${normalizer} ${logs_dir}/parsed ${parsedLogsPath}
 echo Logs parsed! Output file is: ${parsedLogsPath}
 echo Preparing dbws dag...
 
-run_dbws.sh ${dagPath} ${parsedLogsPath} ${dbwsDagPath}
+./run_dbws.sh ${dagPath} ${parsedLogsPath} ${dbwsDagPath}
 
 echo DBWS dag done! Path to dag: ${dbwsDagPath}
 
 echo Executing dbws dag...
 
-run.sh ${dbwsDagPath} ./${logs_dir} real ${provider}
+./run.sh ${dbwsDagPath} ./${logs_dir} real ${provider}
 
 echo Execution done!
 echo Normalize real logs...
@@ -40,7 +40,7 @@ node ${normalizer} ${logs_dir}/parsed ${dbwsParsedLogsPath}
 
 echo Extracting times and prices...
 
-extract.sh ${dbwsDagPath} ${dbwsParsedLogsPath} ${extractedDagPath} ${extractedResultsPath} ${dbwsPlannedExecutionPath}
+./extract.sh ${dbwsDagPath} ${dbwsParsedLogsPath} ${extractedDagPath} ${extractedResultsPath} ${dbwsPlannedExecutionPath}
 
 echo Done! Extracted times and prices: ${extractedResultsPath}
 
