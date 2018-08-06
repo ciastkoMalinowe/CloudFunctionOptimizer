@@ -1,34 +1,34 @@
 //var request = require('request');
-var request = require('requestretry');
-var executor_config = require('./awsCommand.config.js');
-var identity = function(e) {return e};
+const request = require('requestretry');
+const executor_config = require('./awsCommand.config.js');
+const identity = function (e) {return e};
 
 function awsCommand(ins, outs, config, cb) {
 
-    var options = executor_config.options;
-    if(config.executor.hasOwnProperty('options')) {
-        var executorOptions = config.executor.options;
-        for (var opt in executorOptions) {
-            if(executorOptions.hasOwnProperty(opt)) {
+    let options = executor_config.options;
+    if (config.executor.hasOwnProperty('options')) {
+        let executorOptions = config.executor.options;
+        for (let opt in executorOptions) {
+            if (executorOptions.hasOwnProperty(opt)) {
                 options[opt] = executorOptions[opt];
             }
         }
     }
-    var executable = config.executor.executable
-    var jobMessage = {
+    let executable = config.executor.executable;
+    let jobMessage = {
         "executable": executable,
-        "args":       config.executor.args,
-        "env":        (config.executor.env || {}),
-        "inputs":     ins.map(identity),
-        "outputs":    outs.map(identity),
-        "options":    options
+        "args": config.executor.args,
+        "env": (config.executor.env || {}),
+        "inputs": ins.map(identity),
+        "outputs": outs.map(identity),
+        "options": options
     };
 
     console.log("Executing:  " + JSON.stringify(jobMessage));
 
-    var deploymentType = config.deploymentType;
-    var url = deploymentType ? executor_config.resources[deploymentType] : executor_config.default_url;
-    var resource = deploymentType ? deploymentType : executor_config.default_resource;
+    let deploymentType = config.deploymentType;
+    let url = deploymentType ? executor_config.resources[deploymentType] : executor_config.default_url;
+    let resource = deploymentType ? deploymentType : executor_config.default_resource;
 
     function optionalCallback(err, response, body) {
         if (err) {
@@ -39,16 +39,15 @@ function awsCommand(ins, outs, config, cb) {
         if (response) {
             console.log("Function: " + executable + " response status code: " + response.statusCode + " number of request attempts: " + response.attempts)
         }
-        console.log("Function: " + executable + " id: "+ config.id + " resource: " + resource + " data: " + body.message);
+        console.log("Function: " + executable + " id: " + config.id + " resource: " + resource + " data: " + body.message);
         cb(null, outs);
     }
 
-
     request.post({
-        timeout:600000,
-        url:url,
-        json:jobMessage,
-        headers: {'Content-Type' : 'application/json', 'Accept': '*/*'}
+        timeout: 10,
+        url: url,
+        json: jobMessage,
+        headers: {'Content-Type': 'application/json', 'Accept': '*/*'}
     }, optionalCallback);
 
 }
