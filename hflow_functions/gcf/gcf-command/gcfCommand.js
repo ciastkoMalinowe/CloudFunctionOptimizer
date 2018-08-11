@@ -1,11 +1,10 @@
-//var request = require('request');
 const request = require('requestretry');
-const executor_config = require('./gcfCommand.config.js');
+const executorConfig = require('./gcfCommand.config.js');
 const identity = function (e) {return e};
 
 function gcfCommand(ins, outs, config, cb) {
 
-    let options = executor_config.options;
+    let options = executorConfig.options;
     if (config.executor.hasOwnProperty('options')) {
         let executorOptions = config.executor.options;
         for (let opt in executorOptions) {
@@ -14,7 +13,7 @@ function gcfCommand(ins, outs, config, cb) {
             }
         }
     }
-    let executable = config.executor.executable
+    let executable = config.executor.executable;
     let jobMessage = {
         "executable": executable,
         "args": config.executor.args,
@@ -26,9 +25,8 @@ function gcfCommand(ins, outs, config, cb) {
 
     console.log("Executing:  " + JSON.stringify(jobMessage));
 
-    let deploymentType = config.deploymentType;
-    let url = deploymentType ? executor_config.resources[deploymentType] : executor_config.default_url;
-    let resource = deploymentType ? deploymentType : executor_config.default_resource;
+    let functionType = config.deploymentType ? config.deploymentType : executorConfig.functionType;
+    let url = executorConfig.resources[functionType];
 
     function optionalCallback(err, response, body) {
         if (err) {
@@ -39,7 +37,7 @@ function gcfCommand(ins, outs, config, cb) {
         if (response) {
             console.log("Function: " + executable + " response status code: " + response.statusCode + " number of request attempts: " + response.attempts)
         }
-        console.log("Function: " + executable + " id: " + config.id + " resource: " + resource + " data: " + body.toString());
+        console.log("Function: " + executable + " id: " + config.id + " resource: " + functionType + " data: " + body.toString());
         cb(null, outs);
     }
 

@@ -15,8 +15,18 @@ realAvgExecutionPath=./${logs_dir}/real_avg_execution.csv
 normalizer=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/normalizer.js
 realExtractor=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/extract-real-avg.js
 
+functionTypes=(256 512 1024 2048) #set function types to execute
+
 echo Dag path: ${dagPath}
 echo Logs dir is: ${logs_dir}
+echo Provider: ${provider}
+echo Function types : ${functionTypes[@]}
+
+for functionType in "${functionTypes[@]}"
+do
+	echo Executing workflow for type: ${functionType}
+    run_workflow.sh ${dagPath} ./${logs_dir} ${provider} ${functionType}
+done
 
 echo Normalize timestamps
 
@@ -29,9 +39,7 @@ echo Preparing dbws dag...
 
 echo DBWS dag done! Path to dag: ${dbwsDagPath}
 
-echo Executing dbws dag...
-
-./run.sh ${dbwsDagPath} ./${logs_dir} real ${provider}
+run_workflow.sh ${dbwsDagPath} ./${logs_dir} ${provider} real
 
 echo Execution done!
 echo Normalize real logs...

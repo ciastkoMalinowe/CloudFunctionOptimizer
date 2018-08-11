@@ -1,11 +1,11 @@
 //var request = require('request');
 const request = require('requestretry');
-const executor_config = require('./awsCommand.config.js');
+const executorConfig = require('./awsCommand.config.js');
 const identity = function (e) {return e};
 
 function awsCommand(ins, outs, config, cb) {
 
-    let options = executor_config.options;
+    let options = executorConfig.options;
     if (config.executor.hasOwnProperty('options')) {
         let executorOptions = config.executor.options;
         for (let opt in executorOptions) {
@@ -26,9 +26,8 @@ function awsCommand(ins, outs, config, cb) {
 
     console.log("Executing:  " + JSON.stringify(jobMessage));
 
-    let deploymentType = config.deploymentType;
-    let url = deploymentType ? executor_config.resources[deploymentType] : executor_config.default_url;
-    let resource = deploymentType ? deploymentType : executor_config.default_resource;
+    let functionType = config.deploymentType ? config.deploymentType : executorConfig.functionType;
+    let url = executorConfig.resources[functionType];
 
     function optionalCallback(err, response, body) {
         if (err) {
@@ -39,7 +38,7 @@ function awsCommand(ins, outs, config, cb) {
         if (response) {
             console.log("Function: " + executable + " response status code: " + response.statusCode + " number of request attempts: " + response.attempts)
         }
-        console.log("Function: " + executable + " id: " + config.id + " resource: " + resource + " data: " + body.message);
+        console.log("Function: " + executable + " id: " + config.id + " resource: " + functionType + " data: " + body.message);
         cb(null, outs);
     }
 
