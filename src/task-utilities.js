@@ -1,5 +1,5 @@
 const toposort = require('toposort');
-const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config');
+const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config.js');
 
 function findTopologySortedList(tasks) {
 

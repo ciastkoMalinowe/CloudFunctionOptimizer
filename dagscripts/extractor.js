@@ -1,5 +1,5 @@
 const fs = require('fs');
-const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config');
+const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config.js');
 const taskUtils = require('../src/task-utilities');
 
 const dagPath = process.argv[2];
