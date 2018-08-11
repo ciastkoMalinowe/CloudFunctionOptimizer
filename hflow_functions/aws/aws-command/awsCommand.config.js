@@ -1,11 +1,9 @@
-const DEFAULT_URL = process.env.DEFAULT_URL ? process.env.DEFAULT_URL : "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-1536";
-const DEFAULT_RESOURCE = process.env.DEFAULT_RESOURCE ? process.env.DEFAULT_RESOURCE : "1536";
+const FUNCTION_TYPE = process.env.FUNCTION_TYPE ? process.env.FUNCTION_TYPE : "1536";
 
 const AWS_BUCKET = "asia-mgr";
 const AWS_PATH = "data/0.25";
 
-exports.default_url = DEFAULT_URL;
-exports.default_resource = DEFAULT_RESOURCE;
+exports.functionType = FUNCTION_TYPE;
 
 exports.resources = {
     "128": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-128",
