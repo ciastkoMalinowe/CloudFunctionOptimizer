@@ -25,7 +25,7 @@ echo Function types : ${functionTypes[@]}
 for functionType in "${functionTypes[@]}"
 do
 	echo Executing workflow for type: ${functionType}
-    run_workflow.sh ${dagPath} ./${logs_dir} ${provider} ${functionType}
+    ./run_workflow.sh ${dagPath} ./${logs_dir} ${provider} ${functionType}
 done
 
 echo Normalize timestamps

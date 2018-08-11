@@ -42,7 +42,8 @@ function gcfCommand(ins, outs, config, cb) {
     }
 
     request.post({
-        timeout: 10,
+        retryDelay: 100,
+        timeout: 600000,
         url: url,
         json: jobMessage,
         headers: {'Content-Type': 'application/json', 'Accept': '*/*'}
