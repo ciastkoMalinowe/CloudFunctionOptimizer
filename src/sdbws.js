@@ -1,4 +1,4 @@
-const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config');
+const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config.js');
 const costFunctions = require('./cost-functions');
 const taskUtils = require('./task-utilities');
 
