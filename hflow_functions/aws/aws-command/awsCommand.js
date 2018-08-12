@@ -3,6 +3,10 @@ const request = require('requestretry');
 const executorConfig = require('./awsCommand.config.js');
 const identity = function (e) {return e};
 
+function retryStrategy(err, response, body) {
+    return err || response.statusCode >= 400 || request.RetryStrategies.HTTPOrNetworkError(err, response);
+}
+
 function awsCommand(ins, outs, config, cb) {
 
     let options = executorConfig.options;
@@ -43,8 +47,9 @@ function awsCommand(ins, outs, config, cb) {
     }
 
     request.post({
-        retryDelay: 100,
+        retryDelay: 50,
         timeout: 600000,
+        retryStrategy: retryStrategy,
         url: url,
         json: jobMessage,
         headers: {'Content-Type': 'application/json', 'Accept': '*/*'}
