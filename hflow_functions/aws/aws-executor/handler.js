@@ -2,6 +2,7 @@
 
 var spawn = require('child_process').spawn;
 var fs = require('fs');
+var fse = require('fs-extra');
 var async = require('async');
 var aws = require('aws-sdk');
 var s3 = new aws.S3();
@@ -9,6 +10,7 @@ var s3 = new aws.S3();
 module.exports.executor = function (event, context, mainCallback) {
 
     // console.log(event);
+    fse.emptyDirSync('/tmp');
 
     var body = JSON.parse(event.body);
 
@@ -175,6 +177,6 @@ module.exports.executor = function (event, context, mainCallback) {
 
             mainCallback(null, response);
         }
-    })
+    });
 
 };

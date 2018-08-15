@@ -10,7 +10,10 @@ exports.resources = {
     "256": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-256",
     "512": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-512",
     "1024": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-1024",
-    "1536": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-1536"
+    "1536": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-1536",
+    "2048": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-2048",
+    "2560": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-2560",
+    "3008": "https://tej6fdgafk.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-3008"
 };
 
 // Google cloud storage

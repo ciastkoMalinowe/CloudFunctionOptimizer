@@ -11,7 +11,7 @@ provider:
       Action:
         - s3:PutObject
         - s3:GetObject
-      Resource: "arn:aws:s3:::aws-montage/*"
+      Resource: "arn:aws:s3:::asia-mgr/*"
 
 functions:
 
@@ -59,4 +59,30 @@ functions:
     - http:
         path: aws-executor-1536
         method: post
-      
+
+  aws-executor-2048:
+      handler: handler.executor
+      description: AWS executor 2048MB memory size
+      memorySize: 2048
+      events:
+      - http:
+          path: aws-executor-2048
+          method: post
+
+  aws-executor-2560:
+      handler: handler.executor
+      description: AWS executor 2560MB memory size
+      memorySize: 2560
+      events:
+      - http:
+          path: aws-executor-2560
+          method: post
+
+  aws-executor-3008:
+      handler: handler.executor
+      description: AWS executor 3008MB memory size
+      memorySize: 3008
+      events:
+      - http:
+          path: aws-executor-3008
+          method: post

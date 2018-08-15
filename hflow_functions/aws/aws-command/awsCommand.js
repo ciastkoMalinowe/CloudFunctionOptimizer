@@ -47,9 +47,10 @@ function awsCommand(ins, outs, config, cb) {
     }
 
     request.post({
-        retryDelay: 50,
+        retryDelay: 1000,
         timeout: 600000,
         retryStrategy: retryStrategy,
+        maxAttempts: 30,
         url: url,
         json: jobMessage,
         headers: {'Content-Type': 'application/json', 'Accept': '*/*'}

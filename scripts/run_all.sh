@@ -15,7 +15,7 @@ realAvgExecutionPath=./${logs_dir}/real_avg_execution.csv
 normalizer=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/normalizer.js
 realExtractor=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/extract-real-avg.js
 
-functionTypes=(256 512 1024 1536) #set function types to execute
+functionTypes=(1536 2048 2560 3008) #set function types to execute
 
 echo Dag path: ${dagPath}
 echo Logs dir is: ${logs_dir}
