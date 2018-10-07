@@ -6,7 +6,7 @@ PROVIDER=$3
 TYPE=$4
 
 #echo Output path: ${TYPE}
-#mkdir ${OUTPUT_DIR}/parsed
+mkdir ${OUTPUT_DIR}/parsed
 
 # export env variable for hyperflow command
 export FUNCTION_TYPE=${TYPE};
