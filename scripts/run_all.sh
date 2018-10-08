@@ -12,8 +12,8 @@ extractedResultsPath=./${logs_dir}/extracted_results.csv
 dbwsPlannedExecutionPath=./${logs_dir}/dbws_planned_execution.csv
 realAvgExecutionPath=./${logs_dir}/real_avg_execution.csv
 
-normalizer=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/normalizer.js
-realExtractor=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/extract-real-avg.js
+normalizer=/path/to/dagscripts/normalizer.js
+realExtractor=/path/to/dagscripts/extract-real-avg.js
 
 functionTypes=(1536 2048 2560 3008) #set function types to execute
 

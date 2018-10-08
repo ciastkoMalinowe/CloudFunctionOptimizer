@@ -6,6 +6,7 @@ Install Hyperflow (https://github.com/hyperflow-wms/hyperflow):
 ```
 npm install git://github.com/piotrek722/hyperflow.git#develop --save
 ```
+Complete the configuration in `awsCommand.config.js` and `gcfCommand.config.js` by providing links to storage and deployed functions. 
 
 ## Montage
 
@@ -48,6 +49,7 @@ node dagscripts/id-decorator.js DAG_PATH OUTPUT_PATH
 
 3. Run decorated DAG on all resources specified in `config.js`:
 ```
+cd scripts
 ./run_workflow.sh DAG_PATH LOGS_DIR PROVIDER MEMORY_SIZE
 ```
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ./run_dbws.sh ./dag.json ./results.json
 
-timeDecorator=/home/asia/WebstormProjects/CloudFunctionOptimizer/dagscripts/time-decorator.js
-dbwsDecorator=/home/asia/WebstormProjects/CloudFunctionOptimizer/app.js
+timeDecorator=/path/to/dagscripts/time-decorator.js
+dbwsDecorator=/path/to/app.js
 
 dagPath=$1
 csvPath=$2
