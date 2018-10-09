@@ -1,7 +1,7 @@
 const BUDGET_PARAMETER = 0.3;
 const DEADLINE_PARAMETER = 0.7;
-const FUNCTION_TYPES = ["1536", "2048", "2560", "3008"]; //["256", "512", "1024", "1536"]; //"128", "256",
-const PROVIDER = "AWS"; // "AWS" "GCF" "IBM" same as in prices
+const FUNCTION_TYPES = ["256", "512", "1024", "1536"];
+const PROVIDER = "AWS";
 
 const PRICES = {
     "AWS" : {
@@ -9,9 +9,6 @@ const PRICES = {
         "512": 0.000000834,
         "1024": 0.000001667,
         "1536": 0.000002501,
-        "2048": 0.000003334,
-        "2560": 0.000004168,
-        "3008": 0.000004897
     },
     "GCF" : {
         "256": 0.000000463,

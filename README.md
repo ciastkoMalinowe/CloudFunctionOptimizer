@@ -1,18 +1,47 @@
 # CloudFunctionOptimizer
 
-## Hyperflow
+What will be needed:
+- Node.js (https://nodejs.org)
+- Redis (http://redis.io/)
+- Application DAG
+- Application binaries
+
+## Montage - Example application
+
+Check how to generate DAG, Montage data and binaries
+```
+https://github.com/malawski/hyperflow-gcf-executor
+```
+After those steps we should have:
+1. dag.json
+2. Montage inputs
+3. Montage binaries
+
+## Hyperflow - Lightweight execution engine
 
 Install Hyperflow (https://github.com/hyperflow-wms/hyperflow):
 ```
 npm install git://github.com/piotrek722/hyperflow.git#develop --save
 ```
-Complete the configuration in `awsCommand.config.js` and `gcfCommand.config.js` by providing links to storage and deployed functions. 
+Make sure that `hyperflow/bin` is added to your path.
+`hyperflow/functions` directory contains the functions that will be executed by hyperflow.
 
-## Montage
+## AWS
 
-Check how to generate DAG, Montage data and run it on Google Cloud Functions here:
+We are using serverless framework to deploy cloud functions.
+To deploy functions we need to:
 ```
-https://github.com/malawski/hyperflow-gcf-executor
+Install serverless (https://serverless.com/framework/docs/providers/aws/guide/installation/)
+Copy application binaries to CloudFunctionOptimizer/hflow_functions/aws/aws-executor
+Change aws-bucket in serverless.yml to your S3 bucket name.
+npm install
+serverless deploy
+```
+
+Next step is to:
+```
+Copy application binaries and inputs to S3 bucket.
+Complete hyperflow/functions/awsCommand.config.js, put urls to your functions and path to S3 bucket.
 ```
 
 ## SDBWS

@@ -11,7 +11,7 @@ provider:
       Action:
         - s3:PutObject
         - s3:GetObject
-      Resource: "arn:aws:s3:::asia-mgr/*"
+      Resource: "arn:aws:s3:::aws-bucket/*"
 
 functions:
 

@@ -4,6 +4,8 @@ dagPath=$1
 logs_dir=$2
 provider=$3
 
+functionTypes=(256 512 1024 1536) #set function types to execute
+
 parsedLogsPath=./${logs_dir}/logs_parsed.csv
 dbwsParsedLogsPath=./${logs_dir}/logs_parsed_with_dbws.csv
 dbwsDagPath=./${logs_dir}/dag-dbws.json
@@ -12,10 +14,9 @@ extractedResultsPath=./${logs_dir}/extracted_results.csv
 dbwsPlannedExecutionPath=./${logs_dir}/dbws_planned_execution.csv
 realAvgExecutionPath=./${logs_dir}/real_avg_execution.csv
 
-normalizer=/path/to/dagscripts/normalizer.js
-realExtractor=/path/to/dagscripts/extract-real-avg.js
+normalizer=../dagscripts/normalizer.js
+realExtractor=../dagscripts/extract-real-avg.js
 
-functionTypes=(1536 2048 2560 3008) #set function types to execute
 
 echo Dag path: ${dagPath}
 echo Logs dir is: ${logs_dir}
@@ -52,14 +53,10 @@ echo Extracting times and prices...
 
 echo Done! Extracted times and prices: ${extractedResultsPath}
 
-#echo Extracting dbws planned timestamps
-#
-#./extract_dbws.sh ${extractedDagPath} ${dbwsPlannedExecutionPath}
-
 echo Extracted planned dbws timestamps: ${dbwsPlannedExecutionPath}
 
 echo Extracting real avg timestamps
 
 node ${realExtractor} ${extractedDagPath} ${realAvgExecutionPath}
 
-echo DONE!!
+echo DONE!
