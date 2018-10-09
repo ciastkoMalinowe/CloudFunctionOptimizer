@@ -74,6 +74,13 @@ const PRICES = {
 }
 ```
 
+Set user parameters:
+```
+const BUDGET_PARAMETER = 0.3;
+const DEADLINE_PARAMETER = 0.7;
+```
+The values should be from range [0, 1].
+
 2.Decorate DAG with task ids:
 ```
 node dagscripts/id-decorator.js DAG_PATH OUTPUT_PATH
@@ -92,3 +99,11 @@ Example invocation:
 ```
 ./run.sh ./dag.json output AWS 5 256 512 1024 1536
 ```
+
+## Charts
+
+To visualize the results you can use scripts from `plots` directory.
+
+* `gant_resources.R` draws Gantt chart which shows which resource was used for each task execution. Remember to set which resources were used in the experiment.
+* `compare_times.R` draws a bar plot which compares times of execution on homogeneous resources, heterogeneous resources(real) and theoretical execution(sdbws). Set `user_time` to user's deadline.
+* `compare_prices.R` draws a bar plot which compares prices of executions. Set `user_price` to user's budget limit.

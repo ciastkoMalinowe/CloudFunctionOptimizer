@@ -1,8 +1,7 @@
 library('ggplot2')
 types = read.table("extracted_results.csv",header = TRUE)
-#types = types[order(types$time),]
 
-user_price=0.0009498517
+user_price=BUDGET_LIMIT
 
 types
 types$type <- factor(types$type, levels = types$type[order(types$time)])

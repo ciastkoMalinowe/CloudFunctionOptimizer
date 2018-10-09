@@ -22,6 +22,8 @@ echo Logs dir is: ${logs_dir}
 echo Provider: ${provider}
 echo Function types : ${functionTypes[@]}
 
+mkdir ${logs_dir}/parsed
+
 for functionType in "${functionTypes[@]}"
 do
 	echo Executing workflow for type: ${functionType}
@@ -39,7 +41,7 @@ echo Preparing dbws dag...
 
 echo DBWS dag done! Path to dag: ${dbwsDagPath}
 
-./run_workflow.sh ${dbwsDagPath} ./${logs_dir} ${provider} real
+./run_workflow.sh ${dbwsDagPath} ./${logs_dir} ${provider} real ${count}
 
 echo Execution done!
 echo Normalize real logs...
