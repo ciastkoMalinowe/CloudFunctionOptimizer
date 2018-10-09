@@ -30,19 +30,23 @@ Make sure that `hyperflow/bin` is added to your path.
 
 We are using serverless framework to deploy cloud functions.
 To deploy functions we need to:
+
+Install serverless (https://serverless.com/framework/docs/providers/aws/guide/installation/).
+
+Copy application binaries to `CloudFunctionOptimizer/hflow_functions/aws/aws-executor`.
+
+Change `aws-bucket` in `serverless.yml` to your S3 bucket name.
+
+Run:
 ```
-Install serverless (https://serverless.com/framework/docs/providers/aws/guide/installation/)
-Copy application binaries to CloudFunctionOptimizer/hflow_functions/aws/aws-executor
-Change aws-bucket in serverless.yml to your S3 bucket name.
 npm install
 serverless deploy
 ```
 
-Next step is to:
-```
 Copy application binaries and inputs to S3 bucket.
-Complete hyperflow/functions/awsCommand.config.js, put urls to your functions and path to S3 bucket.
-```
+
+Complete `hyperflow/functions/awsCommand.config.js`, put urls to your functions and path to S3 bucket.
+
 
 ## SDBWS
 
