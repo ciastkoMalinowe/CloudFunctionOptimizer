@@ -3,8 +3,8 @@
 dagPath=$1
 logs_dir=$2
 provider=$3
-
-functionTypes=(256 512 1024 1536) #set function types to execute
+count=$4
+functionTypes=(${@:5})
 
 parsedLogsPath=./${logs_dir}/logs_parsed.csv
 dbwsParsedLogsPath=./${logs_dir}/logs_parsed_with_dbws.csv
@@ -17,7 +17,6 @@ realAvgExecutionPath=./${logs_dir}/real_avg_execution.csv
 normalizer=../dagscripts/normalizer.js
 realExtractor=../dagscripts/extract-real-avg.js
 
-
 echo Dag path: ${dagPath}
 echo Logs dir is: ${logs_dir}
 echo Provider: ${provider}
@@ -26,7 +25,7 @@ echo Function types : ${functionTypes[@]}
 for functionType in "${functionTypes[@]}"
 do
 	echo Executing workflow for type: ${functionType}
-    ./run_workflow.sh ${dagPath} ./${logs_dir} ${provider} ${functionType}
+    ./run_workflow.sh ${dagPath} ./${logs_dir} ${provider} ${functionType} ${count}
 done
 
 echo Normalize timestamps
