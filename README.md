@@ -1,26 +1,58 @@
 # CloudFunctionOptimizer
 
-## Hyperflow
+What will be needed:
+- Node.js (https://nodejs.org)
+- Redis (http://redis.io/)
+- Application DAG
+- Application binaries
+
+## Montage - Example application
+
+Check how to generate DAG, Montage data and binaries
+```
+https://github.com/malawski/hyperflow-gcf-executor
+```
+After those steps we should have:
+1. dag.json
+2. Montage inputs
+3. Montage binaries
+
+## Hyperflow - Lightweight execution engine
 
 Install Hyperflow (https://github.com/hyperflow-wms/hyperflow):
 ```
 npm install git://github.com/piotrek722/hyperflow.git#develop --save
 ```
-Complete the configuration in `awsCommand.config.js` and `gcfCommand.config.js` by providing links to storage and deployed functions. 
+Make sure that `hyperflow/bin` is added to your path.
+`hyperflow/functions` directory contains the functions that will be executed by hyperflow.
 
-## Montage
+## AWS
 
-Check how to generate DAG, Montage data and run it on Google Cloud Functions here:
+We are using serverless framework to deploy cloud functions.
+To deploy functions we need to:
+
+Install serverless (https://serverless.com/framework/docs/providers/aws/guide/installation/).
+
+Copy application binaries to `CloudFunctionOptimizer/hflow_functions/aws/aws-executor`.
+
+Change `aws-bucket` in `serverless.yml` to your S3 bucket name.
+
+Run:
 ```
-https://github.com/malawski/hyperflow-gcf-executor
+npm install
+serverless deploy
 ```
+
+Copy application binaries and inputs to S3 bucket.
+
+Complete `hyperflow/functions/awsCommand.config.js`, put urls to your functions and path to S3 bucket.
 
 ## SDBWS
 
 Running SDBWS consists of several steps:
 - decorating DAG with ids,
 - executing DAG on selected homogeneous resources,
-- parsing logs from executions to obtain task times on al resources,
+- parsing logs from executions to obtain task times on all resources,
 - normalizing task times,
 - running SDBWS algorithm to produce decorated DAG,
 - executing decorated DAG on resources assigned by the algorithm.
@@ -42,28 +74,36 @@ const PRICES = {
 }
 ```
 
-2. Decorate DAG with task ids:
+Set user parameters:
+```
+const BUDGET_PARAMETER = 0.3;
+const DEADLINE_PARAMETER = 0.7;
+```
+The values should be from range [0, 1].
+
+2.Decorate DAG with task ids:
 ```
 node dagscripts/id-decorator.js DAG_PATH OUTPUT_PATH
+``` 
+
+3.Run experiments with script ``./scripts/run.sh``:
+
+Parameters:
+1. Path to dag
+2. Output folder.
+3. Provider
+4. Number of executions for each type
+5. Function types 
+
+Example invocation:
+```
+./run.sh ./dag.json output AWS 5 256 512 1024 1536
 ```
 
-3. Run decorated DAG on all resources specified in `config.js`:
-```
-cd scripts
-./run_workflow.sh DAG_PATH LOGS_DIR PROVIDER MEMORY_SIZE
-```
+## Charts
 
-4. Normalize timestamps from parsed logs:
-```
-node dagscripts/normalizer.js PARSED_LOGS_DIR NORMALIZED_CSV_PATH
-```
+To visualize the results you can use scripts from `plots` directory.
 
-5. Decorate DAG with times on resources:
-```
-node dagscripts/time-decorator.js DAG_PATH NORMALIZED_CSV_PATH OUTPUT_PATH
-```
-6. Run SDBWS algorithm to decorate DAG with planned deployment type:
-```
-node app.js DAG_PATH DECORATED_DAG_OUTPUT_PATH
-```
-DAG decorated with deployment type is ready to be executed.
+* `gant_resources.R` draws Gantt chart which shows which resource was used for each task execution. Remember to set which resources were used in the experiment.
+* `compare_times.R` draws a bar plot which compares times of execution on homogeneous resources, heterogeneous resources(real) and theoretical execution(sdbws). Set `user_time` to user's deadline.
+* `compare_prices.R` draws a bar plot which compares prices of executions. Set `user_price` to user's budget limit.

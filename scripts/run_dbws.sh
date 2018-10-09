@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ./run_dbws.sh ./dag.json ./results.json
 
-timeDecorator=/path/to/dagscripts/time-decorator.js
-dbwsDecorator=/path/to/app.js
+timeDecorator=../dagscripts/time-decorator.js
+dbwsDecorator=../app.js
 
 dagPath=$1
 csvPath=$2
