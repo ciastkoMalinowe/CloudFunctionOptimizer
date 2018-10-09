@@ -47,13 +47,12 @@ Copy application binaries and inputs to S3 bucket.
 
 Complete `hyperflow/functions/awsCommand.config.js`, put urls to your functions and path to S3 bucket.
 
-
 ## SDBWS
 
 Running SDBWS consists of several steps:
 - decorating DAG with ids,
 - executing DAG on selected homogeneous resources,
-- parsing logs from executions to obtain task times on al resources,
+- parsing logs from executions to obtain task times on all resources,
 - normalizing task times,
 - running SDBWS algorithm to produce decorated DAG,
 - executing decorated DAG on resources assigned by the algorithm.
@@ -75,28 +74,21 @@ const PRICES = {
 }
 ```
 
-2. Decorate DAG with task ids:
+2.Decorate DAG with task ids:
 ```
 node dagscripts/id-decorator.js DAG_PATH OUTPUT_PATH
-```
+``` 
 
-3. Run decorated DAG on all resources specified in `config.js`:
-```
-cd scripts
-./run_workflow.sh DAG_PATH LOGS_DIR PROVIDER MEMORY_SIZE
-```
+3.Run experiments with script ``./scripts/run.sh``:
 
-4. Normalize timestamps from parsed logs:
-```
-node dagscripts/normalizer.js PARSED_LOGS_DIR NORMALIZED_CSV_PATH
-```
+Parameters:
+1. Path to dag
+2. Output folder.
+3. Provider
+4. Number of executions for each type
+5. Function types 
 
-5. Decorate DAG with times on resources:
+Example invocation:
 ```
-node dagscripts/time-decorator.js DAG_PATH NORMALIZED_CSV_PATH OUTPUT_PATH
+./run.sh ./dag.json output AWS 5 256 512 1024 1536
 ```
-6. Run SDBWS algorithm to decorate DAG with planned deployment type:
-```
-node app.js DAG_PATH DECORATED_DAG_OUTPUT_PATH
-```
-DAG decorated with deployment type is ready to be executed.
