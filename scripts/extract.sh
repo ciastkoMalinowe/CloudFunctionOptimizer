@@ -11,6 +11,7 @@ outputCsv=$4
 outputTimestampsCSV=$5
 
 echo parameters: $@
-
+echo node ${timeDecorator} ${dagPath} ${csvPath} ${outputDag}
 node ${timeDecorator} ${dagPath} ${csvPath} ${outputDag}
+echo ${extractor} ${outputDag} ${outputCsv} ${outputTimestampsCSV}
 node ${extractor} ${outputDag} ${outputCsv} ${outputTimestampsCSV}

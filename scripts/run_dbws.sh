@@ -15,10 +15,12 @@ tmp=tmp-times.json
 echo args: $@
 echo Will decorate with times
 
+echo node ${timeDecorator} ${dagPath} ${csvPath} ./${tmp}
 node ${timeDecorator} ${dagPath} ${csvPath} ./${tmp}
 
 echo Decorated with times
 
+echo node --harmony ${dbwsDecorator}  ./${tmp} ${outputPath}
 node --harmony ${dbwsDecorator}  ./${tmp} ${outputPath}
 
 echo Dbws dag ready

@@ -80,7 +80,7 @@ function appendTimeAndPriceByType(tasks, type) {
 
     console.log(`${type} ${maxFinishTime} ${price}`);
 
-    fs.appendFile(csvPath,`${type} ${maxFinishTime} ${price}\n`, console.err)
+    fs.appendFileSync(csvPath, `${type} ${maxFinishTime} ${price}\n`)
 }
 
 function appendFinishTimeAndPriceForReal(tasks) {
@@ -101,7 +101,7 @@ function appendFinishTimeAndPriceForReal(tasks) {
 
     console.log(`real ${maxFinishTime} ${price}`);
 
-    fs.appendFile(csvPath,`real ${maxFinishTime} ${price}\n`, console.err)
+     fs.appendFileSync(csvPath,`real ${maxFinishTime} ${price}\n`)
 }
 
 

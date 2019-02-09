@@ -1,5 +1,6 @@
+setwd('/Users/yoshimori/Desktop/Magisterka/New/CloudFunctionOptimizer')
 library('ggplot2')
-tasks = read.table("logs_real_3.csv",header = TRUE)
+tasks = read.table("./output3008/parsed/logs_real_3.csv",header = TRUE)
 min_start = min(tasks$start)
 tasks$start=(tasks$start-min_start)/1000
 tasks$end=(tasks$end-min_start)/1000
@@ -30,7 +31,7 @@ ggplot(tasks, aes(colour=task)) + geom_segment(aes(x=start, xend=end, y=1:nrow(t
 #+ theme (axis.text.y = element_text(size=6)) + theme(legend.justification=c(1,0), legend.position=c(1,0)) + theme(legend.text = element_text(size = 8))
 
 #ggplot(tasks, aes(colour=task)) + geom_segment(aes(x=start, xend=end, y=machine, yend=machine), size=3) + xlab("Time in seconds") + ylab("Machine") + scale_y_discrete(labels=1:maxmachine) + theme (axis.text.y = element_text(size=10)) + theme(legend.justification=c(1,0), legend.position="right") + theme(legend.text = element_text(size = 8))
-ggsave("logs_real_3.pdf", width = 16, height = 24, units = "cm")
+# ggsave("logs_real_3.pdf", width = 16, height = 24, units = "cm")
 
 #ggsave("plot121.pdf", width = 16, height = 24, units = "cm")
 #ggsave("plot10.emf", width = 8, height = 12, units = "cm")

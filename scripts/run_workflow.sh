@@ -12,6 +12,7 @@ export FUNCTION_TYPE=${TYPE};
 for ((i = 1; i <= COUNT; i++))
 do
     echo Saving to ${OUTPUT_DIR}/logs_${TYPE}_${i}.txt
-    hflow run ${DAG_PATH} -s >> ${OUTPUT_DIR}/logs_${TYPE}_${i}.txt
+    ../node_modules/hyperflow/bin/hflow run ${DAG_PATH} -s >> ${OUTPUT_DIR}/logs_${TYPE}_${i}.txt
+    echo Workflow finished! Parsing response...
     ./parse_log.sh ${OUTPUT_DIR}/logs_${TYPE}_${i}.txt ${TYPE} ${PROVIDER} >> ${OUTPUT_DIR}/parsed/logs_${TYPE}_${i}.csv
 done
