@@ -27,13 +27,13 @@ function dbwsDecorateStrategy(dag) {
   decorateTasksWithUpwardRank(sortedTasks);
   decorateTasksWithSubdeadline(sortedTasks, userDeadline);
 
-  const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
+  // TODO: Must be sorted taking into account levels
+  // const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
   const costEfficientFactor = minBudget / userBudget;
-  tasksSortedUpward.forEach(
+  sortedTasks.forEach(
     task => {
 
       let resourceMap = new Map();
-
       config.functionTypes.forEach(
         functionType => resourceMap.set(
           functionType,
@@ -118,19 +118,17 @@ function computeQualityMeasureForResource(tasks, task, functionType, costEfficie
 }
 
 function computeTimeQuality(tasks, task, functionType) {
-
   let taskFinishTime = getScheduldedTimesOnResource(tasks, task, functionType).scheduledFinishTime;
   let inSubdeadline = taskFinishTime < task.subDeadline ? 1 : 0;
 
   let taskMaxFinishTime = taskUtils.findMaxTaskFinishTime(task);
   let taskMinFinishTime = taskUtils.findMinTaskFinishTime(task);
 
-  let timeQuality = (inSubdeadline * task.subDeadline - taskFinishTime) / (taskMaxFinishTime - taskMinFinishTime);
-  return timeQuality;
+  if(taskMaxFinishTime === taskMinFinishTime) return 0;
+  return (inSubdeadline * task.subDeadline - taskFinishTime) / (taskMaxFinishTime - taskMinFinishTime);
 }
 
 function computeCostQuality(tasks, task, functionType) {
-
   let taskFinishTime = getScheduldedTimesOnResource(tasks, task, functionType).scheduledFinishTime;
   let inSubdeadline = taskFinishTime < task.subDeadline ? 1 : 0;
 
@@ -138,18 +136,17 @@ function computeCostQuality(tasks, task, functionType) {
   let taskMaxCost = taskUtils.findMaxTaskExecutionCost(task);
   let taskMinCost = taskUtils.findMinTaskExecutionCost(task);
 
-  let costQuality = ((taskMaxCost - taskCost) / (taskMaxCost - taskMinCost)) * inSubdeadline;
-  return costQuality;
+  if(taskMaxCost === taskMinCost) return 0;
+  return ((taskMaxCost - taskCost) / (taskMaxCost - taskMinCost)) * inSubdeadline;
 }
 
 function getScheduldedTimesOnResource(tasks, task, functionType) {
-
   let predecessors = taskUtils.findPredecessorForTask(tasks, task);
   let delay = 0;
   let predecessorsMaxFinishTime = 0;
 
   if (predecessors.length > 0) {
-    let pTask = taskUtils.findPredecessorWithLongestFinishTime(tasks, task, functionType);
+    let pTask = taskUtils.findPredecessorWithLongestFinishTime(predecessors, functionType);
     delay = task.startTime[functionType] - pTask.finishTime[functionType];
 
     let predecessorsScheduldedFinishTimes = predecessors.map(pTask => pTask.config.scheduledFinishTime);
@@ -214,7 +211,7 @@ function findLevelExecutionTimeMap(tasks) {
 
     levelExecutionTimeMap.set(i, levelExecutionTime);
   }
-  debugger;
+
   return levelExecutionTimeMap;
 }
 
@@ -234,7 +231,7 @@ function calculateUserBudget(maxBudget, minBudget) {
 function getMostExpensiveResourceType() {
   let prices = config.prices;
   let sortedByPrice = Object.keys(prices).sort((p1, p2) => prices[p1] - prices[p2]);
-  debugger;
+
   return sortedByPrice[sortedByPrice.length - 1]; // return the most expensive resource
 }
 
