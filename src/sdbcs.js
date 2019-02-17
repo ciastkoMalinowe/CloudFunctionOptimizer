@@ -23,7 +23,7 @@ function dbwsDecorateStrategy(dag) {
   if (userBudget < minBudget) {
     throw new Error("No possible schedule map")
   }
-  
+
   decorateTasksWithUpwardRank(sortedTasks);
   decorateTasksWithSubdeadline(sortedTasks, userDeadline);
 
@@ -71,7 +71,7 @@ function computeUpwardRank(tasks, task) {
   if(successors.length === 0) {
     task.upwardRank = averageExecutionTime;
   } else {
-    let successorRanks = successors.map( x => (awerageComunicationTime(x) + findOrComputeRank(tasks, x)));
+    let successorRanks = successors.map( x => findOrComputeRank(tasks, x));
     task.upwardRank = Math.max(...successorRanks);
   }
 
@@ -85,25 +85,6 @@ function findOrComputeRank(tasks, task) {
   } else {
     return originalTask.upwardRank;
   }
-}
-
-function awerageComunicationTime(taskI, taskChild) {
-  return averageLatency() + (dataTransfered(taskI, taskChild) / averageBandwith());
-}
-
-function averageLatency() {
-  // todo
-  return 1;
-}
-
-function averageBandwith() {
-  // todo
-  return 1;
-}
-
-function dataTransfered(taskI, taskChild) {
-  // todo
-  return 1;
 }
 
 function decorateTasksWithLevels(tasks) {
