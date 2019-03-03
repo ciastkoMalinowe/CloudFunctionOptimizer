@@ -27,14 +27,16 @@ function dbwsDecorateStrategy(dag) {
   decorateTasksWithUpwardRank(sortedTasks);
   decorateTasksWithSubdeadline(sortedTasks, userDeadline);
 
-  // TODO: Must be sorted taking into account levels
-  // const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
+  const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
   const costEfficientFactor = minBudget / userBudget;
-  sortedTasks.forEach(
+  let deltaCost = userBudget - minBudget;
+  tasksSortedUpward.forEach(
     task => {
-
+      let maximumAvailableBudget = deltaCost + taskUtils.findMinTaskExecutionCost(task);
       let resourceMap = new Map();
-      config.functionTypes.forEach(
+      const admissibleProcesors = config.functionTypes.filter(p => isProcesorAdmisible(task, p, maximumAvailableBudget));
+      if(admissibleProcesors.length ===0) throw new Error("No possible schedule map");
+      admissibleProcesors.forEach(
         functionType => resourceMap.set(
           functionType,
           computeQualityMeasureForResource(tasks, task, functionType, costEfficientFactor)
@@ -53,9 +55,46 @@ function dbwsDecorateStrategy(dag) {
 
       task.config.deploymentType = selectedResource;
       // copy schedulded times to config
-      Object.assign(task.config, getScheduldedTimesOnResource(tasks, task, selectedResource))
+      Object.assign(task.config, getScheduldedTimesOnResource(tasks, task, selectedResource));
+      deltaCost = deltaCost - [taskUtils.findTaskExecutionCostOnResource(task, selectedResource) - taskUtils.findMinTaskExecutionCost(task)]
     }
-  )
+  );
+}
+
+function isProcesorAdmisible(task, procesor, maxBudget) {
+  return taskUtils.findTaskExecutionCostOnResource(task, procesor) <= maxBudget;
+}
+
+function decorateTasksWithSubdeadline(tasks, userDeadline) {
+  tasks.forEach(task => {
+    if(task.subDeadline === undefined) computeSubDeadline(tasks, task, userDeadline);
+  });
+}
+
+function computeSubDeadline(tasks, task, userDeadline) {
+  let successors = tasks.filter( x => x.level === task.level + 1);
+
+  if(successors.length === 0) {
+    task.subDeadline = userDeadline;
+  } else {
+    let successorSubDeadlines = successors.map( x => findOrComputeSubDeadline(tasks, x, userDeadline));
+    task.subDeadline = Math.min(...successorSubDeadlines);
+  }
+
+  return task.subDeadline;
+}
+
+function findOrComputeSubDeadline(tasks, task, userDeadline) {
+  let minExecutionTime = taskUtils.findMinTaskExecutionTime(task);
+  let subDeadline;
+  let originalTask = tasks.find( x => x.config.id === task.config.id);
+  if(originalTask.subDeadline === undefined) {
+    subDeadline = computeSubDeadline(tasks, originalTask, userDeadline);
+  } else {
+    subDeadline = originalTask.subDeadline;
+  }
+  // Average communication time = 0
+  return (subDeadline - minExecutionTime);
 }
 
 function decorateTasksWithUpwardRank(tasks) {
@@ -72,13 +111,14 @@ function computeUpwardRank(tasks, task) {
     task.upwardRank = averageExecutionTime;
   } else {
     let successorRanks = successors.map( x => findOrComputeRank(tasks, x));
-    task.upwardRank = Math.max(...successorRanks);
+    task.upwardRank = averageExecutionTime + Math.max(...successorRanks);
   }
 
   return task.upwardRank;
 }
 
 function findOrComputeRank(tasks, task) {
+  // Average communication time = 0
   let originalTask = tasks.find( x => x.config.id === task.config.id);
   if(originalTask.upwardRank === undefined) {
     return computeUpwardRank(tasks, originalTask);
@@ -176,48 +216,6 @@ function computeAverageExecutionTime(task) {
 
   times.forEach(time => total += time);
   return total / times.length;
-}
-
-function decorateTasksWithSubdeadline(tasks, userDeadline) {
-  let levelExecutionTimeMap = findLevelExecutionTimeMap(tasks);
-  let totalLevelExecutionTime = 0;
-  for (let value of levelExecutionTimeMap.values()) {
-    totalLevelExecutionTime += value
-  }
-
-  let prevLevelDeadline = 0;
-  for (let i = 1; i <= taskUtils.findTasksMaxLevel(tasks); i++) {
-    //calculate deadline based on prevDeadline, levelExecutionTime and userParameter
-    let levelExecutionTime = levelExecutionTimeMap.get(i);
-    let subDeadline = calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime, userDeadline);
-
-    //decorate task at i-th level
-    let levelTasks = taskUtils.findTasksFromLevel(tasks, i);
-    levelTasks.forEach(task => task.subDeadline = subDeadline);
-    prevLevelDeadline = subDeadline;
-  }
-}
-
-function findLevelExecutionTimeMap(tasks) {
-
-  let levelExecutionTimeMap = new Map();
-
-  for (let i = 1; i <= taskUtils.findTasksMaxLevel(tasks); i++) {
-
-    let levelTasks = taskUtils.findTasksFromLevel(tasks, i);
-
-    let maxTasksTime = levelTasks.map(task => taskUtils.findMaxTaskExecutionTime(task));
-    let levelExecutionTime = Math.max(...maxTasksTime);
-
-    levelExecutionTimeMap.set(i, levelExecutionTime);
-  }
-
-  return levelExecutionTimeMap;
-}
-
-function calculateSubdeadline(prevLevelDeadline, levelExecutionTime, totalLevelExecutionTime, userDeadline) {
-  let subdeadline = prevLevelDeadline + userDeadline * (levelExecutionTime / totalLevelExecutionTime);
-  return Math.round(subdeadline * 100) / 100;
 }
 
 function calculateUserDeadline(maxDeadline, minDeadline) {
