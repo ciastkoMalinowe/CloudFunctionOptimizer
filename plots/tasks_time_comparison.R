@@ -4,13 +4,13 @@ library(grid)
 library(gridExtra)
 library(cowplot)
 
-csv_256_results = read.table("../results/output256/real_avg_execution.csv",header = TRUE)
-csv_512_results = read.table("../results/output512/real_avg_execution.csv",header = TRUE)
-csv_1024_results = read.table("../results/output1024/real_avg_execution.csv",header = TRUE)
-csv_1536_results = read.table("../results/output1536/real_avg_execution.csv",header = TRUE)
-csv_2048_results = read.table("../results/output2048/real_avg_execution.csv",header = TRUE)
-csv_2560_results = read.table("../results/output2560/real_avg_execution.csv",header = TRUE)
-csv_3008_results = read.table("../results/output3008/real_avg_execution.csv",header = TRUE)
+csv_256_results = read.table("../../results/output256/real_avg_execution.csv",header = TRUE)
+csv_512_results = read.table("../../results/output512/real_avg_execution.csv",header = TRUE)
+csv_1024_results = read.table("../../results/output1024/real_avg_execution.csv",header = TRUE)
+csv_1536_results = read.table("../../results/output1536/real_avg_execution.csv",header = TRUE)
+csv_2048_results = read.table("../../results/output2048/real_avg_execution.csv",header = TRUE)
+csv_2560_results = read.table("../../results/output2560/real_avg_execution.csv",header = TRUE)
+csv_3008_results = read.table("../../results/output3008/real_avg_execution.csv",header = TRUE)
 csv_256_results = csv_256_results[order(csv_256_results$id),]
 csv_256_results$type <- 256
 csv_512_results = csv_512_results[order(csv_512_results$id),]
@@ -27,7 +27,8 @@ csv_3008_results = csv_3008_results[order(csv_3008_results$id),]
 csv_3008_results$type <- 3008
 results <- rbind(csv_256_results, csv_512_results, csv_1024_results, csv_1536_results, csv_2048_results, csv_2560_results, csv_3008_results)
 results = results[order(results$type), ]
-ggplot(results, aes(x=id, y=time, group = type, colour=as.factor(type))) + geom_point() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(x = "Task ID", y = "Time in ms", colour = "Functions") + ylim(0, 10000)
+projects = unique(results$task)
+ggplot(results, aes(x=id, y=time, group = type, colour=as.factor(type))) + geom_point() + scale_x_continuous(breaks=c(10, 27, 28, 29, 39, 40, 41, 42, 43), labels=projects) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(x = "Task names", y = "Time in ms", colour = "Functions") + ylim(0, 10000)
 
 p1 = ggplot(csv_256_results, aes(x=id, y=time)) + geom_point() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylim(0, 10000) + labs(x = "Task ID", y = "Time in ms")
 p2 = ggplot(csv_512_results, aes(x=id, y=time)) + geom_point() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylim(0, 10000) + labs(x = "Task ID", y = "Time in ms")
