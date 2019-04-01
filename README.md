@@ -1,8 +1,9 @@
 # CloudFunctionOptimizer
 
 What will be needed:
-- Node.js (https://nodejs.org)
+- Node.js (https://nodejs.org) (version > 6.4.0)
 - Redis (http://redis.io/)
+- jq (https://stedolan.github.io/jq/)
 - Application DAG
 - Application binaries
 
@@ -98,6 +99,12 @@ Parameters:
 Example invocation:
 ```
 ./run.sh ./dag.json output AWS 5 256 512 1024 1536
+```
+
+## jq
+jq is a lightweight and flexible command-line JSON processor.
+```
+brew install jq
 ```
 
 ## Charts

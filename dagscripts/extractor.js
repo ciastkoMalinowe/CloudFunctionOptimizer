@@ -1,10 +1,13 @@
 const fs = require('fs');
-const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config.js');
-const taskUtils = require('../src/task-utilities');
 
 const dagPath = process.argv[2];
 const csvPath = process.argv[3];
 const timestampsCSVPath = process.argv[4];
+const configPath = process.argv[5];
+const config = JSON.parse(fs.readFileSync(configPath));
+
+const TaskUtilities = require('../src/task-utilities');
+const taskUtils = new TaskUtilities(config);
 
 if(!dagPath || !csvPath || !timestampsCSVPath){
     throw new Error("Provide valid arguments: node extractor.js DIR_PATH CSV_PATH TIMESTAMPS_CSV_PATH");
@@ -31,7 +34,7 @@ function saveToCSV(file) {
         dag = JSON.parse(dag);
         isDAGValid(dag);
         const tasks = dag.tasks;
-        const functionTypes = Object.keys(config.prices);
+        const functionTypes = config.functionTypes;
         functionTypes.forEach(type => appendTimeAndPriceByType(tasks, type));
         appendFinishTimeAndPriceForReal(tasks);
         appendTimestampsForDBWS(tasks);
@@ -72,7 +75,7 @@ function appendTimeAndPriceByType(tasks, type) {
     tasks.forEach(task => {
       let taskTime = task.finishTime[type] - task.startTime[type];
       let timeSlots = Math.ceil(taskTime/100);
-      price += timeSlots * config.prices[type];
+      price += timeSlots * config.prices[config.provider][type];
     });
 
     maxFinishTime = normalizeDouble(maxFinishTime);
@@ -88,20 +91,20 @@ function appendFinishTimeAndPriceForReal(tasks) {
 
     let maxLevel = taskUtils.findTasksMaxLevel(tasks);
     let maxLevelTasks = taskUtils.findTasksFromLevel(tasks, maxLevel);
-    let maxFinishTime = Math.max(...maxLevelTasks.map(task => task.finishTime['real']));
+    let maxFinishTime = Math.max(...maxLevelTasks.map(task => task.finishTime[config.algorithm]));
 
     tasks.forEach(task => {
-        let taskTime = task.finishTime['real'] - task.startTime['real'];
+        let taskTime = task.finishTime[config.algorithm] - task.startTime[config.algorithm];
         let timeSlots = Math.ceil(taskTime/100);
-        price += timeSlots * config.prices[task.config.deploymentType];
+        price += timeSlots * config.prices[config.provider][task.config.deploymentType];
     });
 
     maxFinishTime = normalizeDouble(maxFinishTime);
     price = normalizeDouble(price, 10);
 
-    console.log(`real ${maxFinishTime} ${price}`);
+    console.log(`${config.algorithm} ${maxFinishTime} ${price}`);
 
-     fs.appendFileSync(csvPath,`real ${maxFinishTime} ${price}\n`)
+     fs.appendFileSync(csvPath,`${config.algorithm} ${maxFinishTime} ${price}\n`)
 }
 
 
@@ -113,13 +116,13 @@ function appendTimestampsForDBWS(tasks) {
         tasksFromLevel.forEach(task => {
 
             let time = task.finishTime[task.config.deploymentType] - task.startTime[task.config.deploymentType];
-            let predecessors = taskUtils.findPredecessorForTask(tasks, task);
+            let predecessors = taskUtils.findPredecessorsForTask(tasks, task);
             if(!predecessors || predecessors.length === 0) {
-                task.startTime['dbws'] = 0;
+                task.startTime['plan'] = 0;
             } else {
-                task.startTime['dbws'] = Math.max(...predecessors.map(ptask => ptask.finishTime['dbws']));
+                task.startTime['plan'] = Math.max(...predecessors.map(ptask => ptask.finishTime['plan']));
             }
-            task.finishTime['dbws'] = task.startTime['dbws'] + time;
+            task.finishTime['plan'] = task.startTime['plan'] + time;
             appendToTimestampsCSVfile(task, time);
         });
     }
@@ -127,20 +130,20 @@ function appendTimestampsForDBWS(tasks) {
     let price = 0;
 
     let maxLevelTasks = taskUtils.findTasksFromLevel(tasks, maxLevel);
-    let maxFinishTime = Math.max(...maxLevelTasks.map(task => task.finishTime['dbws']));
+    let maxFinishTime = Math.max(...maxLevelTasks.map(task => task.finishTime['plan']));
 
     tasks.forEach(task => {
-        let taskTime = task.finishTime['dbws'] - task.startTime['dbws'];
+        let taskTime = task.finishTime['plan'] - task.startTime['plan'];
         let timeSlots = Math.ceil(taskTime/100);
-        price += timeSlots * config.prices[task.config.deploymentType];
+        price += timeSlots * config.prices[config.provider][task.config.deploymentType];
     });
 
     maxFinishTime = normalizeDouble(maxFinishTime);
     price = normalizeDouble(price, 10);
 
-    console.log(`sdbws ${maxFinishTime} ${price}`);
+    console.log(`plan ${maxFinishTime} ${price}`);
 
-    fs.appendFileSync(csvPath,`sdbws ${maxFinishTime} ${price}\n`)
+    fs.appendFileSync(csvPath,`plan ${maxFinishTime} ${price}\n`)
 }
 
 function appendToTimestampsCSVfile(task, time) {

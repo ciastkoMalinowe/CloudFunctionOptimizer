@@ -1,107 +1,88 @@
-const toposort = require('toposort');
-const config = require(process.env.CONFIG_PATH ? process.env.CONFIG_PATH : '../configuration/config.js');
+// const toposort = require('toposort');
 
-function findTopologySortedList(tasks) {
+class TaskUtilities {
+  constructor(config) {
+    this.config = config;
+  }
 
-    const graph = [];
+  // TODO: Unused
+  // findTopologySortedList(tasks) {
+  //   const graph = [];
+  //
+  //   tasks.forEach(task => {
+  //     let successors = this.findSuccessorsForTask(tasks, task);
+  //     successors.forEach(successorTask => graph.push([task, successorTask]))
+  //   });
+  //
+  //   return toposort(graph);
+  // }
 
-    tasks.forEach(task => {
-        let successors = findSuccessorsForTask(tasks, task);
-        successors.forEach(successorTask => graph.push([task, successorTask]))
-    });
-
-    return toposort(graph);
-}
-
-function findPredecessorsForTask(tasks, task) {
+  findPredecessorsForTask(tasks, task) {
     return tasks.filter(
-        filteredTask => task.ins.some(
-            input => filteredTask.outs.includes(input)
-        )
+      filteredTask => task.ins.some(
+        input => filteredTask.outs.includes(input)
+      )
     )
-}
+  }
 
-function findSuccessorsForTask(tasks, task) {
+  findSuccessorsForTask(tasks, task) {
     return tasks.filter(
-        filteredTask => filteredTask.ins.some(
-            input => task.outs.includes(input)
-        )
+      filteredTask => filteredTask.ins.some(
+        input => task.outs.includes(input)
+      )
     )
-}
+  }
 
-function findTasksFromLevel(tasks, level) {
-    return tasks.filter(task => task.level === level);
-}
+  findTasksFromLevel(tasks, level) { return tasks.filter(task => task.level === level); }
 
-function findTasksMaxLevel(tasks) {
-    return Math.max(...tasks.map(task => task.level));
-}
+  findTasksMaxLevel(tasks) { return Math.max(...tasks.map(task => task.level)); }
 
-function findMaxTaskExecutionTime(task) {
-
-    let times = config.functionTypes.map(functionType => {
-        return task.finishTime[functionType] - task.startTime[functionType];
-    });
+  findMaxTaskExecutionTime(task) {
+    let times = this.config.functionTypes.map(funcType => task.finishTime[funcType] - task.startTime[funcType]);
     return Math.max(...times);
-}
+  }
 
-function findMinTaskExecutionTime(task){
-    let times = config.functionTypes.map(functionType => {
-        return task.finishTime[functionType] - task.startTime[functionType];
-    });
+  findMinTaskExecutionTime(task) {
+    let times = this.config.functionTypes.map(funcType => task.finishTime[funcType] - task.startTime[funcType]);
     return Math.min(...times);
-}
+  }
 
-function findTaskExecutionCostOnResource(task, resourceType) {
+  findTaskExecutionCostOnResource(task, resourceType) {
     let time = task.finishTime[resourceType] - task.startTime[resourceType];
-    let cost = Math.ceil(time / 100) * config.prices[resourceType];
-    return cost;
-}
+    return (Math.ceil(time / 100) * this.config.prices[this.config.provider][resourceType]);
+  }
 
-function findMaxTaskExecutionCost(task) {
-    let costs = config.functionTypes.map(functionType => findTaskExecutionCostOnResource(task, functionType));
+  findMaxTaskExecutionCost(task) {
+    let costs = this.config.functionTypes.map(functionType => this.findTaskExecutionCostOnResource(task, functionType));
     return Math.max(...costs);
-}
+  }
 
-function findMinTaskExecutionCost(task){
-    let costs = config.functionTypes.map(functionType => findTaskExecutionCostOnResource(task, functionType));
+  findMinTaskExecutionCost(task) {
+    let costs = this.config.functionTypes.map(functionType => this.findTaskExecutionCostOnResource(task, functionType));
     return Math.min(...costs);
-}
+  }
 
-function findPredecessorWithLongestFinishTime(predecessors, resourceType){
+  findPredecessorWithLongestFinishTime(predecessors, resourceType) {
     let finishTime = 0;
     let resultTask = {};
     predecessors.forEach(ptask => {
-        if (finishTime < ptask.finishTime[resourceType]) {
-            finishTime = ptask.finishTime[resourceType];
-            resultTask = ptask;
-        }
+      if (finishTime < ptask.finishTime[resourceType]) {
+        finishTime = ptask.finishTime[resourceType];
+        resultTask = ptask;
+      }
     });
     return resultTask;
-}
+  }
 
-function findMaxTaskFinishTime(task) {
-    let times = config.functionTypes.map(functionType => task.finishTime[functionType]);
+  findMaxTaskFinishTime(task) {
+    let times = this.config.functionTypes.map(functionType => task.finishTime[functionType]);
     return Math.max(...times)
-}
-function findMinTaskFinishTime(task) {
-    let times = config.functionTypes.map(functionType => task.finishTime[functionType]);
+  }
+
+  findMinTaskFinishTime(task) {
+    let times = this.config.functionTypes.map(functionType => task.finishTime[functionType]);
     return Math.min(...times)
+  }
 }
 
-
-module.exports = {
-    findTopologySortedList: findTopologySortedList,
-    findSuccessorsForTask: findSuccessorsForTask,
-    findPredecessorForTask: findPredecessorsForTask,
-    findTasksFromLevel: findTasksFromLevel,
-    findTasksMaxLevel: findTasksMaxLevel,
-    findMaxTaskExecutionTime: findMaxTaskExecutionTime,
-    findMinTaskExecutionTime: findMinTaskExecutionTime,
-    findMaxTaskExecutionCost: findMaxTaskExecutionCost,
-    findMinTaskExecutionCost: findMinTaskExecutionCost,
-    findTaskExecutionCostOnResource: findTaskExecutionCostOnResource,
-    findPredecessorWithLongestFinishTime: findPredecessorWithLongestFinishTime,
-    findMaxTaskFinishTime,
-    findMinTaskFinishTime
-};
+module.exports = TaskUtilities;

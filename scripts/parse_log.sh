@@ -1,5 +1,4 @@
 #!/bin/bash
-# ./parse_log.sh logs_256.txt 256 PROVIDER
 
 logFile=$1
 type=$2

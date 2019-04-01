@@ -28,26 +28,18 @@ let tasks = dag.tasks;
 let idTypeMap = new Map();
 
 csvParser
-    .fromPath(csvPath, {delimiter: ' '})
+    .fromPath(csvPath, {delimiter: ' ', headers: true})
     .on("data", data => {
-        let task = data[0];
-        let id = data[1];
-        let resource = data[2];
-        let start = data[3];
-        let finish = data[4];
-        let time = data[5];
-        let type = data[6];
-        if(!idTypeMap.has(id)) idTypeMap.set(id, new Map());
-        let typeTimeMap = idTypeMap.get(id);
-        if(!typeTimeMap.get(type)) typeTimeMap.set(type, []);
-        typeTimeMap.get(type).push( { startTime: Number(start), finishTime: Number(finish) } );
+        // Setting times from normalized logs
+        if(!idTypeMap.has(data.id)) idTypeMap.set(data.id, new Map());
+        let typeTimeMap = idTypeMap.get(data.id);
+        if(!typeTimeMap.get(data.type)) typeTimeMap.set(data.type, []);
+        typeTimeMap.get(data.type).push( { startTime: Number(data.start), finishTime: Number(data.end) } );
     })
     .on("end", function () {
         let resourceTimes = calculateResourceTimes(idTypeMap);
         decorateTaskWithTime(tasks, resourceTimes);
-        fs.writeFile(outputPath, JSON.stringify(dag, null, 2), (err) => {
-            if (err) throw err;
-        });
+        fs.writeFile(outputPath, JSON.stringify(dag, null, 2), (err) => { if (err) throw err; });
     });
 
 function calculateResourceTimes(idTimeMap) {
@@ -76,8 +68,7 @@ function calculateAverage(times) {
         startSum += times[i].startTime;
         finishSum += times[i].finishTime;
     }
-    let avgTimestamps = { startTime: Math.round(startSum / times.length), finishTime: Math.round(finishSum / times.length) };
-    return avgTimestamps;
+    return { startTime: Math.round(startSum / times.length), finishTime: Math.round(finishSum / times.length) };
 }
 
 function decorateTaskWithTime(tasks, times) {
@@ -85,7 +76,7 @@ function decorateTaskWithTime(tasks, times) {
         let id = task.config.id;
         let startTimes = times.startTimes[id];
         let finishTimes = times.finishTimes[id];
-        task[startTimesString] = startTimes;
-        task[finishTimesString] = finishTimes;
+        task[startTimesString] = {...task[startTimesString], ...startTimes};
+        task[finishTimesString] = {...task[finishTimesString], ...finishTimes};
     })
 }
