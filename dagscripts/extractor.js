@@ -147,7 +147,7 @@ function appendTimestampsForDBWS(tasks) {
 }
 
 function appendToTimestampsCSVfile(task, time) {
-    fs.appendFileSync(timestampsCSVPath,`${task.name} ${task.config.id} ${task.config.deploymentType} ${task.startTime['dbws']} ${task.finishTime['dbws']} ${time} dbws \n`)
+    fs.appendFileSync(timestampsCSVPath,`${task.name} ${task.config.id} ${task.config.deploymentType} ${task.startTime[config.algorithm]} ${task.finishTime[config.algorithm]} ${time} ${config.algorithm} \n`)
 }
 
 function normalizeDouble(number, n = 3) {

@@ -20,7 +20,7 @@ outputFile=${outputFolder}/normalized_logs.csv
 # Run with ./scripts/step1.sh configuration/config.json
 
 mkdir -p ${outputFolder}
-printf "task id resource start end time type\n" > ${outputFile}
+printf "task id resource start end time downloaded executed uploaded type\n" > ${outputFile}
 
 for functionType in $(jq -r '.functionTypes[]' ${config}); do
 	echo Executing workflow for type: ${functionType}

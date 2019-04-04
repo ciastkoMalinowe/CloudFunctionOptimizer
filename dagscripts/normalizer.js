@@ -26,11 +26,15 @@ function normalize(file) {
         let start = data[3];
         let end = data[4];
         let time = data[5];
-        let type = data[6];
+        let downloaded = data[6];
+        let executed = data[7];
+        let uploaded = data[8];
+        let type = data[9];
 
         let normalized_start = start - minTimestamp;
         let normalized_end = end - minTimestamp;
-        fs.appendFileSync(outputFile,`${task} ${id} ${resource} ${normalized_start} ${normalized_end} ${time} ${type}\n`, console.err);
+        fs.appendFileSync(outputFile,`${task} ${id} ${resource} ${normalized_start} ${normalized_end}`
+        + ` ${time} ${downloaded} ${executed} ${uploaded} ${type}\n`, console.err);
       })
     });
 }

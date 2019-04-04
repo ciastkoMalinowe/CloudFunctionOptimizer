@@ -21,7 +21,7 @@ outputFile=${outputFolder}/normalized_logs.csv
 # Run with ./scripts/step3.sh configuration/config.json
 
 mkdir -p ${outputFolder}
-printf "task id resource start end time type\n" > ${outputFile}
+printf "task id resource start end time downloaded executed uploaded type\n" > ${outputFile}
 
 for ((i = 1; i <= count; i++))
 do
