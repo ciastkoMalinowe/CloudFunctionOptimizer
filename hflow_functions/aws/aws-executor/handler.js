@@ -22,6 +22,8 @@ module.exports.executor = function (event, context, mainCallback) {
     var prefix = body.options.prefix;
 
     var t_start = Date.now();
+    var t_downloaded;
+    var t_executed;
     var t_end;
 
     console.log('executable: ' + executable);
@@ -62,6 +64,7 @@ module.exports.executor = function (event, context, mainCallback) {
                 }
             });
         }, function (err) {
+            t_downloaded = Date.now();
             if (err) {
                 console.error('A file failed to process');
                 callback('Error downloading')
@@ -94,6 +97,7 @@ module.exports.executor = function (event, context, mainCallback) {
 
         proc.on('close', function (code) {
             console.log('My exe close' + executable);
+            t_executed = Date.now();
             callback()
         });
 
@@ -167,11 +171,15 @@ module.exports.executor = function (event, context, mainCallback) {
             console.log('Success');
             t_end = Date.now();
             var duration = t_end - t_start;
-
+            var downloading_duration = t_downloaded - t_start;
+            var execution_duration = t_executed - t_downloaded;
+            var uploading_duration = t_end - t_executed;
             const response = {
                 statusCode: 200,
                 body: JSON.stringify({
-                    message: 'AWS Lambda exit: start ' + t_start + ' end ' + t_end + ' duration ' + duration + ' ms, executable: ' + executable + ' args: ' + args
+                    message: 'AWS Lambda exit: start ' + t_start + ' end ' + t_end + ' duration '
+                    + duration + ' ms (downloading '+ downloading_duration + 'ms, execution '+ execution_duration
+                    + 'ms, uploading ' + execution_duration + 'ms), executable: ' + executable + ' args: ' + args
                 })
             };
 
