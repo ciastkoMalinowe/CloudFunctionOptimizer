@@ -48,6 +48,13 @@ Copy application binaries and inputs to S3 bucket.
 
 Complete `hyperflow/functions/awsCommand.config.js`, put urls to your functions and path to S3 bucket.
 
+### (Optional) Running .js scripts and getting executables from S3
+
+It is possible to run .js script. When .js file is detected as executable, fork process is created. 
+
+When expected executables are not given during deployment process, the handler will look for them in S3. 
+The files will be downloaded to /tmp, given exec permissions and executed.
+
 ## SDBWS
 
 Running SDBWS consists of several steps:

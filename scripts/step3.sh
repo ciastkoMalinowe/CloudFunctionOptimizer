@@ -27,7 +27,15 @@ for ((i = 1; i <= count; i++))
 do
     echo Saving to ${folder}
     # Run Hyperflow
-    ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s >> ${outputFolder}/logs_${i}.txt
+
+    # Uncomment when workflow other than ellipsoids
+    # ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s >> ${outputFolder}/logs_${i}.txt
+
+    # !!! Temporary HACK for running ellipsoids workflow !!!
+    # Because hyperflow for some reason doesn't reach post-processing tasks during ellipsoids
+    # workflow execution, the program must be terminated manually -> same hack used in step 3
+    expect -c "set timeout 360; spawn ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s; expect \", executable: summary.js\" {close}" >> ${outputFolder}/logs_${i}.txt
+
     echo Workflow finished! Parsing response...
     ${appdir}/scripts/parse_log.sh ${outputFolder}/logs_${i}.txt ${algorithm} ${provider} >> ${outputFolder}/logs_${i}.csv
     # Normalize

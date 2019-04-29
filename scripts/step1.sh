@@ -36,9 +36,18 @@ for functionType in $(jq -r '.functionTypes[]' ${config}); do
     do
         echo Saving to ${folder}
         # Run Hyperflow
-        ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s >> ${folder}/logs_${i}.txt
+
+        # Uncomment when workflow other than ellipsoids
+        # ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s >> ${folder}/logs_${i}.txt
+
+        # !!! Temporary HACK for running ellipsoids workflow !!!
+        # Because hyperflow for some reason doesn't reach post-processing tasks during ellipsoids
+        # workflow execution, the program must be terminated manually -> same hack used in step 3
+        expect -c "set timeout 360; spawn ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s; expect \", executable: summary.js\" {close}" >> ${folder}/logs_${i}.txt
+
         echo Workflow finished! Parsing response...
         ${appdir}/scripts/parse_log.sh ${folder}/logs_${i}.txt ${functionType} ${provider} >> ${folder}/logs_${i}.csv
+
         # Normalize
         node ${normalizer} ${folder}/logs_${i}.csv ${outputFile}
     done

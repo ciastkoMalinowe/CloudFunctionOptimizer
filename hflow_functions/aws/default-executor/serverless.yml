@@ -1,4 +1,6 @@
-service: aws-executor
+service: aws-executor-ellipsoids
+app: aws-executor-cfo-ellipsoids
+tenant: tenant
 
 provider:
   name: aws
@@ -7,11 +9,11 @@ provider:
   timeout: 300
   versionFunctions: false
   iamRoleStatements:
-    - Effect: Allow
+    - Effect: "Allow"
       Action:
-        - s3:PutObject
-        - s3:GetObject
-      Resource: "arn:aws:s3:::aws-bucket/*"
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource: "arn:aws:s3:::hyperflow.workflow.test/*"
 
 functions:
 

@@ -6,6 +6,7 @@ configPath=$1
 config=${appdir}/${configPath}
 timeDecorator=${appdir}/dagscripts/time-decorator.js
 extractor=${appdir}/dagscripts/extractor.js
+averageResult=${appdir}/dagscripts/extract-real-avg.js
 
 provider=`jq -r '.provider' ${config}`
 count=`jq '.count' ${config}`
@@ -25,6 +26,7 @@ outputFolder=${appdir}/results/step4/${algorithm}-${folder}
 outputDag=${outputFolder}/dag-extracted.json
 outputResults=${outputFolder}/extracted_results.csv
 outputExecution=${outputFolder}/planned_execution.csv
+outputAverage=${outputFolder}/average_execution.csv
 
 mkdir -p ${outputFolder}
 
@@ -34,3 +36,6 @@ node ${timeDecorator} ${dagPath} ${normalizedLogs} ${outputDag}
 
 echo node ${extractor} ${outputDag} ${outputResults} ${outputExecution}
 node ${extractor} ${outputDag} ${outputResults} ${outputExecution} ${configPath}
+
+echo node ${averageResult} ${outputDag} ${outputAverage}
+node ${averageResult} ${outputDag} ${outputAverage}
