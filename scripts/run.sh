@@ -6,13 +6,33 @@ configPath=$1
 config=${appdir}/${configPath}
 
 # Step 1
-./scripts/step1.sh ${config}
+if ! ./scripts/step1.sh ${config}; then
+    echo "Step 1 returned error"
+    exit 1
+fi
+
 
 # Step 2
-./scripts/step2.sh ${config}
+if ! ./scripts/step2.sh ${config}; then
+    echo "Step 2 returned error"
+    exit 1
+fi
+
 
 # Step 3
-./scripts/step3.sh ${config}
+if ! ./scripts/step3.sh ${config}; then
+    echo "Step 3 returned error"
+    exit 1
+fi
 
 # Step 4
-./scripts/step4.sh ${config}
+if ! ./scripts/step4.sh ${config}; then
+    echo "Step 4 returned error"
+    exit 1
+fi
+
+# Step 5
+if ! ./scripts/step5.sh ${config}; then
+    echo "Step 5 returned error"
+    exit 1
+fi

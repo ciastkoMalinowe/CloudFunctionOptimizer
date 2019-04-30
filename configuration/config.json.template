@@ -12,6 +12,7 @@
   ],
   "provider": "AWS",
   "algorithm": "SDBWS",
+  "workflow": "montage",
   "dag": "./dags/dag-aws-with-id.json",
   "prices": {
     "AWS": {
