@@ -2,14 +2,13 @@
   "budgetParameter": 0.3,
   "deadlineParameter": 0.7,
   "functionTypes": [
-    "1536",
-    "2048"
+    "1536"
   ],
   "count": 2,
   "provider": "AWS",
   "algorithm": "sdbcs",
   "workflow": "montage",
-  "dag": "dags/dag-aws-with-id.json",
+  "dag": "dags/montage/1.0/workflow-with-id.json",
   "prices": {
     "AWS": {
       "128": 0.000000208,

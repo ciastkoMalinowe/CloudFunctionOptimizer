@@ -35,15 +35,14 @@ for functionType in $(jq -r '.functionTypes[]' ${config}); do
     export FUNCTION_TYPE=${functionType};
     folder=${appdir}/results/step1/${workflow}_${provider}_${functionType}x${count}
 
-    if [[ -d "$folder" ]] ;then
-        echo Results ${workflow}_${provider}_${functionType}x${count} already exists in path: ${folder}
-        echo Delete folder \"${folder}\" to have a new data and try again
-    else
+    if [[ ! -d "$folder" ]] ;then
         mkdir -p ${folder}
+    fi
 
-        echo Saving to ${folder}
-        for ((i = 1; i <= count; i++))
-        do
+    echo Saving to ${folder}
+    for ((i = 1; i <= count; i++))
+    do
+        if [[ ! -d "$folder/logs_$i.txt" ]] ;then
             # Run Hyperflow
             if [[ "$workflow" == "ellipsoids" ]] ;then
                 # !!! Temporary HACK for running ellipsoids workflow !!!
@@ -59,6 +58,6 @@ for functionType in $(jq -r '.functionTypes[]' ${config}); do
 
             # Normalize
             node ${normalizer} ${folder}/logs_${i}.csv ${outputFile}
-        done
-    fi
+        fi
+    done
 done
