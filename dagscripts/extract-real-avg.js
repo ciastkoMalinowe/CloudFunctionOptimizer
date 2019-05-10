@@ -18,7 +18,7 @@ if(stats.isDirectory()) {
     throw new Error("Given path is directory");
 }
 
-fs.writeFileSync(outputPath, "task id resource start end time type\n");
+fs.writeFileSync(outputPath, "task id resource request_start request_end request_duration type\n");
 
 extract(dagPath);
 

@@ -34,7 +34,10 @@ csvParser
         if(!idTypeMap.has(data.id)) idTypeMap.set(data.id, new Map());
         let typeTimeMap = idTypeMap.get(data.id);
         if(!typeTimeMap.get(data.type)) typeTimeMap.set(data.type, []);
-        typeTimeMap.get(data.type).push( { startTime: Number(data.start), finishTime: Number(data.end) } );
+
+        // Changed times to request_start and request_end instead of start and end on Lambda
+        // typeTimeMap.get(data.type).push( { startTime: Number(data.start), finishTime: Number(data.end) } );
+        typeTimeMap.get(data.type).push( { startTime: Number(data.request_start), finishTime: Number(data.request_end) } );
     })
     .on("end", function () {
         let resourceTimes = calculateResourceTimes(idTypeMap);
@@ -57,7 +60,7 @@ function calculateResourceTimes(idTimeMap) {
           finishTimes[id][type] = average.finishTime;
       }
     }
-    return { startTimes: startTimes, finishTimes: finishTimes };
+    return { startTimes, finishTimes };
 }
 
 function calculateAverage(times) {

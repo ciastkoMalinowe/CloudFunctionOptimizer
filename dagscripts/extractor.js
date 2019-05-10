@@ -24,7 +24,7 @@ if(!stats.isFile()) {
 }
 
 fs.writeFileSync(csvPath, "type time price\n");
-fs.writeFileSync(timestampsCSVPath, "task id resource start end time type\n");
+fs.writeFileSync(timestampsCSVPath, "task id resource request_start request_end request_duration type\n");
 
 saveToCSV(dagPath);
 
@@ -147,7 +147,7 @@ function appendTimestampsForDBWS(tasks) {
 }
 
 function appendToTimestampsCSVfile(task, time) {
-    fs.appendFileSync(timestampsCSVPath,`${task.name} ${task.config.id} ${task.config.deploymentType} ${task.startTime[config.algorithm]} ${task.finishTime[config.algorithm]} ${time} ${config.algorithm} \n`)
+    fs.appendFileSync(timestampsCSVPath,`${task.name} ${task.config.id} ${task.config.deploymentType} ${task.config.scheduledStartTime} ${task.config.scheduledFinishTime} ${time} ${config.algorithm} \n`)
 }
 
 function normalizeDouble(number, n = 3) {

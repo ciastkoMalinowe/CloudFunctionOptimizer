@@ -36,7 +36,7 @@ if [[ -d "$outputFolder" ]] ;then
 fi
 
 mkdir -p ${outputFolder}
-printf "task id resource start end time downloaded executed uploaded type\n" > ${outputFile}
+printf "task id resource request_start request_end request_duration start end time downloaded executed uploaded type\n" > ${outputFile}
 
 echo Saving to ${folder}
 for ((i = 1; i <= count; i++))

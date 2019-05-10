@@ -24,10 +24,10 @@ class SDBWS extends SchedulingAlgorithm {
     console.log("userBudget: " + userBudget);
 
     if (userBudget < minBudget) throw new Error("No possible schedule map");
-    else if (userBudget >= maxBudget) {
-      tasks.forEach(task => task.config.deploymentType = this.getMostExpensiveResourceType());
-      return;
-    }
+    // else if (userBudget >= maxBudget) {
+    //   tasks.forEach(task => task.config.deploymentType = this.getMostExpensiveResourceType());
+    //   return;
+    // }
 
     this.decorateTasksWithSubdeadline(sortedTasks, userDeadline);
 

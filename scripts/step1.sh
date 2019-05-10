@@ -28,7 +28,7 @@ if [[ -d "$outputFolder" ]] ;then
 fi
 
 mkdir -p ${outputFolder}
-printf "task id resource start end time downloaded executed uploaded type\n" > ${outputFile}
+printf "task id resource request_start request_end request_duration start end time downloaded executed uploaded type\n" > ${outputFile}
 
 for functionType in $(jq -r '.functionTypes[]' ${config}); do
     echo Executing workflow for type: ${functionType}

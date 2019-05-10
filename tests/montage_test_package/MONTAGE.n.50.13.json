@@ -1,0 +1,1442 @@
+{
+  "functions": [
+    {
+      "name": "command_print",
+      "module": "functions"
+    }
+  ],
+  "tasks": [
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.79"
+      },
+      "ins": [
+        0,
+        1
+      ],
+      "outs": [
+        2,
+        3
+      ]
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.78"
+      },
+      "ins": [
+        4,
+        5
+      ],
+      "outs": [
+        6,
+        7
+      ]
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.95"
+      },
+      "ins": [
+        4,
+        8
+      ],
+      "outs": [
+        9,
+        10
+      ]
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.29"
+      },
+      "ins": [
+        4,
+        11
+      ],
+      "outs": [
+        12,
+        13
+      ]
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.95"
+      },
+      "ins": [
+        4,
+        14
+      ],
+      "outs": [
+        15,
+        16
+      ]
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.41"
+      },
+      "ins": [
+        4,
+        17
+      ],
+      "outs": [
+        18,
+        19
+      ]
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.61"
+      },
+      "ins": [
+        4,
+        20
+      ],
+      "outs": [
+        21,
+        22
+      ]
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.68"
+      },
+      "ins": [
+        4,
+        23
+      ],
+      "outs": [
+        24,
+        25
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.51"
+      },
+      "ins": [
+        4,
+        2,
+        3,
+        6,
+        7
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.61"
+      },
+      "ins": [
+        4,
+        2,
+        3,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.40"
+      },
+      "ins": [
+        4,
+        2,
+        3,
+        15,
+        16
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.60"
+      },
+      "ins": [
+        4,
+        6,
+        7,
+        2,
+        3
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.77"
+      },
+      "ins": [
+        4,
+        9,
+        10,
+        2,
+        3
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.51"
+      },
+      "ins": [
+        4,
+        9,
+        10,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.68"
+      },
+      "ins": [
+        4,
+        9,
+        10,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.59"
+      },
+      "ins": [
+        4,
+        12,
+        13,
+        6,
+        7
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.61"
+      },
+      "ins": [
+        4,
+        12,
+        13,
+        9,
+        10
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.52"
+      },
+      "ins": [
+        4,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.61"
+      },
+      "ins": [
+        4,
+        12,
+        13,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.68"
+      },
+      "ins": [
+        4,
+        12,
+        13,
+        24,
+        25
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.76"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        2,
+        3
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.76"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        6,
+        7
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.63"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.51"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        21,
+        22
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.71"
+      },
+      "ins": [
+        4,
+        18,
+        19,
+        9,
+        10
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.70"
+      },
+      "ins": [
+        4,
+        18,
+        19,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.58"
+      },
+      "ins": [
+        4,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.59"
+      },
+      "ins": [
+        4,
+        21,
+        22,
+        6,
+        7
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.53"
+      },
+      "ins": [
+        4,
+        21,
+        22,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.60"
+      },
+      "ins": [
+        4,
+        21,
+        22,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.54"
+      },
+      "ins": [
+        4,
+        21,
+        22,
+        24,
+        25
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.68"
+      },
+      "ins": [
+        4,
+        24,
+        25,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.58"
+      },
+      "ins": [
+        4,
+        24,
+        25,
+        15,
+        16
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.64"
+      },
+      "ins": [
+        4,
+        24,
+        25,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.56"
+      },
+      "ins": [
+        4,
+        24,
+        25,
+        21,
+        22
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.55"
+      },
+      "ins": [
+        4,
+        24,
+        25
+      ],
+      "outs": [
+        26,
+        27
+      ]
+    },
+    {
+      "name": "mConcatFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mConcatFit",
+          "args": []
+        },
+        "synthetic_runtime": "2.24"
+      },
+      "ins": [
+        28,
+        26,
+        27
+      ],
+      "outs": [
+        29
+      ]
+    },
+    {
+      "name": "mBgModel",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBgModel",
+          "args": []
+        },
+        "synthetic_runtime": "2.46"
+      },
+      "ins": [
+        30,
+        29
+      ],
+      "outs": [
+        31
+      ]
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.81"
+      },
+      "ins": [
+        31,
+        2,
+        3
+      ],
+      "outs": [
+        32,
+        33
+      ]
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "11.21"
+      },
+      "ins": [
+        31,
+        6,
+        7
+      ],
+      "outs": [
+        34,
+        35
+      ]
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.73"
+      },
+      "ins": [
+        31,
+        9,
+        10
+      ],
+      "outs": [
+        36,
+        37
+      ]
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.66"
+      },
+      "ins": [
+        31,
+        12,
+        13
+      ],
+      "outs": [
+        38,
+        39
+      ]
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.55"
+      },
+      "ins": [
+        31,
+        15,
+        16
+      ],
+      "outs": [
+        40,
+        41
+      ]
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.57"
+      },
+      "ins": [
+        31,
+        18,
+        19
+      ],
+      "outs": [
+        42,
+        43
+      ]
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.30"
+      },
+      "ins": [
+        31,
+        21,
+        22
+      ],
+      "outs": [
+        44,
+        45
+      ]
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.68"
+      },
+      "ins": [
+        31,
+        24,
+        25
+      ],
+      "outs": [
+        46,
+        47
+      ]
+    },
+    {
+      "name": "mImgTbl",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mImgTbl",
+          "args": []
+        },
+        "synthetic_runtime": "3.65"
+      },
+      "ins": [
+        48,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ],
+      "outs": [
+        49
+      ]
+    },
+    {
+      "name": "mAdd",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mAdd",
+          "args": []
+        },
+        "synthetic_runtime": "4.75"
+      },
+      "ins": [
+        4,
+        49
+      ],
+      "outs": [
+        50,
+        51
+      ]
+    },
+    {
+      "name": "mShrink",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mShrink",
+          "args": []
+        },
+        "synthetic_runtime": "4.88"
+      },
+      "ins": [
+        50,
+        51
+      ],
+      "outs": [
+        52
+      ]
+    },
+    {
+      "name": "mJPEG",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mJPEG",
+          "args": []
+        },
+        "synthetic_runtime": "0.60"
+      },
+      "ins": [
+        52
+      ],
+      "outs": [
+        53
+      ]
+    }
+  ],
+  "data": [
+    {
+      "name": "region.hdr",
+      "size": "304"
+    },
+    {
+      "name": "2mass-atlas-ID00000s-jID00000.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00000s-jID00000.fits",
+      "size": "4162907"
+    },
+    {
+      "name": "p2mass-atlas-ID00000s-jID00000_area.fits",
+      "size": "4162907"
+    },
+    {
+      "name": "region.hdr",
+      "size": "304"
+    },
+    {
+      "name": "2mass-atlas-ID00001s-jID00001.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00001s-jID00001.fits",
+      "size": "4174201"
+    },
+    {
+      "name": "p2mass-atlas-ID00001s-jID00001_area.fits",
+      "size": "4174201"
+    },
+    {
+      "name": "2mass-atlas-ID00002s-jID00002.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00002s-jID00002.fits",
+      "size": "4170263"
+    },
+    {
+      "name": "p2mass-atlas-ID00002s-jID00002_area.fits",
+      "size": "4170263"
+    },
+    {
+      "name": "2mass-atlas-ID00003s-jID00003.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00003s-jID00003.fits",
+      "size": "4159405"
+    },
+    {
+      "name": "p2mass-atlas-ID00003s-jID00003_area.fits",
+      "size": "4159405"
+    },
+    {
+      "name": "2mass-atlas-ID00004s-jID00004.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00004s-jID00004.fits",
+      "size": "4161005"
+    },
+    {
+      "name": "p2mass-atlas-ID00004s-jID00004_area.fits",
+      "size": "4161005"
+    },
+    {
+      "name": "2mass-atlas-ID00005s-jID00005.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00005s-jID00005.fits",
+      "size": "4176111"
+    },
+    {
+      "name": "p2mass-atlas-ID00005s-jID00005_area.fits",
+      "size": "4176111"
+    },
+    {
+      "name": "2mass-atlas-ID00006s-jID00006.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00006s-jID00006.fits",
+      "size": "4156778"
+    },
+    {
+      "name": "p2mass-atlas-ID00006s-jID00006_area.fits",
+      "size": "4156778"
+    },
+    {
+      "name": "2mass-atlas-ID00007s-jID00007.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00007s-jID00007.fits",
+      "size": "4151558"
+    },
+    {
+      "name": "p2mass-atlas-ID00007s-jID00007_area.fits",
+      "size": "4151558"
+    },
+    {
+      "name": "fit.txt",
+      "size": "270"
+    },
+    {
+      "name": "diff.txt",
+      "size": "323580"
+    },
+    {
+      "name": "fits_list.tbl",
+      "size": "763"
+    },
+    {
+      "name": "fits.tbl",
+      "size": "5878"
+    },
+    {
+      "name": "pimages.tbl",
+      "size": "1340"
+    },
+    {
+      "name": "corrections.tbl",
+      "size": "425"
+    },
+    {
+      "name": "c2mass-atlas-ID00000s-jID00000_area.fits",
+      "size": "4162907"
+    },
+    {
+      "name": "c2mass-atlas-ID00000s-jID00000.fits",
+      "size": "4162907"
+    },
+    {
+      "name": "c2mass-atlas-ID00001s-jID00001_area.fits",
+      "size": "4174201"
+    },
+    {
+      "name": "c2mass-atlas-ID00001s-jID00001.fits",
+      "size": "4174201"
+    },
+    {
+      "name": "c2mass-atlas-ID00002s-jID00002_area.fits",
+      "size": "4170263"
+    },
+    {
+      "name": "c2mass-atlas-ID00002s-jID00002.fits",
+      "size": "4170263"
+    },
+    {
+      "name": "c2mass-atlas-ID00003s-jID00003.fits",
+      "size": "4159405"
+    },
+    {
+      "name": "c2mass-atlas-ID00003s-jID00003_area.fits",
+      "size": "4159405"
+    },
+    {
+      "name": "c2mass-atlas-ID00004s-jID00004.fits",
+      "size": "4161005"
+    },
+    {
+      "name": "c2mass-atlas-ID00004s-jID00004_area.fits",
+      "size": "4161005"
+    },
+    {
+      "name": "c2mass-atlas-ID00005s-jID00005_area.fits",
+      "size": "4176111"
+    },
+    {
+      "name": "c2mass-atlas-ID00005s-jID00005.fits",
+      "size": "4176111"
+    },
+    {
+      "name": "c2mass-atlas-ID00006s-jID00006_area.fits",
+      "size": "4156778"
+    },
+    {
+      "name": "c2mass-atlas-ID00006s-jID00006.fits",
+      "size": "4156778"
+    },
+    {
+      "name": "c2mass-atlas-ID00007s-jID00007.fits",
+      "size": "4151558"
+    },
+    {
+      "name": "c2mass-atlas-ID00007s-jID00007_area.fits",
+      "size": "4151558"
+    },
+    {
+      "name": "cimages.tbl",
+      "size": "1340"
+    },
+    {
+      "name": "newcimages.tbl",
+      "size": "2946"
+    },
+    {
+      "name": "mosaic_ID00047_ID00047.fits",
+      "size": "68357487"
+    },
+    {
+      "name": "mosaic_ID00047_ID00047_area.fits",
+      "size": "68357487"
+    },
+    {
+      "name": "shrunken_ID00048_ID00048.fits",
+      "size": "2735393"
+    },
+    {
+      "name": "shrunken_ID00048_ID00048.jpg",
+      "size": "297289"
+    }
+  ],
+  "ins": [
+    0,
+    1,
+    4,
+    5,
+    8,
+    11,
+    14,
+    17,
+    20,
+    23,
+    28,
+    30,
+    48
+  ],
+  "outs": [
+    53
+  ]
+}
