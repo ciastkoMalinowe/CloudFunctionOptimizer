@@ -1,0 +1,1147 @@
+{
+  "functions": [
+    {
+      "name": "awsCommand",
+      "module": "functions"
+    }
+  ],
+  "tasks": [
+    {
+      "name": "generateData",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "generateData.js",
+          "args": []
+        },
+        "id": 1,
+        "deploymentType": "1024",
+        "scheduledStartTime": 0,
+        "scheduledFinishTime": 1038
+      },
+      "ins": [
+        0
+      ],
+      "outs": [
+        1
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 2535,
+        "512": 1400,
+        "1024": 1038,
+        "1536": 1500,
+        "2048": 1104,
+        "2560": 908,
+        "3008": 823
+      },
+      "level": 1,
+      "upwardRank": 12041.57142857143,
+      "subDeadline": 14434.099999999999
+    },
+    {
+      "name": "create_dat_1",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "createDat.js",
+          "args": [
+            "1.dat"
+          ]
+        },
+        "id": 3,
+        "deploymentType": "1024",
+        "scheduledStartTime": 1046,
+        "scheduledFinishTime": 1957
+      },
+      "ins": [
+        1
+      ],
+      "outs": [
+        3
+      ],
+      "startTime": {
+        "256": 2543,
+        "512": 1409,
+        "1024": 1046,
+        "1536": 1510,
+        "2048": 1112,
+        "2560": 916,
+        "3008": 832
+      },
+      "finishTime": {
+        "256": 4018,
+        "512": 2704,
+        "1024": 1957,
+        "1536": 2805,
+        "2048": 3603,
+        "2560": 1980,
+        "3008": 1514
+      },
+      "level": 2,
+      "upwardRank": 10711.857142857143,
+      "subDeadline": 15280.099999999999
+    },
+    {
+      "name": "create_dat_3",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "createDat.js",
+          "args": [
+            "3.dat"
+          ]
+        },
+        "id": 5,
+        "deploymentType": "1024",
+        "scheduledStartTime": 1050,
+        "scheduledFinishTime": 1958
+      },
+      "ins": [
+        1
+      ],
+      "outs": [
+        5
+      ],
+      "startTime": {
+        "256": 2546,
+        "512": 1412,
+        "1024": 1050,
+        "1536": 1514,
+        "2048": 1116,
+        "2560": 920,
+        "3008": 836
+      },
+      "finishTime": {
+        "256": 4032,
+        "512": 2785,
+        "1024": 1958,
+        "1536": 2855,
+        "2048": 3458,
+        "2560": 1766,
+        "3008": 1719
+      },
+      "level": 2,
+      "upwardRank": 10707,
+      "subDeadline": 15280.099999999999
+    },
+    {
+      "name": "create_dat_0",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "createDat.js",
+          "args": [
+            "0.dat"
+          ]
+        },
+        "id": 2,
+        "deploymentType": "1024",
+        "scheduledStartTime": 1044,
+        "scheduledFinishTime": 1957
+      },
+      "ins": [
+        1
+      ],
+      "outs": [
+        2
+      ],
+      "startTime": {
+        "256": 2541,
+        "512": 1407,
+        "1024": 1044,
+        "1536": 1508,
+        "2048": 1110,
+        "2560": 915,
+        "3008": 830
+      },
+      "finishTime": {
+        "256": 4005,
+        "512": 2876,
+        "1024": 1957,
+        "1536": 2672,
+        "2048": 2334,
+        "2560": 1762,
+        "3008": 1565
+      },
+      "level": 2,
+      "upwardRank": 10512.285714285716,
+      "subDeadline": 15280.099999999999
+    },
+    {
+      "name": "create_dat_2",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "createDat.js",
+          "args": [
+            "2.dat"
+          ]
+        },
+        "id": 4,
+        "deploymentType": "512",
+        "scheduledStartTime": 1048,
+        "scheduledFinishTime": 2337
+      },
+      "ins": [
+        1
+      ],
+      "outs": [
+        4
+      ],
+      "startTime": {
+        "256": 2545,
+        "512": 1410,
+        "1024": 1048,
+        "1536": 1512,
+        "2048": 1114,
+        "2560": 918,
+        "3008": 834
+      },
+      "finishTime": {
+        "256": 4367,
+        "512": 2699,
+        "1024": 2121,
+        "1536": 2673,
+        "2048": 1860,
+        "2560": 1765,
+        "3008": 1514
+      },
+      "level": 2,
+      "upwardRank": 10484,
+      "subDeadline": 15280.099999999999
+    },
+    {
+      "name": "execute_case_0_2",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "0.dat",
+            "02.log",
+            "02.xoutput"
+          ]
+        },
+        "id": 8,
+        "deploymentType": "1536",
+        "scheduledStartTime": 1975,
+        "scheduledFinishTime": 5623
+      },
+      "ins": [
+        2
+      ],
+      "outs": [
+        10,
+        11
+      ],
+      "startTime": {
+        "256": 4022,
+        "512": 2889,
+        "1024": 1980,
+        "1536": 2690,
+        "2048": 2352,
+        "2560": 1781,
+        "3008": 1586
+      },
+      "finishTime": {
+        "256": 22515,
+        "512": 12577,
+        "1024": 6985,
+        "1536": 6338,
+        "2048": 7297,
+        "2560": 5043,
+        "3008": 7519
+      },
+      "level": 3,
+      "upwardRank": 9395.714285714286,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_2_1",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "2.dat",
+            "21.log",
+            "21.xoutput"
+          ]
+        },
+        "id": 13,
+        "deploymentType": "1024",
+        "scheduledStartTime": 2356,
+        "scheduledFinishTime": 7291
+      },
+      "ins": [
+        4
+      ],
+      "outs": [
+        20,
+        21
+      ],
+      "startTime": {
+        "256": 4377,
+        "512": 2714,
+        "1024": 2140,
+        "1536": 2693,
+        "2048": 1881,
+        "2560": 1784,
+        "3008": 1535
+      },
+      "finishTime": {
+        "256": 22543,
+        "512": 12520,
+        "1024": 7075,
+        "1536": 6512,
+        "2048": 6219,
+        "2560": 6799,
+        "3008": 5555
+      },
+      "level": 3,
+      "upwardRank": 9270.714285714286,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_0_0",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "0.dat",
+            "00.log",
+            "00.xoutput"
+          ]
+        },
+        "id": 6,
+        "deploymentType": "2560",
+        "scheduledStartTime": 1974,
+        "scheduledFinishTime": 4249
+      },
+      "ins": [
+        2
+      ],
+      "outs": [
+        6,
+        7
+      ],
+      "startTime": {
+        "256": 4020,
+        "512": 2887,
+        "1024": 1976,
+        "1536": 2688,
+        "2048": 2349,
+        "2560": 1779,
+        "3008": 1583
+      },
+      "finishTime": {
+        "256": 22430,
+        "512": 12378,
+        "1024": 7017,
+        "1536": 6368,
+        "2048": 6039,
+        "2560": 4054,
+        "3008": 8919
+      },
+      "level": 3,
+      "upwardRank": 9245.57142857143,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_0_1",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "0.dat",
+            "01.log",
+            "01.xoutput"
+          ]
+        },
+        "id": 7,
+        "deploymentType": "1536",
+        "scheduledStartTime": 1974,
+        "scheduledFinishTime": 5773
+      },
+      "ins": [
+        2
+      ],
+      "outs": [
+        8,
+        9
+      ],
+      "startTime": {
+        "256": 4021,
+        "512": 2887,
+        "1024": 1979,
+        "1536": 2689,
+        "2048": 2350,
+        "2560": 1779,
+        "3008": 1584
+      },
+      "finishTime": {
+        "256": 22434,
+        "512": 12593,
+        "1024": 6882,
+        "1536": 6488,
+        "2048": 5846,
+        "2560": 5282,
+        "3008": 7188
+      },
+      "level": 3,
+      "upwardRank": 9174.285714285714,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_3_2",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "3.dat",
+            "32.log",
+            "32.xoutput"
+          ]
+        },
+        "id": 17,
+        "deploymentType": "1536",
+        "scheduledStartTime": 1978,
+        "scheduledFinishTime": 5749
+      },
+      "ins": [
+        5
+      ],
+      "outs": [
+        28,
+        29
+      ],
+      "startTime": {
+        "256": 4048,
+        "512": 2802,
+        "1024": 1980,
+        "1536": 2875,
+        "2048": 3479,
+        "2560": 1787,
+        "3008": 1739
+      },
+      "finishTime": {
+        "256": 21935,
+        "512": 12294,
+        "1024": 6981,
+        "1536": 6646,
+        "2048": 7549,
+        "2560": 7479,
+        "3008": 4853
+      },
+      "level": 3,
+      "upwardRank": 9117.57142857143,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_3_0",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "3.dat",
+            "30.log",
+            "30.xoutput"
+          ]
+        },
+        "id": 15,
+        "deploymentType": "1024",
+        "scheduledStartTime": 1978,
+        "scheduledFinishTime": 6835
+      },
+      "ins": [
+        5
+      ],
+      "outs": [
+        24,
+        25
+      ],
+      "startTime": {
+        "256": 4044,
+        "512": 2800,
+        "1024": 1978,
+        "1536": 2873,
+        "2048": 3477,
+        "2560": 1785,
+        "3008": 1736
+      },
+      "finishTime": {
+        "256": 22267,
+        "512": 12200,
+        "1024": 6835,
+        "1536": 6657,
+        "2048": 7799,
+        "2560": 6815,
+        "3008": 4458
+      },
+      "level": 3,
+      "upwardRank": 9019.142857142857,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_1_0",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "1.dat",
+            "10.log",
+            "10.xoutput"
+          ]
+        },
+        "id": 9,
+        "deploymentType": "2048",
+        "scheduledStartTime": 1975,
+        "scheduledFinishTime": 4834
+      },
+      "ins": [
+        3
+      ],
+      "outs": [
+        12,
+        13
+      ],
+      "startTime": {
+        "256": 4033,
+        "512": 2721,
+        "1024": 1978,
+        "1536": 2826,
+        "2048": 3621,
+        "2560": 2005,
+        "3008": 1535
+      },
+      "finishTime": {
+        "256": 22142,
+        "512": 12205,
+        "1024": 6831,
+        "1536": 6748,
+        "2048": 6480,
+        "2560": 7490,
+        "3008": 4981
+      },
+      "level": 3,
+      "upwardRank": 8993.42857142857,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_2_2",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "2.dat",
+            "22.log",
+            "22.xoutput"
+          ]
+        },
+        "id": 14,
+        "deploymentType": "1024",
+        "scheduledStartTime": 2359,
+        "scheduledFinishTime": 7398
+      },
+      "ins": [
+        4
+      ],
+      "outs": [
+        22,
+        23
+      ],
+      "startTime": {
+        "256": 4378,
+        "512": 2715,
+        "1024": 2143,
+        "1536": 2695,
+        "2048": 1881,
+        "2560": 1786,
+        "3008": 1536
+      },
+      "finishTime": {
+        "256": 22699,
+        "512": 12436,
+        "1024": 7182,
+        "1536": 6488,
+        "2048": 6206,
+        "2560": 5649,
+        "3008": 4424
+      },
+      "level": 3,
+      "upwardRank": 8963.714285714286,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_2_0",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "2.dat",
+            "20.log",
+            "20.xoutput"
+          ]
+        },
+        "id": 12,
+        "deploymentType": "1024",
+        "scheduledStartTime": 2356,
+        "scheduledFinishTime": 7232
+      },
+      "ins": [
+        4
+      ],
+      "outs": [
+        18,
+        19
+      ],
+      "startTime": {
+        "256": 4376,
+        "512": 2713,
+        "1024": 2140,
+        "1536": 2692,
+        "2048": 1879,
+        "2560": 1783,
+        "3008": 1534
+      },
+      "finishTime": {
+        "256": 22736,
+        "512": 12452,
+        "1024": 7016,
+        "1536": 6487,
+        "2048": 5736,
+        "2560": 5903,
+        "3008": 4514
+      },
+      "level": 3,
+      "upwardRank": 8931.857142857143,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_3_1",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "3.dat",
+            "31.log",
+            "31.xoutput"
+          ]
+        },
+        "id": 16,
+        "deploymentType": "1536",
+        "scheduledStartTime": 1977,
+        "scheduledFinishTime": 5320
+      },
+      "ins": [
+        5
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 4047,
+        "512": 2801,
+        "1024": 1979,
+        "1536": 2874,
+        "2048": 3478,
+        "2560": 1786,
+        "3008": 1737
+      },
+      "finishTime": {
+        "256": 22061,
+        "512": 12209,
+        "1024": 6768,
+        "1536": 6217,
+        "2048": 7928,
+        "2560": 6013,
+        "3008": 4390
+      },
+      "level": 3,
+      "upwardRank": 8811.42857142857,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_1_1",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "1.dat",
+            "11.log",
+            "11.xoutput"
+          ]
+        },
+        "id": 10,
+        "deploymentType": "1024",
+        "scheduledStartTime": 1977,
+        "scheduledFinishTime": 6647
+      },
+      "ins": [
+        3
+      ],
+      "outs": [
+        14,
+        15
+      ],
+      "startTime": {
+        "256": 4029,
+        "512": 2716,
+        "1024": 1977,
+        "1536": 2822,
+        "2048": 3617,
+        "2560": 1997,
+        "3008": 1531
+      },
+      "finishTime": {
+        "256": 22079,
+        "512": 12204,
+        "1024": 6647,
+        "1536": 6613,
+        "2048": 6520,
+        "2560": 6421,
+        "3008": 5031
+      },
+      "level": 3,
+      "upwardRank": 8803.142857142857,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "execute_case_1_2",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "ellipsoids-openmp",
+          "args": [
+            "1.dat",
+            "12.log",
+            "12.xoutput"
+          ]
+        },
+        "id": 11,
+        "deploymentType": "2048",
+        "scheduledStartTime": 1972,
+        "scheduledFinishTime": 4600
+      },
+      "ins": [
+        3
+      ],
+      "outs": [
+        16,
+        17
+      ],
+      "startTime": {
+        "256": 4031,
+        "512": 2718,
+        "1024": 1978,
+        "1536": 2825,
+        "2048": 3618,
+        "2560": 2002,
+        "3008": 1533
+      },
+      "finishTime": {
+        "256": 22066,
+        "512": 12198,
+        "1024": 6815,
+        "1536": 6575,
+        "2048": 6246,
+        "2560": 6596,
+        "3008": 4643
+      },
+      "level": 3,
+      "upwardRank": 8747.142857142857,
+      "subDeadline": 19099.1
+    },
+    {
+      "name": "average_result_2",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "mean-pack-ell",
+          "args": [
+            "20.xoutput",
+            "21.xoutput",
+            "22.xoutput",
+            "average_2.txt"
+          ]
+        },
+        "id": 20,
+        "deploymentType": "256",
+        "scheduledStartTime": 7568,
+        "scheduledFinishTime": 8261
+      },
+      "ins": [
+        19,
+        21,
+        23
+      ],
+      "outs": [
+        32
+      ],
+      "startTime": {
+        "256": 22906,
+        "512": 12557,
+        "1024": 7204,
+        "1536": 6530,
+        "2048": 6371,
+        "2560": 7773,
+        "3008": 6290
+      },
+      "finishTime": {
+        "256": 23599,
+        "512": 13279,
+        "1024": 9549,
+        "1536": 7120,
+        "2048": 7687,
+        "2560": 9002,
+        "3008": 7369
+      },
+      "level": 4,
+      "upwardRank": 2113.714285714286,
+      "subDeadline": 19692.1
+    },
+    {
+      "name": "average_result_0",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "mean-pack-ell",
+          "args": [
+            "00.xoutput",
+            "01.xoutput",
+            "02.xoutput",
+            "average_0.txt"
+          ]
+        },
+        "id": 18,
+        "deploymentType": "256",
+        "scheduledStartTime": 6077,
+        "scheduledFinishTime": 6838
+      },
+      "ins": [
+        7,
+        9,
+        11
+      ],
+      "outs": [
+        30
+      ],
+      "startTime": {
+        "256": 22819,
+        "512": 12619,
+        "1024": 7038,
+        "1536": 6563,
+        "2048": 7334,
+        "2560": 5300,
+        "3008": 8961
+      },
+      "finishTime": {
+        "256": 23580,
+        "512": 13308,
+        "1024": 9230,
+        "1536": 7156,
+        "2048": 7963,
+        "2560": 6994,
+        "3008": 9926
+      },
+      "level": 4,
+      "upwardRank": 2049.285714285714,
+      "subDeadline": 19692.1
+    },
+    {
+      "name": "average_result_1",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "mean-pack-ell",
+          "args": [
+            "10.xoutput",
+            "11.xoutput",
+            "12.xoutput",
+            "average_1.txt"
+          ]
+        },
+        "id": 19,
+        "deploymentType": "256",
+        "scheduledStartTime": 6668,
+        "scheduledFinishTime": 7440
+      },
+      "ins": [
+        13,
+        15,
+        17
+      ],
+      "outs": [
+        31
+      ],
+      "startTime": {
+        "256": 22163,
+        "512": 12222,
+        "1024": 6894,
+        "1536": 6759,
+        "2048": 6530,
+        "2560": 7930,
+        "3008": 5426
+      },
+      "finishTime": {
+        "256": 22935,
+        "512": 12809,
+        "1024": 7515,
+        "1536": 7368,
+        "2048": 7384,
+        "2560": 9018,
+        "3008": 7203
+      },
+      "level": 4,
+      "upwardRank": 1875.7142857142858,
+      "subDeadline": 19692.1
+    },
+    {
+      "name": "average_result_3",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "mean-pack-ell",
+          "args": [
+            "30.xoutput",
+            "31.xoutput",
+            "32.xoutput",
+            "average_3.txt"
+          ]
+        },
+        "id": 21,
+        "deploymentType": "256",
+        "scheduledStartTime": 6858,
+        "scheduledFinishTime": 7769
+      },
+      "ins": [
+        25,
+        27,
+        29
+      ],
+      "outs": [
+        33
+      ],
+      "startTime": {
+        "256": 22290,
+        "512": 12306,
+        "1024": 7007,
+        "1536": 6670,
+        "2048": 7941,
+        "2560": 8881,
+        "3008": 5047
+      },
+      "finishTime": {
+        "256": 23201,
+        "512": 12921,
+        "1024": 8745,
+        "1536": 7257,
+        "2048": 8485,
+        "2560": 9526,
+        "3008": 6044
+      },
+      "level": 4,
+      "upwardRank": 1837,
+      "subDeadline": 19692.1
+    },
+    {
+      "name": "summary",
+      "function": "awsCommand",
+      "type": "dataflow",
+      "config": {
+        "executor": {
+          "executable": "summary.js",
+          "args": []
+        },
+        "id": 22,
+        "deploymentType": "256",
+        "scheduledStartTime": 8540,
+        "scheduledFinishTime": 10250
+      },
+      "ins": [
+        1,
+        33,
+        32,
+        31,
+        30
+      ],
+      "outs": [
+        34
+      ],
+      "startTime": {
+        "256": 23878,
+        "512": 13422,
+        "1024": 11096,
+        "1536": 7601,
+        "2048": 8664,
+        "2560": 9677,
+        "3008": 10073
+      },
+      "finishTime": {
+        "256": 25588,
+        "512": 14603,
+        "1024": 11901,
+        "1536": 8315,
+        "2048": 9565,
+        "2560": 10391,
+        "3008": 10870
+      },
+      "level": 5,
+      "upwardRank": 974.5714285714286,
+      "subDeadline": 20406.1
+    }
+  ],
+  "signals": [
+    {
+      "name": "generateData.js"
+    },
+    {
+      "name": "data.json"
+    },
+    {
+      "name": "0.dat"
+    },
+    {
+      "name": "1.dat"
+    },
+    {
+      "name": "2.dat"
+    },
+    {
+      "name": "3.dat"
+    },
+    {
+      "name": "00.log"
+    },
+    {
+      "name": "00.xoutput"
+    },
+    {
+      "name": "01.log"
+    },
+    {
+      "name": "01.xoutput"
+    },
+    {
+      "name": "02.log"
+    },
+    {
+      "name": "02.xoutput"
+    },
+    {
+      "name": "10.log"
+    },
+    {
+      "name": "10.xoutput"
+    },
+    {
+      "name": "11.log"
+    },
+    {
+      "name": "11.xoutput"
+    },
+    {
+      "name": "12.log"
+    },
+    {
+      "name": "12.xoutput"
+    },
+    {
+      "name": "20.log"
+    },
+    {
+      "name": "20.xoutput"
+    },
+    {
+      "name": "21.log"
+    },
+    {
+      "name": "21.xoutput"
+    },
+    {
+      "name": "22.log"
+    },
+    {
+      "name": "22.xoutput"
+    },
+    {
+      "name": "30.log"
+    },
+    {
+      "name": "30.xoutput"
+    },
+    {
+      "name": "31.log"
+    },
+    {
+      "name": "31.xoutput"
+    },
+    {
+      "name": "32.log"
+    },
+    {
+      "name": "32.xoutput"
+    },
+    {
+      "name": "average_0.txt"
+    },
+    {
+      "name": "average_1.txt"
+    },
+    {
+      "name": "average_2.txt"
+    },
+    {
+      "name": "average_3.txt"
+    },
+    {
+      "name": "summary.csv"
+    }
+  ],
+  "ins": [
+    0
+  ],
+  "outs": [
+    34
+  ]
+}

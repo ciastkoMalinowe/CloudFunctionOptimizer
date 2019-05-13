@@ -2,14 +2,19 @@
   "budgetParameter": 0.3,
   "deadlineParameter": 0.7,
   "functionTypes": [
+    "256",
+    "512",
+    "1024",
     "1536",
-    "2048"
+    "2048",
+    "2560",
+    "3008"
   ],
   "count": 5,
   "provider": "AWS",
   "algorithm": "sdbcs",
   "workflow": "ellipsoids",
-  "dag": "dags/ellipsoids/3/workflow-with-id.json",
+  "dag": "dags/ellipsoids/50/workflow-with-id.json",
   "prices": {
     "AWS": {
       "128": 0.000000208,
