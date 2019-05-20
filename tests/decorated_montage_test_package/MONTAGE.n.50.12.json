@@ -1,0 +1,2340 @@
+{
+  "functions": [
+    {
+      "name": "command_print",
+      "module": "functions"
+    }
+  ],
+  "tasks": [
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.85"
+      },
+      "ins": [
+        0,
+        1
+      ],
+      "outs": [
+        2,
+        3
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 13850,
+        "512": 7831,
+        "1024": 4766,
+        "1536": 3750,
+        "2048": 4735,
+        "2560": 3284,
+        "3008": 3483
+      }
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.66"
+      },
+      "ins": [
+        4,
+        5
+      ],
+      "outs": [
+        6,
+        7
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      }
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.63"
+      },
+      "ins": [
+        4,
+        8
+      ],
+      "outs": [
+        9,
+        10
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 13630,
+        "512": 7707,
+        "1024": 4690,
+        "1536": 3691,
+        "2048": 4660,
+        "2560": 3232,
+        "3008": 3428
+      }
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.92"
+      },
+      "ins": [
+        4,
+        11
+      ],
+      "outs": [
+        12,
+        13
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 13920,
+        "512": 7871,
+        "1024": 4790,
+        "1536": 3769,
+        "2048": 4759,
+        "2560": 3301,
+        "3008": 3500
+      }
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.59"
+      },
+      "ins": [
+        4,
+        14
+      ],
+      "outs": [
+        15,
+        16
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 13590,
+        "512": 7684,
+        "1024": 4677,
+        "1536": 3680,
+        "2048": 4647,
+        "2560": 3223,
+        "3008": 3417
+      }
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.64"
+      },
+      "ins": [
+        4,
+        17
+      ],
+      "outs": [
+        18,
+        19
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 13640,
+        "512": 7713,
+        "1024": 4694,
+        "1536": 3693,
+        "2048": 4664,
+        "2560": 3234,
+        "3008": 3430
+      }
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.45"
+      },
+      "ins": [
+        4,
+        20
+      ],
+      "outs": [
+        21,
+        22
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 13450,
+        "512": 7605,
+        "1024": 4628,
+        "1536": 3642,
+        "2048": 4599,
+        "2560": 3189,
+        "3008": 3382
+      }
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": []
+        },
+        "synthetic_runtime": "13.66"
+      },
+      "ins": [
+        4,
+        23
+      ],
+      "outs": [
+        24,
+        25
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.62"
+      },
+      "ins": [
+        4,
+        2,
+        3
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24280,
+        "512": 14002,
+        "1024": 9201,
+        "1536": 7448,
+        "2048": 12154,
+        "2560": 6870,
+        "3008": 6770
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.53"
+      },
+      "ins": [
+        4,
+        2,
+        3,
+        6,
+        7
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24190,
+        "512": 13949,
+        "1024": 9163,
+        "1536": 7417,
+        "2048": 12091,
+        "2560": 6839,
+        "3008": 6741
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.56"
+      },
+      "ins": [
+        4,
+        2,
+        3,
+        15,
+        16
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24220,
+        "512": 13967,
+        "1024": 9176,
+        "1536": 7427,
+        "2048": 12112,
+        "2560": 6849,
+        "3008": 6751
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.61"
+      },
+      "ins": [
+        4,
+        2,
+        3,
+        24,
+        25
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24270,
+        "512": 13996,
+        "1024": 9197,
+        "1536": 7445,
+        "2048": 12147,
+        "2560": 6866,
+        "3008": 6766
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.62"
+      },
+      "ins": [
+        4,
+        6,
+        7,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24280,
+        "512": 14002,
+        "1024": 9201,
+        "1536": 7448,
+        "2048": 12154,
+        "2560": 6870,
+        "3008": 6770
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.64"
+      },
+      "ins": [
+        4,
+        6,
+        7,
+        15,
+        16
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24300,
+        "512": 14014,
+        "1024": 9210,
+        "1536": 7455,
+        "2048": 12168,
+        "2560": 6877,
+        "3008": 6776
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.81"
+      },
+      "ins": [
+        4,
+        6,
+        7,
+        21,
+        22
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24470,
+        "512": 14114,
+        "1024": 9282,
+        "1536": 7515,
+        "2048": 12288,
+        "2560": 6935,
+        "3008": 6829
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.65"
+      },
+      "ins": [
+        4,
+        9,
+        10
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24310,
+        "512": 14020,
+        "1024": 9214,
+        "1536": 7459,
+        "2048": 12175,
+        "2560": 6880,
+        "3008": 6779
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.49"
+      },
+      "ins": [
+        4,
+        9,
+        10,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24150,
+        "512": 13925,
+        "1024": 9146,
+        "1536": 7403,
+        "2048": 12062,
+        "2560": 6825,
+        "3008": 6729
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.56"
+      },
+      "ins": [
+        4,
+        9,
+        10,
+        15,
+        16
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24220,
+        "512": 13967,
+        "1024": 9176,
+        "1536": 7427,
+        "2048": 12112,
+        "2560": 6849,
+        "3008": 6751
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.70"
+      },
+      "ins": [
+        4,
+        9,
+        10,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24360,
+        "512": 14049,
+        "1024": 9235,
+        "1536": 7477,
+        "2048": 12210,
+        "2560": 6897,
+        "3008": 6795
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.51"
+      },
+      "ins": [
+        4,
+        9,
+        10,
+        21,
+        22
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24170,
+        "512": 13937,
+        "1024": 9154,
+        "1536": 7410,
+        "2048": 12076,
+        "2560": 6832,
+        "3008": 6735
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.42"
+      },
+      "ins": [
+        4,
+        12,
+        13,
+        2,
+        3
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24080,
+        "512": 13884,
+        "1024": 9116,
+        "1536": 7378,
+        "2048": 12013,
+        "2560": 6801,
+        "3008": 6707
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.64"
+      },
+      "ins": [
+        4,
+        12,
+        13,
+        9,
+        10
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24300,
+        "512": 14014,
+        "1024": 9210,
+        "1536": 7455,
+        "2048": 12168,
+        "2560": 6877,
+        "3008": 6776
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.76"
+      },
+      "ins": [
+        4,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24420,
+        "512": 14085,
+        "1024": 9260,
+        "1536": 7498,
+        "2048": 12253,
+        "2560": 6918,
+        "3008": 6814
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.56"
+      },
+      "ins": [
+        4,
+        12,
+        13,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24220,
+        "512": 13967,
+        "1024": 9176,
+        "1536": 7427,
+        "2048": 12112,
+        "2560": 6849,
+        "3008": 6751
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.61"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        2,
+        3
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24270,
+        "512": 13996,
+        "1024": 9197,
+        "1536": 7445,
+        "2048": 12147,
+        "2560": 6866,
+        "3008": 6766
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.58"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        6,
+        7
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24240,
+        "512": 13978,
+        "1024": 9184,
+        "1536": 7434,
+        "2048": 12126,
+        "2560": 6856,
+        "3008": 6757
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.56"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        9,
+        10
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24220,
+        "512": 13967,
+        "1024": 9176,
+        "1536": 7427,
+        "2048": 12112,
+        "2560": 6849,
+        "3008": 6751
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.52"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24180,
+        "512": 13943,
+        "1024": 9159,
+        "1536": 7413,
+        "2048": 12084,
+        "2560": 6836,
+        "3008": 6738
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.56"
+      },
+      "ins": [
+        4,
+        15,
+        16,
+        24,
+        25
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24220,
+        "512": 13967,
+        "1024": 9176,
+        "1536": 7427,
+        "2048": 12112,
+        "2560": 6849,
+        "3008": 6751
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.55"
+      },
+      "ins": [
+        4,
+        18,
+        19,
+        2,
+        3
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24210,
+        "512": 13961,
+        "1024": 9171,
+        "1536": 7424,
+        "2048": 12105,
+        "2560": 6846,
+        "3008": 6748
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.57"
+      },
+      "ins": [
+        4,
+        18,
+        19,
+        6,
+        7
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24230,
+        "512": 13972,
+        "1024": 9180,
+        "1536": 7431,
+        "2048": 12119,
+        "2560": 6853,
+        "3008": 6754
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.70"
+      },
+      "ins": [
+        4,
+        18,
+        19,
+        9,
+        10
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24360,
+        "512": 14049,
+        "1024": 9235,
+        "1536": 7477,
+        "2048": 12210,
+        "2560": 6897,
+        "3008": 6795
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.59"
+      },
+      "ins": [
+        4,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24250,
+        "512": 13984,
+        "1024": 9188,
+        "1536": 7438,
+        "2048": 12133,
+        "2560": 6860,
+        "3008": 6760
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.76"
+      },
+      "ins": [
+        4,
+        21,
+        22,
+        12,
+        13
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24420,
+        "512": 14085,
+        "1024": 9260,
+        "1536": 7498,
+        "2048": 12253,
+        "2560": 6918,
+        "3008": 6814
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.37"
+      },
+      "ins": [
+        4,
+        24,
+        25,
+        2,
+        3
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24030,
+        "512": 13854,
+        "1024": 9095,
+        "1536": 7360,
+        "2048": 11978,
+        "2560": 6784,
+        "3008": 6691
+      }
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": []
+        },
+        "synthetic_runtime": "10.77"
+      },
+      "ins": [
+        4,
+        24,
+        25,
+        18,
+        19
+      ],
+      "outs": [
+        26,
+        27
+      ],
+      "startTime": {
+        "256": 13660,
+        "512": 7724,
+        "1024": 4701,
+        "1536": 3699,
+        "2048": 4671,
+        "2560": 3239,
+        "3008": 3435
+      },
+      "finishTime": {
+        "256": 24430,
+        "512": 14091,
+        "1024": 9265,
+        "1536": 7501,
+        "2048": 12260,
+        "2560": 6921,
+        "3008": 6817
+      }
+    },
+    {
+      "name": "mConcatFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mConcatFit",
+          "args": []
+        },
+        "synthetic_runtime": "2.24"
+      },
+      "ins": [
+        28,
+        26,
+        27
+      ],
+      "outs": [
+        29
+      ],
+      "startTime": {
+        "256": 24430,
+        "512": 14091,
+        "1024": 9265,
+        "1536": 7501,
+        "2048": 12260,
+        "2560": 6921,
+        "3008": 6817
+      },
+      "finishTime": {
+        "256": 26670,
+        "512": 15320,
+        "1024": 10085,
+        "1536": 8065,
+        "2048": 12764,
+        "2560": 7464,
+        "3008": 7545
+      }
+    },
+    {
+      "name": "mBgModel",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBgModel",
+          "args": []
+        },
+        "synthetic_runtime": "3.23"
+      },
+      "ins": [
+        30,
+        29
+      ],
+      "outs": [
+        31
+      ],
+      "startTime": {
+        "256": 26670,
+        "512": 15320,
+        "1024": 10085,
+        "1536": 8065,
+        "2048": 12764,
+        "2560": 7464,
+        "3008": 7545
+      },
+      "finishTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      }
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.61"
+      },
+      "ins": [
+        31,
+        2,
+        3
+      ],
+      "outs": [
+        32,
+        33
+      ],
+      "startTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      },
+      "finishTime": {
+        "256": 40510,
+        "512": 23726,
+        "1024": 16781,
+        "1536": 16156,
+        "2048": 18810,
+        "2560": 13227,
+        "3008": 13296
+      }
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.73"
+      },
+      "ins": [
+        31,
+        6,
+        7
+      ],
+      "outs": [
+        34,
+        35
+      ],
+      "startTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      },
+      "finishTime": {
+        "256": 40630,
+        "512": 23802,
+        "1024": 16848,
+        "1536": 16241,
+        "2048": 18873,
+        "2560": 13287,
+        "3008": 13356
+      }
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.53"
+      },
+      "ins": [
+        31,
+        9,
+        10
+      ],
+      "outs": [
+        36,
+        37
+      ],
+      "startTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      },
+      "finishTime": {
+        "256": 40430,
+        "512": 23675,
+        "1024": 16737,
+        "1536": 16100,
+        "2048": 18768,
+        "2560": 13187,
+        "3008": 13257
+      }
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.82"
+      },
+      "ins": [
+        31,
+        12,
+        13
+      ],
+      "outs": [
+        38,
+        39
+      ],
+      "startTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      },
+      "finishTime": {
+        "256": 40720,
+        "512": 23859,
+        "1024": 16897,
+        "1536": 16305,
+        "2048": 18920,
+        "2560": 13332,
+        "3008": 13401
+      }
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.71"
+      },
+      "ins": [
+        31,
+        15,
+        16
+      ],
+      "outs": [
+        40,
+        41
+      ],
+      "startTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      },
+      "finishTime": {
+        "256": 40610,
+        "512": 23789,
+        "1024": 16837,
+        "1536": 16227,
+        "2048": 18863,
+        "2560": 13277,
+        "3008": 13346
+      }
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.70"
+      },
+      "ins": [
+        31,
+        18,
+        19
+      ],
+      "outs": [
+        42,
+        43
+      ],
+      "startTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      },
+      "finishTime": {
+        "256": 40600,
+        "512": 23783,
+        "1024": 16831,
+        "1536": 16220,
+        "2048": 18857,
+        "2560": 13272,
+        "3008": 13341
+      }
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.82"
+      },
+      "ins": [
+        31,
+        21,
+        22
+      ],
+      "outs": [
+        44,
+        45
+      ],
+      "startTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      },
+      "finishTime": {
+        "256": 40720,
+        "512": 23859,
+        "1024": 16897,
+        "1536": 16305,
+        "2048": 18920,
+        "2560": 13332,
+        "3008": 13401
+      }
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": []
+        },
+        "synthetic_runtime": "10.72"
+      },
+      "ins": [
+        31,
+        24,
+        25
+      ],
+      "outs": [
+        46,
+        47
+      ],
+      "startTime": {
+        "256": 29900,
+        "512": 16964,
+        "1024": 10921,
+        "1536": 8641,
+        "2048": 13233,
+        "2560": 7928,
+        "3008": 8014
+      },
+      "finishTime": {
+        "256": 40620,
+        "512": 23796,
+        "1024": 16842,
+        "1536": 16234,
+        "2048": 18868,
+        "2560": 13282,
+        "3008": 13351
+      }
+    },
+    {
+      "name": "mImgTbl",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mImgTbl",
+          "args": []
+        },
+        "synthetic_runtime": "2.92"
+      },
+      "ins": [
+        48,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ],
+      "outs": [
+        49
+      ],
+      "startTime": {
+        "256": 40620,
+        "512": 23796,
+        "1024": 16842,
+        "1536": 16234,
+        "2048": 18868,
+        "2560": 13282,
+        "3008": 13351
+      },
+      "finishTime": {
+        "256": 43540,
+        "512": 25378,
+        "1024": 18396,
+        "1536": 16990,
+        "2048": 19950,
+        "2560": 14361,
+        "3008": 14209
+      }
+    },
+    {
+      "name": "mAdd",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mAdd",
+          "args": []
+        },
+        "synthetic_runtime": "4.79"
+      },
+      "ins": [
+        4,
+        49
+      ],
+      "outs": [
+        50,
+        51
+      ],
+      "startTime": {
+        "256": 43540,
+        "512": 25378,
+        "1024": 18396,
+        "1536": 16990,
+        "2048": 19950,
+        "2560": 14361,
+        "3008": 14209
+      },
+      "finishTime": {
+        "256": 48330,
+        "512": 27301,
+        "1024": 19617,
+        "1536": 18096,
+        "2048": 21252,
+        "2560": 15108,
+        "3008": 14849
+      }
+    },
+    {
+      "name": "mShrink",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mShrink",
+          "args": []
+        },
+        "synthetic_runtime": "4.88"
+      },
+      "ins": [
+        50,
+        51
+      ],
+      "outs": [
+        52
+      ],
+      "startTime": {
+        "256": 48330,
+        "512": 27301,
+        "1024": 19617,
+        "1536": 18096,
+        "2048": 21252,
+        "2560": 15108,
+        "3008": 14849
+      },
+      "finishTime": {
+        "256": 53210,
+        "512": 30530,
+        "1024": 22041,
+        "1536": 20598,
+        "2048": 23546,
+        "2560": 17243,
+        "3008": 17040
+      }
+    },
+    {
+      "name": "mJPEG",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mJPEG",
+          "args": []
+        },
+        "synthetic_runtime": "0.43"
+      },
+      "ins": [
+        52
+      ],
+      "outs": [
+        53
+      ],
+      "startTime": {
+        "256": 53210,
+        "512": 30530,
+        "1024": 22041,
+        "1536": 20598,
+        "2048": 23546,
+        "2560": 17243,
+        "3008": 17040
+      },
+      "finishTime": {
+        "256": 53640,
+        "512": 30778,
+        "1024": 22209,
+        "1536": 20758,
+        "2048": 23707,
+        "2560": 17365,
+        "3008": 17164
+      }
+    }
+  ],
+  "data": [
+    {
+      "name": "region.hdr",
+      "size": "304"
+    },
+    {
+      "name": "2mass-atlas-ID00000s-jID00000.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00000s-jID00000.fits",
+      "size": "4149740"
+    },
+    {
+      "name": "p2mass-atlas-ID00000s-jID00000_area.fits",
+      "size": "4149740"
+    },
+    {
+      "name": "region.hdr",
+      "size": "304"
+    },
+    {
+      "name": "2mass-atlas-ID00001s-jID00001.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00001s-jID00001.fits",
+      "size": "4180524"
+    },
+    {
+      "name": "p2mass-atlas-ID00001s-jID00001_area.fits",
+      "size": "4180524"
+    },
+    {
+      "name": "2mass-atlas-ID00002s-jID00002.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00002s-jID00002.fits",
+      "size": "4159753"
+    },
+    {
+      "name": "p2mass-atlas-ID00002s-jID00002_area.fits",
+      "size": "4159753"
+    },
+    {
+      "name": "2mass-atlas-ID00003s-jID00003.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00003s-jID00003.fits",
+      "size": "4181847"
+    },
+    {
+      "name": "p2mass-atlas-ID00003s-jID00003_area.fits",
+      "size": "4181847"
+    },
+    {
+      "name": "2mass-atlas-ID00004s-jID00004.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00004s-jID00004.fits",
+      "size": "4171717"
+    },
+    {
+      "name": "p2mass-atlas-ID00004s-jID00004_area.fits",
+      "size": "4171717"
+    },
+    {
+      "name": "2mass-atlas-ID00005s-jID00005.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00005s-jID00005.fits",
+      "size": "4156748"
+    },
+    {
+      "name": "p2mass-atlas-ID00005s-jID00005_area.fits",
+      "size": "4156748"
+    },
+    {
+      "name": "2mass-atlas-ID00006s-jID00006.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00006s-jID00006.fits",
+      "size": "4161516"
+    },
+    {
+      "name": "p2mass-atlas-ID00006s-jID00006_area.fits",
+      "size": "4161516"
+    },
+    {
+      "name": "2mass-atlas-ID00007s-jID00007.fits",
+      "size": "4222080"
+    },
+    {
+      "name": "p2mass-atlas-ID00007s-jID00007.fits",
+      "size": "4168178"
+    },
+    {
+      "name": "p2mass-atlas-ID00007s-jID00007_area.fits",
+      "size": "4168178"
+    },
+    {
+      "name": "fit.txt",
+      "size": "271"
+    },
+    {
+      "name": "diff.txt",
+      "size": "402293"
+    },
+    {
+      "name": "fits_list.tbl",
+      "size": "763"
+    },
+    {
+      "name": "fits.tbl",
+      "size": "5878"
+    },
+    {
+      "name": "pimages.tbl",
+      "size": "1340"
+    },
+    {
+      "name": "corrections.tbl",
+      "size": "425"
+    },
+    {
+      "name": "c2mass-atlas-ID00000s-jID00000_area.fits",
+      "size": "4149740"
+    },
+    {
+      "name": "c2mass-atlas-ID00000s-jID00000.fits",
+      "size": "4149740"
+    },
+    {
+      "name": "c2mass-atlas-ID00001s-jID00001_area.fits",
+      "size": "4180524"
+    },
+    {
+      "name": "c2mass-atlas-ID00001s-jID00001.fits",
+      "size": "4180524"
+    },
+    {
+      "name": "c2mass-atlas-ID00002s-jID00002_area.fits",
+      "size": "4159753"
+    },
+    {
+      "name": "c2mass-atlas-ID00002s-jID00002.fits",
+      "size": "4159753"
+    },
+    {
+      "name": "c2mass-atlas-ID00003s-jID00003.fits",
+      "size": "4181847"
+    },
+    {
+      "name": "c2mass-atlas-ID00003s-jID00003_area.fits",
+      "size": "4181847"
+    },
+    {
+      "name": "c2mass-atlas-ID00004s-jID00004.fits",
+      "size": "4171717"
+    },
+    {
+      "name": "c2mass-atlas-ID00004s-jID00004_area.fits",
+      "size": "4171717"
+    },
+    {
+      "name": "c2mass-atlas-ID00005s-jID00005_area.fits",
+      "size": "4156748"
+    },
+    {
+      "name": "c2mass-atlas-ID00005s-jID00005.fits",
+      "size": "4156748"
+    },
+    {
+      "name": "c2mass-atlas-ID00006s-jID00006_area.fits",
+      "size": "4161516"
+    },
+    {
+      "name": "c2mass-atlas-ID00006s-jID00006.fits",
+      "size": "4161516"
+    },
+    {
+      "name": "c2mass-atlas-ID00007s-jID00007.fits",
+      "size": "4168178"
+    },
+    {
+      "name": "c2mass-atlas-ID00007s-jID00007_area.fits",
+      "size": "4168178"
+    },
+    {
+      "name": "cimages.tbl",
+      "size": "1340"
+    },
+    {
+      "name": "newcimages.tbl",
+      "size": "2671"
+    },
+    {
+      "name": "mosaic_ID00047_ID00047.fits",
+      "size": "67831305"
+    },
+    {
+      "name": "mosaic_ID00047_ID00047_area.fits",
+      "size": "67831305"
+    },
+    {
+      "name": "shrunken_ID00048_ID00048.fits",
+      "size": "2714337"
+    },
+    {
+      "name": "shrunken_ID00048_ID00048.jpg",
+      "size": "216218"
+    }
+  ],
+  "ins": [
+    0,
+    1,
+    4,
+    5,
+    8,
+    11,
+    14,
+    17,
+    20,
+    23,
+    28,
+    30,
+    48
+  ],
+  "outs": [
+    53
+  ]
+}
