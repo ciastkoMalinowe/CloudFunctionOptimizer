@@ -6,11 +6,15 @@ const startTimesString = "startTime";
 const finishTimesString = "finishTime";
 
 const saveToFile = false;
-
+debugger;
 const dagPath = process.argv[2];
 const csvPath = process.argv[3];
 const outputPath = process.argv[4];
 const outputCSV = process.argv[5];
+const configPath = process.argv[6];
+const config = JSON.parse(fs.readFileSync(configPath));
+
+const functionTypes = [256, 512, 1024, 1536, 2048, 2560, 3008];
 
 if(!csvPath || !dagPath || !outputPath || (saveToFile && !outputCSV)){
   throw new Error("Provide valid arguments: node time-decorator.js DAG_PATH CSV_PATH OUTPUT_PATH (OUTPUT_CSV)");
@@ -57,8 +61,8 @@ csvParser
   .on("end", function () {
     let resourceTimes = calculateResourceTimes(idTypeMap);
 
-    // decorateTaskWithTime(tasks, resourceTimes);
-    // fs.writeFile(outputPath, JSON.stringify(dag, null, 2), (err) => { if (err) throw err; });
+    decorateTaskWithTime(tasks, resourceTimes);
+    fs.writeFile(outputPath, JSON.stringify(dag, null, 2), (err) => { if (err) throw err; });
   });
 
 function calculateResourceTimes(idTimeMap) {
@@ -120,12 +124,56 @@ function calculateAverage(times) {
   };
 }
 
+function generateZeroStartTimes() {
+  let output = {};
+
+  // const functionTypes = config.functionTypes;
+  functionTypes.forEach(functionType => output[functionType] = 0);
+
+  return output;
+}
+
+function calculateExecutionTimes(realStartTimes, realFinishTimes, syntheticTime, startTimesDelay) {
+  let output = {};
+
+  // const functionTypes = config.functionTypes;
+  functionTypes.forEach( functionType => {
+    const startTime = realStartTimes[functionType];
+    const finishTime = realFinishTimes[functionType];
+    const duration = finishTime - startTime;
+
+    const baseStartTime = realStartTimes['256'];
+    const baseFinishTime = realFinishTimes['256'];
+    const baseDuration = baseFinishTime - baseStartTime;
+
+    output[functionType] = startTimesDelay[functionType] + Math.round(syntheticTime * duration/baseDuration);
+  });
+
+  return output;
+}
+
 function decorateTaskWithTime(tasks, times) {
+  let taskType;
+  let startTimesDelay = {};
+  let maxDurationOfTaskFromPreviousLevel = generateZeroStartTimes();
+  let maxSynthenticRuntime = 0;
   tasks.forEach(task => {
-    let id = task.config.id;
-    let startTimes = times.startTimes[id];
-    let finishTimes = times.finishTimes[id];
-    task[startTimesString] = {...task[startTimesString], ...startTimes};
-    task[finishTimesString] = {...task[finishTimesString], ...finishTimes};
+    if(taskType !== task.name) startTimesDelay = maxDurationOfTaskFromPreviousLevel;
+
+    taskType = task.name;
+
+    if (taskType === "mImgTbl") {
+      taskType = "mImgtbl";
+    }
+
+    let realStartTimes = times.startTimes[taskType];
+    let realFinishTimes = times.finishTimes[taskType];
+
+    let syntheticRuntime = task.config.synthetic_runtime * 1000;
+
+    task[startTimesString] = startTimesDelay;
+    task[finishTimesString] = calculateExecutionTimes(realStartTimes, realFinishTimes, syntheticRuntime, startTimesDelay);
+
+    if(maxSynthenticRuntime < syntheticRuntime) maxDurationOfTaskFromPreviousLevel = task[finishTimesString];
   })
 }
