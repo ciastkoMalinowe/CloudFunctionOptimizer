@@ -1,4 +1,6 @@
+const fs = require('fs');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
+const outputCSV="./results.csv";
 
 class SDBWS extends SchedulingAlgorithm {
   constructor(config) {
@@ -24,10 +26,9 @@ class SDBWS extends SchedulingAlgorithm {
     console.log("userBudget: " + userBudget);
 
     if (userBudget < minBudget) throw new Error("No possible schedule map");
-    // else if (userBudget >= maxBudget) {
-    //   tasks.forEach(task => task.config.deploymentType = this.getMostExpensiveResourceType());
-    //   return;
-    // }
+    const inConstrains = (userBudget < minBudget || userDeadline < minDeadline) ? 0: 1;
+
+    fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${maxBudget} ${minBudget} ${userBudget} ${inConstrains}\n`);
 
     this.decorateTasksWithSubdeadline(sortedTasks, userDeadline);
 
