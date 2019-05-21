@@ -47,6 +47,10 @@ class TaskUtilities {
     return Math.min(...times);
   }
 
+  findTaskExecutionTimeOnResource(task, resourceType) {
+    return task.finishTime[resourceType] - task.startTime[resourceType];
+  }
+
   findTaskExecutionCostOnResource(task, resourceType) {
     let time = task.finishTime[resourceType] - task.startTime[resourceType];
     return (Math.ceil(time / 100) * this.config.prices[this.config.provider][resourceType]);

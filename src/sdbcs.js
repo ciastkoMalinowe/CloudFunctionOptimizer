@@ -26,12 +26,7 @@ class SDBCS extends SchedulingAlgorithm {
     console.log("userDeadline: " + userDeadline);
     console.log("userBudget: " + userBudget);
 
-    if (userBudget < minBudget) {
-      throw new Error("No possible schedule map")
-    }
-    const inConstrains = (userBudget < minBudget || userDeadline < minDeadline) ? 0: 1;
-
-    fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${maxBudget} ${minBudget} ${userBudget} ${inConstrains}\n`);
+    // if (userBudget < minBudget) { throw new Error("No possible schedule map") }
 
     this.decorateTasksWithUpwardRank(sortedTasks);
     this.decorateTasksWithSubdeadline(sortedTasks, userDeadline);
@@ -39,6 +34,10 @@ class SDBCS extends SchedulingAlgorithm {
     const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
     const costEfficientFactor = minBudget / userBudget;
     let deltaCost = userBudget - minBudget;
+
+    let plannedExecutionTime = 0;
+    let plannedExecutionCost = 0;
+
     tasksSortedUpward.forEach(
       task => {
         let maximumAvailableBudget = deltaCost + this.taskUtils.findMinTaskExecutionCost(task);
@@ -63,10 +62,17 @@ class SDBCS extends SchedulingAlgorithm {
 
         task.config.deploymentType = selectedResource;
         // copy schedulded times to config
+
+        plannedExecutionTime += this.taskUtils.findTaskExecutionTimeOnResource(task, selectedResource);
+        plannedExecutionCost += this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource);
+
         Object.assign(task.config, this.getScheduldedTimesOnResource(tasks, task, selectedResource));
         deltaCost = deltaCost - [this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource) - this.taskUtils.findMinTaskExecutionCost(task)]
       }
     );
+
+    const inConstrains = (userBudget > plannedExecutionCost || userDeadline > plannedExecutionTime) ? 0: 1;
+    fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
 
   isProcesorAdmisible(task, procesor, maxBudget) {
