@@ -35,7 +35,6 @@ class SDBCS extends SchedulingAlgorithm {
     const costEfficientFactor = minBudget / userBudget;
     let deltaCost = userBudget - minBudget;
 
-    let plannedExecutionTime = 0;
     let plannedExecutionCost = 0;
 
     tasksSortedUpward.forEach(
@@ -61,9 +60,7 @@ class SDBCS extends SchedulingAlgorithm {
         }
 
         task.config.deploymentType = selectedResource;
-        // copy schedulded times to config
 
-        plannedExecutionTime += this.taskUtils.findTaskExecutionTimeOnResource(task, selectedResource);
         plannedExecutionCost += this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource);
 
         Object.assign(task.config, this.getScheduldedTimesOnResource(tasks, task, selectedResource));
@@ -71,7 +68,8 @@ class SDBCS extends SchedulingAlgorithm {
       }
     );
 
-    const inConstrains = (userBudget > plannedExecutionCost || userDeadline > plannedExecutionTime) ? 0: 1;
+    const plannedExecutionTime = this.taskUtils.findPlannedExecutionTime(sortedTasks);
+    const inConstrains = (plannedExecutionCost < userBudget && plannedExecutionTime < userDeadline) ? 1: 0;
     fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
 
