@@ -17,6 +17,9 @@ algorithms=( sdbws sdbcs )
 budgets=(0.3 0.5 0.7)
 deadlines=(0.3 0.5 0.7)
 
+outputFile=${appdir}/results.csv
+printf "montage algorithm deadline budget maxDeadline minDeadline userDeadline maxBuget minBudget userBudget inConstrains\n" > ${outputFile}
+
 for alg in "${algorithms[@]}"
 do
     mkdir -p ${appdir}/${outputDAGDir}/${alg}
@@ -46,6 +49,7 @@ do
 
                 echo "Scheduling DAG: ${dag}"
                 echo node ${schedulingDecorator} ${dag} ${outputDAG} ${config}
+                printf "${baseFileName} ${alg} ${deadline} ${budget} " >> ${outputFile}
                 node ${schedulingDecorator} ${dag} ${outputDAG} ${config}
             done
         done

@@ -1,4 +1,7 @@
+const fs = require('fs');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
+const outputCSV="./results.csv";
+
 
 class SDBCS extends SchedulingAlgorithm {
   constructor(config) {
@@ -26,6 +29,9 @@ class SDBCS extends SchedulingAlgorithm {
     if (userBudget < minBudget) {
       throw new Error("No possible schedule map")
     }
+    const inConstrains = (userBudget < minBudget || userDeadline < minDeadline) ? 0: 1;
+
+    fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${maxBudget} ${minBudget} ${userBudget} ${inConstrains}\n`);
 
     this.decorateTasksWithUpwardRank(sortedTasks);
     this.decorateTasksWithSubdeadline(sortedTasks, userDeadline);
