@@ -31,7 +31,6 @@ class SDBWS extends SchedulingAlgorithm {
 
     const costEfficientFactor = minBudget / userBudget;
 
-    let plannedExecutionTime = 0;
     let plannedExecutionCost = 0;
 
     sortedTasks.forEach(
@@ -55,15 +54,13 @@ class SDBWS extends SchedulingAlgorithm {
         }
 
         task.config.deploymentType = selectedResource;
-        // copy schedulded times to config
 
-        plannedExecutionTime += this.taskUtils.findTaskExecutionTimeOnResource(task, selectedResource);
         plannedExecutionCost += this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource);
-
         Object.assign(task.config, this.getScheduldedTimesOnResource(tasks, task, selectedResource))
       }
     );
 
+    const plannedExecutionTime = this.taskUtils.findPlannedExecutionTime(sortedTasks);
     const inConstrains = (plannedExecutionCost < userBudget && plannedExecutionTime < userDeadline) ? 1: 0;
     fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }

@@ -3,6 +3,7 @@
 class TaskUtilities {
   constructor(config) {
     this.config = config;
+    this.taskTimesCache = {}
   }
 
   // TODO: Unused
@@ -51,9 +52,38 @@ class TaskUtilities {
     return task.finishTime[resourceType] - task.startTime[resourceType];
   }
 
+  findTaskExecutionTime(task) {
+    return task.config['scheduledFinishTime'] - task.config['scheduledStartTime'];
+  }
+
   findTaskExecutionCostOnResource(task, resourceType) {
     let time = task.finishTime[resourceType] - task.startTime[resourceType];
     return (Math.ceil(time / 100) * this.config.prices[this.config.provider][resourceType]);
+  }
+
+  findPlannedExecutionTime(tasks) {
+    const entryTasks = tasks.filter(task => this.findPredecessorsForTask(tasks, task).length === 0);
+
+    let theLongestExecution = 0;
+    entryTasks.forEach(task => {
+      let pathExecutionTime = this.findExecutionTimeToExitTask(task, tasks);
+      if(theLongestExecution < pathExecutionTime) theLongestExecution = pathExecutionTime
+    });
+
+    return theLongestExecution;
+  }
+
+  findExecutionTimeToExitTask(task, tasks) {
+    let taskExecutionTime;
+    let sucessors = this.findSuccessorsForTask(tasks, task);
+    if(sucessors.length === 0) {
+      taskExecutionTime = this.findTaskExecutionTime(task);
+    } else {
+      taskExecutionTime = (this.findTaskExecutionTime(task) + Math.max(...sucessors.map(t => this.taskTimesCache[t.config.id] || this.findExecutionTimeToExitTask(t, tasks))));
+    }
+
+    this.taskTimesCache[task.config.id] = taskExecutionTime;
+    return taskExecutionTime;
   }
 
   findMaxTaskExecutionCost(task) {
