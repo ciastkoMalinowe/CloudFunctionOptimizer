@@ -18,7 +18,7 @@ budgets=(0.3 0.5 0.7)
 deadlines=(0.3 0.5 0.7)
 
 outputFile=${appdir}/results.csv
-printf "montage algorithm deadline budget maxDeadline minDeadline userDeadline maxBuget minBudget userBudget inConstrains\n" > ${outputFile}
+printf "montage algorithm deadline budget maxDeadline minDeadline userDeadline plannedExecutionTime maxBuget minBudget userBudget plannedExecutionCost inConstrains\n" > ${outputFile}
 
 for alg in "${algorithms[@]}"
 do

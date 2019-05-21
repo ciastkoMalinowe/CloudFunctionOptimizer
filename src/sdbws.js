@@ -25,14 +25,15 @@ class SDBWS extends SchedulingAlgorithm {
     console.log("userDeadline: " + userDeadline);
     console.log("userBudget: " + userBudget);
 
-    if (userBudget < minBudget) throw new Error("No possible schedule map");
-    const inConstrains = (userBudget < minBudget || userDeadline < minDeadline) ? 0: 1;
-
-    fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${maxBudget} ${minBudget} ${userBudget} ${inConstrains}\n`);
+    // if (userBudget < minBudget) throw new Error("No possible schedule map");
 
     this.decorateTasksWithSubdeadline(sortedTasks, userDeadline);
 
     const costEfficientFactor = minBudget / userBudget;
+
+    let plannedExecutionTime = 0;
+    let plannedExecutionCost = 0;
+
     sortedTasks.forEach(
       task => {
         let resourceMap = new Map();
@@ -55,9 +56,16 @@ class SDBWS extends SchedulingAlgorithm {
 
         task.config.deploymentType = selectedResource;
         // copy schedulded times to config
+
+        plannedExecutionTime += this.taskUtils.findTaskExecutionTimeOnResource(task, selectedResource);
+        plannedExecutionCost += this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource);
+
         Object.assign(task.config, this.getScheduldedTimesOnResource(tasks, task, selectedResource))
       }
-    )
+    );
+
+    const inConstrains = (plannedExecutionCost < userBudget && plannedExecutionTime < userDeadline) ? 1: 0;
+    fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
 
   decorateTasksWithSubdeadline(tasks, userDeadline) {
