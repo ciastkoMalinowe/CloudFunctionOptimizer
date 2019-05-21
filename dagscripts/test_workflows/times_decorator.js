@@ -73,26 +73,37 @@ function calculateExecutionTimes(taskType, times, syntheticTime, startTimesDelay
 function decorateTaskWithTime(tasks, times) {
   let taskType;
   let startTimesDelay = {};
-  let maxDurationOfTaskFromPreviousLevel = generateZeroStartTimes();
-  let maxSynthenticRuntime = 0;
   let count = 1;
+  let maxSynthenticRuntime;
+  let ancestors;
+  let syntheticRuntime;
+  let decoratedTasks = [];
+
   tasks.forEach(task => {
-    if(taskType !== task.name) startTimesDelay = maxDurationOfTaskFromPreviousLevel;
-
-    taskType = task.name;
-
-    if (taskType === "mImgTbl") {
-      taskType = "mImgtbl";
-    }
-
     task.config.id = count;
     count++;
 
-    let syntheticRuntime = task.config.synthetic_runtime * 1000;
+    taskType = task.name;
+    if (taskType === "mImgTbl") taskType = "mImgtbl";
 
+    maxSynthenticRuntime = 0;
+    syntheticRuntime = task.config.synthetic_runtime * 1000;
+
+    // Get all task ancestors
+    ancestors = decoratedTasks.filter(t => task.ins.some(input => t.outs.includes(input)));
+    startTimesDelay = generateZeroStartTimes();
+
+    // Get finish times from ancestor with the longest execution
+    ancestors.forEach(t => {
+      if(maxSynthenticRuntime < syntheticRuntime) {
+        maxSynthenticRuntime = syntheticRuntime;
+        startTimesDelay = t[finishTimesString];
+      }
+    });
+
+    // Add ancestor time execution to start/finish times
     task[startTimesString] = startTimesDelay;
     task[finishTimesString] = calculateExecutionTimes(taskType, times, syntheticRuntime, startTimesDelay);
-
-    if(maxSynthenticRuntime < syntheticRuntime) maxDurationOfTaskFromPreviousLevel = task[finishTimesString];
+    decoratedTasks.push(task);
   })
 }
