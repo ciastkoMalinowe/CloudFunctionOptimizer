@@ -1,8 +1,8 @@
-setwd('/Users/yoshimori/Studyspace/Magisterka')
+setwd('/Users/yoshimori/Studyspace/Magisterka/CloudFunctionOptimizer')
 library('ggplot2')
 
-sdbws_results = read.table("./results/ellipsoids/3/sdbws_x5/results/step4/sdbws-AWS_256_512_1024_1536_2048_2560_3008x5/average_execution.csv",header = TRUE)
-sdbcs_results = read.table("./results/ellipsoids/3/sdbcs_x5/results/step4/sdbcs-AWS_256_512_1024_1536_2048_2560_3008x5/average_execution.csv",header = TRUE)
+sdbws_results = read.table("./results_without_request_duration/montage/0.25/sdbws/step4/sdbws-montage_AWS_256_512_1024_1536_2048_2560_3008x5/average_execution.csv",header = TRUE)
+sdbcs_results = read.table("./results_without_request_duration/montage/0.25/sdbcs/step4/sdbcs-montage_AWS_256_512_1024_1536_2048_2560_3008x5/average_execution.csv",header = TRUE)
 
 sdbws_results = sdbws_results[order(sdbws_results$id),]
 sdbws_results$algorithm <- "sdbws"
