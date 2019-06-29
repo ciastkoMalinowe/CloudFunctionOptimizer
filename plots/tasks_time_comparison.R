@@ -28,7 +28,7 @@ csv_3008_results$type <- 3008
 results <- rbind(csv_256_results, csv_512_results, csv_1024_results, csv_1536_results, csv_2048_results, csv_2560_results, csv_3008_results)
 results = results[order(results$type), ]
 projects = unique(results$task)
-ggplot(results, aes(x=id, y=time, group = type, colour=as.factor(type))) + geom_point() + scale_x_continuous(breaks=c(10, 27, 28, 29, 39, 40, 41, 42, 43), labels=projects) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(x = "Task names", y = "Time in ms", colour = "Functions") + ylim(0, 10000)
+ggplot(results, aes(x=id, y=time, group = type, colour=as.factor(type))) + geom_point() + scale_x_continuous(breaks=c(10, 27, 28, 29, 39, 40, 41, 42, 43), labels=projects) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(x = "Task names", y = "Time in ms", colour = "Functions") + ylim(0, 10000) + theme(axis.title=element_text(size=24)) + theme(axis.text.y = element_text(size=18)) + theme (axis.text.x = element_text(size=10)) + theme(legend.text = element_text(size = 18), legend.title = element_text(size = 18)) + geom_point(size=2)
 
 p1 = ggplot(csv_256_results, aes(x=id, y=time)) + geom_point() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylim(0, 10000) + labs(x = "Task ID", y = "Time in ms")
 p2 = ggplot(csv_512_results, aes(x=id, y=time)) + geom_point() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylim(0, 10000) + labs(x = "Task ID", y = "Time in ms")
