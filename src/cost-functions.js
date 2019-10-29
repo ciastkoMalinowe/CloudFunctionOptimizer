@@ -4,6 +4,7 @@ class CostFunctions {
     this.taskUtils = taskUtils;
   }
 
+  //minimum cost for task
   minBudget(tasks) {
     let costs = [];
 
@@ -19,6 +20,7 @@ class CostFunctions {
     return Math.min(...costs);
   }
 
+  //maximum cost of task
   maxBudget(tasks) {
     let costs = [];
 
@@ -50,6 +52,7 @@ class CostFunctions {
     return Math.min(...finishTimes);
   }
 
+  //task with biggest finish time
   maxDeadline(tasks) {
     let maxLevel = this.taskUtils.findTasksMaxLevel(tasks);
     let tasksFromMaxLevel = this.taskUtils.findTasksFromLevel(tasks, maxLevel);

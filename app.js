@@ -1,11 +1,20 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 
+process.argv.forEach((val, index) => {
+    console.log(`${index}: ${val}`);
+});
+
 const dagPath = process.argv[2];
 const outputPath = process.argv[3];
 const configPath = process.argv[4];
+const nth = process.argv[5];
+const starting = process.argv[6];
 
+console.log("Config path " + configPath);
 const config = JSON.parse(fs.readFileSync(configPath));
+config.nth = nth;
+config.starting = starting;
 
 const SchedulingAlgorithm = require(`./src/${config.algorithm}`);
 const schedulingAlgorithm = new SchedulingAlgorithm(config);

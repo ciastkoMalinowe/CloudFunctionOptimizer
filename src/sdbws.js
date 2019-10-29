@@ -10,9 +10,12 @@ class SDBWS extends SchedulingAlgorithm {
   decorateStrategy(dag) {
     const tasks = dag.tasks;
 
+    //dividing graph into levels, and sorting it by levels
     this.decorateTasksWithLevels(tasks);
     const sortedTasks = tasks.sort((task1, task2) => task1.level - task2.level);
 
+
+    //Task with maximum and minimum finish time
     const maxDeadline = this.costFunctions.maxDeadline(tasks);
     const minDeadline = this.costFunctions.minDeadline(tasks);
 
@@ -25,6 +28,7 @@ class SDBWS extends SchedulingAlgorithm {
     console.log("userDeadline: " + userDeadline);
     console.log("userBudget: " + userBudget);
 
+    //this can never happen because userBudget is minBudget + budgetParameter * (maxBudget - minBudget)
     // if (userBudget < minBudget) throw new Error("No possible schedule map");
 
     this.decorateTasksWithSubdeadline(sortedTasks, userDeadline);

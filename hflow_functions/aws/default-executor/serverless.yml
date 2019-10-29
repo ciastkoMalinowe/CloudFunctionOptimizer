@@ -1,10 +1,10 @@
 service: aws-executor-ellipsoids
-app: aws-executor-cfo-ellipsoids
-tenant: tenant
+#app: aws-executor-cfo-ellipsoids
+#tenant: tenant
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs8.10
   region: eu-central-1
   timeout: 300
   versionFunctions: false
@@ -13,7 +13,7 @@ provider:
       Action:
         - "s3:PutObject"
         - "s3:GetObject"
-      Resource: "arn:aws:s3:::hyperflow.workflow.test/*"
+      Resource: "arn:aws:s3:::hyperflow.workflow.test.sdwbs/*"
 
 functions:
 
