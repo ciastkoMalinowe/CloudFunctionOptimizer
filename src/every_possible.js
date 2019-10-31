@@ -45,6 +45,7 @@ class SDBCS extends SchedulingAlgorithm {
         let combination = Combinatorics.baseN(resources, numberOfTasks);
         let numberOfAllCombinations = combination.length;
         let bestCost = 10e5;
+        let bestDag = _.cloneDeep(dag);
 
         let starting = Number(this.config.starting);
         let everyN = Number(this.config.nth);
@@ -69,22 +70,23 @@ class SDBCS extends SchedulingAlgorithm {
                 console.log("Best cost so far: " + bestCost)
             }
 
+            // console.log("Cost: " + resultOfSimulation.cost + "\tTime: " + resultOfSimulation.time + "Constrain: " + userBudget + " " + userDeadline);
+            const inConstrains = (resultOfSimulation.cost < userBudget && resultOfSimulation.time < userDeadline) ? 1 : 0;
+            if (inConstrains) {
+                if(resultOfSimulation.cost < bestCost){
+                    bestCost = resultOfSimulation.cost;
+                    bestDag = _.cloneDeep(dag);
+                }
+            }
+
             tasksSortedUpward.forEach(x => {
                 x.config.deploymentType = undefined;
                 x.config.scheduledStartTime = undefined;
                 x.config.scheduledFinishTime = undefined
             });
 
-            // console.log("Cost: " + resultOfSimulation.cost + "\tTime: " + resultOfSimulation.time + "Constrain: " + userBudget + " " + userDeadline);
-            const inConstrains = (resultOfSimulation.cost < userBudget && resultOfSimulation.time < userDeadline) ? 1 : 0;
-
-            if (inConstrains) {
-                bestCost = resultOfSimulation.cost < bestCost ? resultOfSimulation.cost : bestCost;
-            }
-
         }
-
-        console.log("It is not possible to schedule!")
+        console.log("COST: " + bestCost);
     }
 
     performSimulation(tasksSortedUpward, deltaCost, tasks, costEfficientFactor, currentCombination, sortedTasks) {
