@@ -70,6 +70,15 @@ class SDBCS extends SchedulingAlgorithm {
 
     const plannedExecutionTime = this.taskUtils.findPlannedExecutionTime(sortedTasks);
     const inConstrains = (plannedExecutionCost < userBudget && plannedExecutionTime < userDeadline) ? 1: 0;
+    console.log("Planned execution time: " + plannedExecutionTime);
+    console.log("Planned execution cost: " + plannedExecutionCost);
+    console.log("In constrains? : " + inConstrains);
+
+    tasksSortedUpward.forEach(task => {
+          console.log(task.config.id + " : " + task.config.deploymentType)
+        }
+    );
+
     fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
 

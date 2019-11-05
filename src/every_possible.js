@@ -39,44 +39,77 @@ class SDBCS extends SchedulingAlgorithm {
         const costEfficientFactor = minBudget / userBudget;
         let deltaCost = userBudget - minBudget;
 
-
         let numberOfTasks = tasksSortedUpward.length;
         let resources = this.config.functionTypes;
         let combination = Combinatorics.baseN(resources, numberOfTasks);
         let numberOfAllCombinations = combination.length;
-        let bestCost = 10e5;
-        let bestDag = _.cloneDeep(dag);
+
+        let bestCost = 10e8;
+        let bestCostNotInConstrains = 10e8;
+        let bestTime = 10e8;
+        let bestTimeNotInConstrains = 10e8;
+
+        let bestDagTime = _.cloneDeep(dag);
+        let bestDagCost = _.cloneDeep(dag);
 
         let starting = Number(this.config.starting);
         let everyN = Number(this.config.nth);
         console.log("Starting: " + starting);
         console.log("Nth: " + everyN);
 
-        for (let i = 0; i < numberOfAllCombinations / everyN; i++) {
+        for (let i = 0; i <= numberOfAllCombinations / everyN; i++) {
             // console.log("i: " + i);
             // console.log("everyN * i: " + everyN * i);
             let currentIndexOfComb = starting + everyN * i;
-            let currentCombination = combination.nth(currentIndexOfComb);
-            if(i * everyN === 0){
-                currentCombination = starting;
+            if (i * everyN === 0) {
+                currentIndexOfComb = starting;
             }
 
+            let currentCombination = combination.nth(currentIndexOfComb);
+            // let currentCombination = ['1024', '1024', '1024', '1024', '512', '256', '256', '256', '512', '256', '512', '256', '256', '256', '256','1024','512','256', '256'];
+            if(currentCombination === undefined){
+                break;
+            }
+
+            deltaCost = userBudget - minBudget;
             const resultOfSimulation = this.performSimulation(tasksSortedUpward, deltaCost, tasks, costEfficientFactor, currentCombination, sortedTasks);
+            this.taskUtils.taskTimesCache = {};
 
             if (i % 100000 === 0) {
                 console.log("-----------");
                 console.log("Combinations so far: " + i);
+                console.log("Finished: " + (i / (numberOfAllCombinations / everyN)) + "%");
                 console.log("Time : " + new Date());
-                console.log("Best cost so far: " + bestCost)
+                console.log("Best cost so far: " + bestCost);
+                console.log("Best time so far: " + bestTime);
+                console.log("Best time so far: (not in constrains): " + bestTimeNotInConstrains);
+                console.log("Best cost so far: (not in constrains): " + bestCostNotInConstrains);
             }
 
             // console.log("Cost: " + resultOfSimulation.cost + "\tTime: " + resultOfSimulation.time + "Constrain: " + userBudget + " " + userDeadline);
+            // console.log(userDeadline);
             const inConstrains = (resultOfSimulation.cost < userBudget && resultOfSimulation.time < userDeadline) ? 1 : 0;
+
+            // console.log(resultOfSimulation.time)
+
             if (inConstrains) {
-                if(resultOfSimulation.cost < bestCost){
+                if (resultOfSimulation.cost < bestCost) {
                     bestCost = resultOfSimulation.cost;
-                    bestDag = _.cloneDeep(dag);
+                    bestDagCost = _.cloneDeep(dag);
                 }
+
+                if (resultOfSimulation.time < bestTime) {
+                    bestTime = resultOfSimulation.cost;
+                    bestDagTime = _.cloneDeep(dag);
+                }
+            }
+
+            if (resultOfSimulation.cost < bestCostNotInConstrains) {
+                bestCostNotInConstrains = resultOfSimulation.cost;
+            }
+
+            if (resultOfSimulation.time < bestTimeNotInConstrains) {
+                bestTimeNotInConstrains = resultOfSimulation.time;
             }
 
             tasksSortedUpward.forEach(x => {
@@ -86,32 +119,25 @@ class SDBCS extends SchedulingAlgorithm {
             });
 
         }
-        console.log("COST: " + bestCost);
+
+        console.log("BEST COST: " + bestCost + " BEST TIME: " + bestTime);
+
+        let objectToSave = JSON.stringify(bestDagTime, null, 2);
+        fs.writeFileAsync("bestDagTime" + everyN + ".json", objectToSave);
+        objectToSave = JSON.stringify(bestDagCost, null, 2);
+        fs.writeFileAsync("bestDagCost" + everyN + ".json", objectToSave);
     }
 
     performSimulation(tasksSortedUpward, deltaCost, tasks, costEfficientFactor, currentCombination, sortedTasks) {
-        return this.getPlannedExectuionTime(tasksSortedUpward, deltaCost, tasks, costEfficientFactor, currentCombination, sortedTasks);
-    }
-
-    getPlannedExectuionTime(tasksSortedUpward, deltaCost, tasks, costEfficientFactor, currentCombination, sortedTasks) {
         let plannedExecutionCost = 0;
         let cannotSchedule = false;
         tasksSortedUpward.forEach(
             task => {
-                let maximumAvailableBudget = deltaCost + this.taskUtils.findMinTaskExecutionCost(task);
-                const admissibleProcesors = this.config.functionTypes.filter(p => this.isProcesorAdmisible(task, p, maximumAvailableBudget));
-                if (admissibleProcesors.length === 0) {
-                    cannotSchedule = true;
-                } else {
-                    let selectedResource;
+                let selectedResource = currentCombination[task.config.id - 1];
+                task.config.deploymentType = selectedResource;
 
-                    selectedResource = currentCombination[task.config.id - 1];
-                    task.config.deploymentType = selectedResource;
-
-                    plannedExecutionCost += this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource);
-                    Object.assign(task.config, this.getScheduldedTimesOnResource(tasks, task, selectedResource));
-                    deltaCost = deltaCost - [this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource) - this.taskUtils.findMinTaskExecutionCost(task)]
-                }
+                plannedExecutionCost += this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource);
+                Object.assign(task.config, this.getScheduldedTimesOnResource(tasks, task, selectedResource));
             }
         );
 
@@ -120,10 +146,6 @@ class SDBCS extends SchedulingAlgorithm {
             return {"time": Infinity, "cost": Infinity}
         }
         return {"time": plannedExecutionTime, "cost": plannedExecutionCost};
-    }
-
-    isProcesorAdmisible(task, procesor, maxBudget) {
-        return this.taskUtils.findTaskExecutionCostOnResource(task, procesor) <= maxBudget;
     }
 
     decorateTasksWithSubdeadline(tasks, userDeadline) {
@@ -189,12 +211,6 @@ class SDBCS extends SchedulingAlgorithm {
         }
     }
 
-    computeQualityMeasureForResource(tasks, task, functionType, costEfficientFactor) {
-        let timeQuality = this.computeTimeQuality(tasks, task, functionType);
-        let costQuality = this.computeCostQuality(tasks, task, functionType);
-
-        return timeQuality + costQuality * costEfficientFactor;
-    }
 }
 
 module.exports = SDBCS;
