@@ -51,6 +51,8 @@ class SDBCS extends SchedulingAlgorithm {
 
         let bestDagTime = _.cloneDeep(dag);
         let bestDagCost = _.cloneDeep(dag);
+        let bestDagCostNotInConstrains = _.cloneDeep(dag);
+        let bestDagTimeNotInConstrains = _.cloneDeep(dag);
 
         let starting = Number(this.config.starting);
         let everyN = Number(this.config.nth);
@@ -106,10 +108,12 @@ class SDBCS extends SchedulingAlgorithm {
 
             if (resultOfSimulation.cost < bestCostNotInConstrains) {
                 bestCostNotInConstrains = resultOfSimulation.cost;
+                bestDagCostNotInConstrains = _.cloneDeep(dag);
             }
 
             if (resultOfSimulation.time < bestTimeNotInConstrains) {
                 bestTimeNotInConstrains = resultOfSimulation.time;
+                bestDagTimeNotInConstrains = _.cloneDeep(dag);
             }
 
             tasksSortedUpward.forEach(x => {
@@ -123,9 +127,16 @@ class SDBCS extends SchedulingAlgorithm {
         console.log("BEST COST: " + bestCost + " BEST TIME: " + bestTime);
 
         let objectToSave = JSON.stringify(bestDagTime, null, 2);
-        fs.writeFileAsync("bestDagTime" + everyN + ".json", objectToSave);
+        fs.writeFileSync("/home/mamajews/bestDagTime" + everyN + ".json", objectToSave);
+
         objectToSave = JSON.stringify(bestDagCost, null, 2);
-        fs.writeFileAsync("bestDagCost" + everyN + ".json", objectToSave);
+        fs.writeFileSync("/home/mamajews/bestDagCost" + everyN + ".json", objectToSave);
+
+        objectToSave = JSON.stringify(bestDagCostNotInConstrains, null, 2);
+        fs.writeFileSync("/home/mamajews/bestDagCostNotInConstrains" + everyN + ".json", objectToSave);
+
+        objectToSave = JSON.stringify(bestDagTimeNotInConstrains, null, 2);
+        fs.writeFileSync("/home/mamajews/bestDagTimeNotInConstrains" + everyN + ".json", objectToSave);
     }
 
     performSimulation(tasksSortedUpward, deltaCost, tasks, costEfficientFactor, currentCombination, sortedTasks) {

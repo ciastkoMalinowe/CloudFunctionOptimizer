@@ -14,7 +14,6 @@ class SDBWS extends SchedulingAlgorithm {
     this.decorateTasksWithLevels(tasks);
     const sortedTasks = tasks.sort((task1, task2) => task1.level - task2.level);
 
-
     //Task with maximum and minimum finish time
     const maxDeadline = this.costFunctions.maxDeadline(tasks);
     const minDeadline = this.costFunctions.minDeadline(tasks);
