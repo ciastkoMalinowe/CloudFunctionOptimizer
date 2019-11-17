@@ -18,7 +18,7 @@ for (let file of files) {
 
 console.log("Number of input points: " + paretoFront.length);
 
-paretoFront = pf.getParetoFrontier(paretoFront);
+paretoFront = pf.getParetoFrontier(paretoFront,  { optimize: 'bottomLeft'} );
 let paretoFrontWriteStream = fs.createWriteStream('every_possible_output/paretoFrontAll.txt');
 paretoFront.forEach(function (point) {
     paretoFrontWriteStream.write(point.join(', ') + '\n');

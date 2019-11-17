@@ -121,12 +121,11 @@ class SDBCS extends SchedulingAlgorithm {
                 bestDagTimeNotInConstrains = _.cloneDeep(dag);
             }
 
-            paretoPoints.push([resultOfSimulation.time, resultOfSimulation.cost])
+            paretoPoints.push([resultOfSimulation.time, resultOfSimulation.cost]);
             if (paretoPoints.length === 0) {
                 paretoPoints.push([resultOfSimulation.time, resultOfSimulation.cost])
             } else {
-                let newFront = pf.getParetoFrontier(paretoPoints);
-                paretoPoints = newFront;
+                paretoPoints = pf.getParetoFrontier(paretoPoints,  { optimize: 'bottomLeft'} );
             }
 
             tasksSortedUpward.forEach(x => {
@@ -160,7 +159,6 @@ class SDBCS extends SchedulingAlgorithm {
 
     performSimulation(tasksSortedUpward, deltaCost, tasks, costEfficientFactor, currentCombination, sortedTasks) {
         let plannedExecutionCost = 0;
-        let cannotSchedule = false;
         tasksSortedUpward.forEach(
             task => {
                 let selectedResource = currentCombination[task.config.id - 1];
@@ -172,9 +170,6 @@ class SDBCS extends SchedulingAlgorithm {
         );
 
         const plannedExecutionTime = this.taskUtils.findPlannedExecutionTime(sortedTasks);
-        if (cannotSchedule) {
-            return {"time": Infinity, "cost": Infinity}
-        }
         return {"time": plannedExecutionTime, "cost": plannedExecutionCost};
     }
 

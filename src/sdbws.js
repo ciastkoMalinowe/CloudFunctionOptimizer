@@ -65,6 +65,8 @@ class SDBWS extends SchedulingAlgorithm {
 
     const plannedExecutionTime = this.taskUtils.findPlannedExecutionTime(sortedTasks);
     const inConstrains = (plannedExecutionCost < userBudget && plannedExecutionTime < userDeadline) ? 1: 0;
+    console.log("Planned execution time: " + plannedExecutionTime);
+    console.log("Planned execution cost: " + plannedExecutionCost);
     fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
 
