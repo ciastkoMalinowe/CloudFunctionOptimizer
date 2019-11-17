@@ -31,8 +31,8 @@ decorate = (inputPath, outputPath) => {
     fs.readFileAsync(inputPath)
       .then(data => JSON.parse(data))
       .then(dag => decorateDag(dag))
-      .then(dag => savePrettifyDag(dag, outputPath))
-      .then(() => console.log("Saved decorated DAG file as " + outputPath))
+      // .then(dag => savePrettifyDag(dag, outputPath))
+      // .then(() => console.log("Saved decorated DAG file as " + outputPath))
       .catch(console.error);
 };
 

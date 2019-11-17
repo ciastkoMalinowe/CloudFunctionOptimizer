@@ -61,7 +61,7 @@ class SDBCS extends SchedulingAlgorithm {
         console.log("Starting: " + starting);
         console.log("Nth: " + everyN);
 
-        let numberOfIterations = (numberOfAllCombinations / 100) / everyN;
+        let numberOfIterations = numberOfAllCombinations / everyN / 100;
         console.log("Combinations to process: " + numberOfIterations);
 
         let paretoPoints = [];
@@ -84,7 +84,7 @@ class SDBCS extends SchedulingAlgorithm {
             if (i % 100000 === 0) {
                 console.log("-----------");
                 console.log("Combinations so far: " + i);
-                console.log("Finished: " + Math.round((i / numberOfIterations) * 100)+ "%");
+                console.log("Finished: " + Math.round((i / numberOfIterations) * 100).toFixed(2) + "%");
                 console.log("Time : " + new Date());
                 console.log("Best cost so far: " + bestCost);
                 console.log("Best time so far: " + bestTime);
