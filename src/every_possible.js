@@ -1,3 +1,4 @@
+const pf = require('pareto-frontier');
 const fs = require('fs');
 const _ = require('lodash');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
@@ -56,20 +57,23 @@ class SDBCS extends SchedulingAlgorithm {
 
         let starting = Number(this.config.starting);
         let everyN = Number(this.config.nth);
+
         console.log("Starting: " + starting);
         console.log("Nth: " + everyN);
 
-        for (let i = 0; i <= numberOfAllCombinations / everyN; i++) {
-            // console.log("i: " + i);
-            // console.log("everyN * i: " + everyN * i);
+        let numberOfIterations = (numberOfAllCombinations / 100) / everyN;
+        console.log("Combinations to process: " + numberOfIterations);
+
+        let paretoPoints = [];
+
+        for (let i = 0; i <= numberOfIterations; i++) {
             let currentIndexOfComb = starting + everyN * i;
             if (i * everyN === 0) {
                 currentIndexOfComb = starting;
             }
 
             let currentCombination = combination.nth(currentIndexOfComb);
-            // let currentCombination = ['1024', '1024', '1024', '1024', '512', '256', '256', '256', '512', '256', '512', '256', '256', '256', '256','1024','512','256', '256'];
-            if(currentCombination === undefined){
+            if (currentCombination === undefined) {
                 break;
             }
 
@@ -80,12 +84,13 @@ class SDBCS extends SchedulingAlgorithm {
             if (i % 100000 === 0) {
                 console.log("-----------");
                 console.log("Combinations so far: " + i);
-                console.log("Finished: " + (i / (numberOfAllCombinations / everyN)) + "%");
+                console.log("Finished: " + Math.round((i / numberOfIterations) * 100)+ "%");
                 console.log("Time : " + new Date());
                 console.log("Best cost so far: " + bestCost);
                 console.log("Best time so far: " + bestTime);
                 console.log("Best time so far: (not in constrains): " + bestTimeNotInConstrains);
                 console.log("Best cost so far: (not in constrains): " + bestCostNotInConstrains);
+                console.log("Pareto front length: " + paretoPoints.length);
             }
 
             // console.log("Cost: " + resultOfSimulation.cost + "\tTime: " + resultOfSimulation.time + "Constrain: " + userBudget + " " + userDeadline);
@@ -101,7 +106,7 @@ class SDBCS extends SchedulingAlgorithm {
                 }
 
                 if (resultOfSimulation.time < bestTime) {
-                    bestTime = resultOfSimulation.cost;
+                    bestTime = resultOfSimulation.time;
                     bestDagTime = _.cloneDeep(dag);
                 }
             }
@@ -116,6 +121,14 @@ class SDBCS extends SchedulingAlgorithm {
                 bestDagTimeNotInConstrains = _.cloneDeep(dag);
             }
 
+            paretoPoints.push([resultOfSimulation.time, resultOfSimulation.cost])
+            if (paretoPoints.length === 0) {
+                paretoPoints.push([resultOfSimulation.time, resultOfSimulation.cost])
+            } else {
+                let newFront = pf.getParetoFrontier(paretoPoints);
+                paretoPoints = newFront;
+            }
+
             tasksSortedUpward.forEach(x => {
                 x.config.deploymentType = undefined;
                 x.config.scheduledStartTime = undefined;
@@ -124,19 +137,25 @@ class SDBCS extends SchedulingAlgorithm {
 
         }
 
-        console.log("BEST COST: " + bestCost + " BEST TIME: " + bestTime);
+        console.log("Best const in constrains: " + bestCost + " Best time in constrains: : " + bestTime);
 
         let objectToSave = JSON.stringify(bestDagTime, null, 2);
-        fs.writeFileSync("/home/mamajews/bestDagTime" + everyN + ".json", objectToSave);
+        fs.writeFileSync("every_possible_output/bestDagTime" + starting + ".json", objectToSave);
 
         objectToSave = JSON.stringify(bestDagCost, null, 2);
-        fs.writeFileSync("/home/mamajews/bestDagCost" + everyN + ".json", objectToSave);
+        fs.writeFileSync("every_possible_output/bestDagCost" + starting + ".json", objectToSave);
 
         objectToSave = JSON.stringify(bestDagCostNotInConstrains, null, 2);
-        fs.writeFileSync("/home/mamajews/bestDagCostNotInConstrains" + everyN + ".json", objectToSave);
+        fs.writeFileSync("every_possible_output/bestDagCostNotInConstrains" + starting + ".json", objectToSave);
 
         objectToSave = JSON.stringify(bestDagTimeNotInConstrains, null, 2);
-        fs.writeFileSync("/home/mamajews/bestDagTimeNotInConstrains" + everyN + ".json", objectToSave);
+        fs.writeFileSync("every_possible_output/bestDagTimeNotInConstrains" + starting + ".json", objectToSave);
+
+        let paretoFrontWriteStream = fs.createWriteStream('every_possible_output/paretoFront' + starting + '.txt');
+        paretoPoints.forEach(function (point) {
+            paretoFrontWriteStream.write(point.join(', ') + '\n');
+        });
+        paretoFrontWriteStream.end();
     }
 
     performSimulation(tasksSortedUpward, deltaCost, tasks, costEfficientFactor, currentCombination, sortedTasks) {

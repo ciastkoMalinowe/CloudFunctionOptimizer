@@ -1,14 +1,14 @@
 {
-  "budgetParameter": 0.7,
-  "deadlineParameter": 0.7,
+  "budgetParameter": 1,
+  "deadlineParameter": 1,
   "functionTypes": [
    "256", "512","1024"
   ],
-  "count": 3,
+  "count": 5,
   "provider": "AWS",
   "algorithm": "every_possible",
   "workflow": "montage",
-  "dag": "wf_0.02_with_id.json",
+  "dag": "small_graphs/wf_0.02_with_id.json",
   "prices": {
     "AWS": {
       "128": 0.000000208,

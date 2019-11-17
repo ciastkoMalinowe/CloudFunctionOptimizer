@@ -31,8 +31,8 @@ class SchedulingAlgorithm {
       let pTask = this.taskUtils.findPredecessorWithLongestFinishTime(predecessors, functionType);
       delay = task.startTime[functionType] - pTask.finishTime[functionType];
 
-      let predecessorsScheduldedFinishTimes = predecessors.map(pTask => pTask.config.scheduledFinishTime);
-      predecessorsMaxFinishTime = Math.max(...predecessorsScheduldedFinishTimes);
+      let predecessorsScheduledFinishTimes = predecessors.map(pTask => pTask.config.scheduledFinishTime);
+      predecessorsMaxFinishTime = Math.max(...predecessorsScheduledFinishTimes);
     } else {
       //level 1 executor delay
       delay = task.startTime[functionType];
