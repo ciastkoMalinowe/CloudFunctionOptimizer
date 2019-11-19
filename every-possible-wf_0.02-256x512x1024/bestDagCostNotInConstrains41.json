@@ -1,0 +1,1235 @@
+{
+  "functions": [
+    {
+      "name": "command_print",
+      "module": "functions"
+    }
+  ],
+  "ins": [
+    0,
+    3,
+    4,
+    7,
+    10,
+    13,
+    14,
+    25,
+    27,
+    37,
+    39
+  ],
+  "outs": [
+    16,
+    18,
+    20,
+    22,
+    24,
+    41,
+    43
+  ],
+  "tasks": [
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": [
+            "-X",
+            "-x",
+            "0.90682",
+            "2mass-atlas-001124n-j0860032.fits",
+            "p2mass-atlas-001124n-j0860032.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 4,
+        "deploymentType": "256",
+        "scheduledStartTime": 19,
+        "scheduledFinishTime": 6386
+      },
+      "ins": [
+        10,
+        3
+      ],
+      "outs": [
+        11,
+        12
+      ],
+      "startTime": {
+        "256": 19,
+        "512": 21,
+        "1024": 19,
+        "1536": 15,
+        "2048": 12,
+        "2560": 38,
+        "3008": 16
+      },
+      "finishTime": {
+        "256": 6386,
+        "512": 3862,
+        "1024": 2504,
+        "1536": 1717,
+        "2048": 3338,
+        "2560": 1989,
+        "3008": 1944
+      },
+      "level": 1,
+      "upwardRank": 27816.333333333332,
+      "subDeadline": 24884
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": [
+            "-X",
+            "-x",
+            "0.90448",
+            "2mass-atlas-001124n-j0870244.fits",
+            "p2mass-atlas-001124n-j0870244.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 2,
+        "deploymentType": "512",
+        "scheduledStartTime": 20,
+        "scheduledFinishTime": 3292
+      },
+      "ins": [
+        4,
+        3
+      ],
+      "outs": [
+        5,
+        6
+      ],
+      "startTime": {
+        "256": 13,
+        "512": 20,
+        "1024": 10,
+        "1536": 5,
+        "2048": 6,
+        "2560": 6,
+        "3008": 6
+      },
+      "finishTime": {
+        "256": 6105,
+        "512": 3292,
+        "1024": 2905,
+        "1536": 2068,
+        "2048": 1781,
+        "2560": 1524,
+        "3008": 1906
+      },
+      "level": 1,
+      "upwardRank": 27671.666666666664,
+      "subDeadline": 24884
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": [
+            "-X",
+            "-x",
+            "0.90465",
+            "2mass-atlas-001124n-j0880032.fits",
+            "p2mass-atlas-001124n-j0880032.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 1,
+        "deploymentType": "256",
+        "scheduledStartTime": 0,
+        "scheduledFinishTime": 5944
+      },
+      "ins": [
+        0,
+        3
+      ],
+      "outs": [
+        1,
+        2
+      ],
+      "startTime": {
+        "256": 0,
+        "512": 0,
+        "1024": 0,
+        "1536": 0,
+        "2048": 0,
+        "2560": 0,
+        "3008": 0
+      },
+      "finishTime": {
+        "256": 5944,
+        "512": 3616,
+        "1024": 2445,
+        "1536": 2387,
+        "2048": 2027,
+        "2560": 1863,
+        "3008": 1921
+      },
+      "level": 1,
+      "upwardRank": 27587,
+      "subDeadline": 24884
+    },
+    {
+      "name": "mProjectPP",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mProjectPP",
+          "args": [
+            "-X",
+            "-x",
+            "0.90415",
+            "2mass-atlas-001124n-j0870232.fits",
+            "p2mass-atlas-001124n-j0870232.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 3,
+        "deploymentType": "256",
+        "scheduledStartTime": 18,
+        "scheduledFinishTime": 5922
+      },
+      "ins": [
+        7,
+        3
+      ],
+      "outs": [
+        8,
+        9
+      ],
+      "startTime": {
+        "256": 18,
+        "512": 20,
+        "1024": 15,
+        "1536": 6,
+        "2048": 12,
+        "2560": 7,
+        "3008": 12
+      },
+      "finishTime": {
+        "256": 5922,
+        "512": 3277,
+        "1024": 2495,
+        "1536": 1988,
+        "2048": 2149,
+        "2560": 1926,
+        "3008": 1928
+      },
+      "level": 1,
+      "upwardRank": 27465.666666666664,
+      "subDeadline": 24884
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": [
+            "-s",
+            "fit.000001.000003.txt",
+            "p2mass-atlas-001124n-j0880032.fits",
+            "p2mass-atlas-001124n-j0870232.fits",
+            "diff.000001.000003.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 6,
+        "deploymentType": "256",
+        "scheduledStartTime": 19,
+        "scheduledFinishTime": 5775
+      },
+      "ins": [
+        13,
+        14,
+        1,
+        2,
+        8,
+        9,
+        3
+      ],
+      "outs": [
+        17,
+        18
+      ],
+      "startTime": {
+        "256": 19,
+        "512": 22,
+        "1024": 20,
+        "1536": 16,
+        "2048": 13,
+        "2560": 39,
+        "3008": 17
+      },
+      "finishTime": {
+        "256": 5775,
+        "512": 4045,
+        "1024": 2948,
+        "1536": 2065,
+        "2048": 2091,
+        "2560": 2120,
+        "3008": 1647
+      },
+      "level": 2,
+      "upwardRank": 23585.333333333332,
+      "subDeadline": 27824
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": [
+            "-s",
+            "fit.000002.000004.txt",
+            "p2mass-atlas-001124n-j0870244.fits",
+            "p2mass-atlas-001124n-j0860032.fits",
+            "diff.000002.000004.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 8,
+        "deploymentType": "256",
+        "scheduledStartTime": 27,
+        "scheduledFinishTime": 5759
+      },
+      "ins": [
+        13,
+        14,
+        5,
+        6,
+        11,
+        12,
+        3
+      ],
+      "outs": [
+        21,
+        22
+      ],
+      "startTime": {
+        "256": 27,
+        "512": 27,
+        "1024": 26,
+        "1536": 23,
+        "2048": 20,
+        "2560": 50,
+        "3008": 29
+      },
+      "finishTime": {
+        "256": 5759,
+        "512": 4153,
+        "1024": 2753,
+        "1536": 2057,
+        "2048": 2330,
+        "2560": 1938,
+        "3008": 1920
+      },
+      "level": 2,
+      "upwardRank": 23544.666666666664,
+      "subDeadline": 27824
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": [
+            "-s",
+            "fit.000002.000003.txt",
+            "p2mass-atlas-001124n-j0870244.fits",
+            "p2mass-atlas-001124n-j0870232.fits",
+            "diff.000002.000003.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 7,
+        "deploymentType": "256",
+        "scheduledStartTime": -158,
+        "scheduledFinishTime": 5611
+      },
+      "ins": [
+        13,
+        14,
+        5,
+        6,
+        8,
+        9,
+        3
+      ],
+      "outs": [
+        19,
+        20
+      ],
+      "startTime": {
+        "256": 25,
+        "512": 26,
+        "1024": 20,
+        "1536": 16,
+        "2048": 14,
+        "2560": 44,
+        "3008": 17
+      },
+      "finishTime": {
+        "256": 5794,
+        "512": 3906,
+        "1024": 2916,
+        "1536": 1849,
+        "2048": 2018,
+        "2560": 1866,
+        "3008": 2095
+      },
+      "level": 2,
+      "upwardRank": 23531.333333333332,
+      "subDeadline": 27824
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": [
+            "-s",
+            "fit.000003.000004.txt",
+            "p2mass-atlas-001124n-j0870232.fits",
+            "p2mass-atlas-001124n-j0860032.fits",
+            "diff.000003.000004.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 9,
+        "deploymentType": "256",
+        "scheduledStartTime": 33,
+        "scheduledFinishTime": 6506
+      },
+      "ins": [
+        13,
+        14,
+        8,
+        9,
+        11,
+        12,
+        3
+      ],
+      "outs": [
+        23,
+        24
+      ],
+      "startTime": {
+        "256": 33,
+        "512": 36,
+        "1024": 32,
+        "1536": 28,
+        "2048": 30,
+        "2560": 60,
+        "3008": 31
+      },
+      "finishTime": {
+        "256": 6506,
+        "512": 3410,
+        "1024": 2724,
+        "1536": 2323,
+        "2048": 4032,
+        "2560": 1903,
+        "3008": 1836
+      },
+      "level": 2,
+      "upwardRank": 23529.333333333332,
+      "subDeadline": 27824
+    },
+    {
+      "name": "mDiffFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mDiffFit",
+          "args": [
+            "-s",
+            "fit.000001.000002.txt",
+            "p2mass-atlas-001124n-j0880032.fits",
+            "p2mass-atlas-001124n-j0870244.fits",
+            "diff.000001.000002.fits",
+            "big_region_20191111_212406_21879.hdr"
+          ]
+        },
+        "id": 5,
+        "deploymentType": "256",
+        "scheduledStartTime": -142,
+        "scheduledFinishTime": 5820
+      },
+      "ins": [
+        13,
+        14,
+        1,
+        2,
+        5,
+        6,
+        3
+      ],
+      "outs": [
+        15,
+        16
+      ],
+      "startTime": {
+        "256": 19,
+        "512": 21,
+        "1024": 20,
+        "1536": 15,
+        "2048": 13,
+        "2560": 39,
+        "3008": 17
+      },
+      "finishTime": {
+        "256": 5981,
+        "512": 3380,
+        "1024": 2960,
+        "1536": 1877,
+        "2048": 3516,
+        "2560": 1930,
+        "3008": 2253
+      },
+      "level": 2,
+      "upwardRank": 23436.666666666664,
+      "subDeadline": 27824
+    },
+    {
+      "name": "mConcatFit",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mConcatFit",
+          "args": [
+            "statfile_20191111_212406_21879.tbl",
+            "fits.tbl",
+            "."
+          ]
+        },
+        "id": 10,
+        "deploymentType": "256",
+        "scheduledStartTime": 34,
+        "scheduledFinishTime": 5918
+      },
+      "ins": [
+        25,
+        15,
+        17,
+        19,
+        21,
+        23
+      ],
+      "outs": [
+        26
+      ],
+      "startTime": {
+        "256": 34,
+        "512": 37,
+        "1024": 34,
+        "1536": 35,
+        "2048": 41,
+        "2560": 62,
+        "3008": 39
+      },
+      "finishTime": {
+        "256": 5918,
+        "512": 3866,
+        "1024": 2962,
+        "1536": 2088,
+        "2048": 2067,
+        "2560": 1938,
+        "3008": 1993
+      },
+      "level": 3,
+      "upwardRank": 19349.666666666664,
+      "subDeadline": 30752
+    },
+    {
+      "name": "mBgModel",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBgModel",
+          "args": [
+            "-i",
+            "100000",
+            "pimages_20191111_212406_21879.tbl",
+            "fits.tbl",
+            "corrections.tbl"
+          ]
+        },
+        "id": 11,
+        "deploymentType": "512",
+        "scheduledStartTime": 5694,
+        "scheduledFinishTime": 8108
+      },
+      "ins": [
+        27,
+        26
+      ],
+      "outs": [
+        28
+      ],
+      "startTime": {
+        "256": 6189,
+        "512": 3642,
+        "1024": 3210,
+        "1536": 2402,
+        "2048": 2050,
+        "2560": 1898,
+        "3008": 1957
+      },
+      "finishTime": {
+        "256": 9656,
+        "512": 6056,
+        "1024": 5026,
+        "1536": 3469,
+        "2048": 3429,
+        "2560": 3055,
+        "3008": 3406
+      },
+      "level": 4,
+      "upwardRank": 15135.999999999998,
+      "subDeadline": 32568
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": [
+            "-t",
+            "p2mass-atlas-001124n-j0870232.fits",
+            "c2mass-atlas-001124n-j0870232.fits",
+            "pimages_20191111_212406_21879.tbl",
+            "corrections.tbl"
+          ]
+        },
+        "id": 14,
+        "deploymentType": "256",
+        "scheduledStartTime": 4638,
+        "scheduledFinishTime": 8434
+      },
+      "ins": [
+        8,
+        9,
+        27,
+        28
+      ],
+      "outs": [
+        33,
+        34
+      ],
+      "startTime": {
+        "256": 6186,
+        "512": 3315,
+        "1024": 2947,
+        "1536": 2110,
+        "2048": 2170,
+        "2560": 1959,
+        "3008": 1959
+      },
+      "finishTime": {
+        "256": 9982,
+        "512": 5594,
+        "1024": 4440,
+        "1536": 3318,
+        "2048": 3348,
+        "2560": 3350,
+        "3008": 3065
+      },
+      "level": 5,
+      "upwardRank": 12570.333333333332,
+      "subDeadline": 34155
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": [
+            "-t",
+            "p2mass-atlas-001124n-j0860032.fits",
+            "c2mass-atlas-001124n-j0860032.fits",
+            "pimages_20191111_212406_21879.tbl",
+            "corrections.tbl"
+          ]
+        },
+        "id": 15,
+        "deploymentType": "256",
+        "scheduledStartTime": 4590,
+        "scheduledFinishTime": 8042
+      },
+      "ins": [
+        11,
+        12,
+        27,
+        28
+      ],
+      "outs": [
+        35,
+        36
+      ],
+      "startTime": {
+        "256": 6138,
+        "512": 4173,
+        "1024": 2958,
+        "1536": 2100,
+        "2048": 2352,
+        "2560": 1964,
+        "3008": 1964
+      },
+      "finishTime": {
+        "256": 9590,
+        "512": 6727,
+        "1024": 4488,
+        "1536": 3707,
+        "2048": 3566,
+        "2560": 3117,
+        "3008": 3413
+      },
+      "level": 5,
+      "upwardRank": 12559.666666666666,
+      "subDeadline": 34155
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": [
+            "-t",
+            "p2mass-atlas-001124n-j0870244.fits",
+            "c2mass-atlas-001124n-j0870244.fits",
+            "pimages_20191111_212406_21879.tbl",
+            "corrections.tbl"
+          ]
+        },
+        "id": 13,
+        "deploymentType": "256",
+        "scheduledStartTime": 4580,
+        "scheduledFinishTime": 8046
+      },
+      "ins": [
+        5,
+        6,
+        27,
+        28
+      ],
+      "outs": [
+        31,
+        32
+      ],
+      "startTime": {
+        "256": 6128,
+        "512": 3666,
+        "1024": 3230,
+        "1536": 2586,
+        "2048": 3539,
+        "2560": 1944,
+        "3008": 2305
+      },
+      "finishTime": {
+        "256": 9594,
+        "512": 5985,
+        "1024": 4762,
+        "1536": 3768,
+        "2048": 5012,
+        "2560": 3397,
+        "3008": 3750
+      },
+      "level": 5,
+      "upwardRank": 12486.666666666666,
+      "subDeadline": 34155
+    },
+    {
+      "name": "mBackground",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mBackground",
+          "args": [
+            "-t",
+            "p2mass-atlas-001124n-j0880032.fits",
+            "c2mass-atlas-001124n-j0880032.fits",
+            "pimages_20191111_212406_21879.tbl",
+            "corrections.tbl"
+          ]
+        },
+        "id": 12,
+        "deploymentType": "256",
+        "scheduledStartTime": 4416,
+        "scheduledFinishTime": 7037
+      },
+      "ins": [
+        1,
+        2,
+        27,
+        28
+      ],
+      "outs": [
+        29,
+        30
+      ],
+      "startTime": {
+        "256": 5964,
+        "512": 3636,
+        "1024": 2808,
+        "1536": 2422,
+        "2048": 2361,
+        "2560": 1940,
+        "3008": 1974
+      },
+      "finishTime": {
+        "256": 8585,
+        "512": 5947,
+        "1024": 4395,
+        "1536": 4584,
+        "2048": 6018,
+        "2560": 2970,
+        "3008": 3035
+      },
+      "level": 5,
+      "upwardRank": 12220.666666666666,
+      "subDeadline": 34155
+    },
+    {
+      "name": "mImgtbl",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mImgtbl",
+          "args": [
+            "-t",
+            "cimages_20191111_212406_21879.tbl",
+            ".",
+            "newcimages.tbl"
+          ]
+        },
+        "id": 16,
+        "deploymentType": "256",
+        "scheduledStartTime": 4894,
+        "scheduledFinishTime": 8436
+      },
+      "ins": [
+        37,
+        29,
+        31,
+        33,
+        35
+      ],
+      "outs": [
+        38
+      ],
+      "startTime": {
+        "256": 6442,
+        "512": 3883,
+        "1024": 2554,
+        "1536": 2054,
+        "2048": 3396,
+        "2560": 2013,
+        "3008": 2000
+      },
+      "finishTime": {
+        "256": 9984,
+        "512": 6620,
+        "1024": 4035,
+        "1536": 3797,
+        "2048": 6676,
+        "2560": 3164,
+        "3008": 3307
+      },
+      "level": 6,
+      "upwardRank": 10047.666666666666,
+      "subDeadline": 35636
+    },
+    {
+      "name": "mAdd",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mAdd",
+          "args": [
+            "-e",
+            "newcimages.tbl",
+            "region_20191111_212406_21879.hdr",
+            "mosaic_20191111_212406_21879.fits"
+          ]
+        },
+        "id": 17,
+        "deploymentType": "256",
+        "scheduledStartTime": 4579,
+        "scheduledFinishTime": 8180
+      },
+      "ins": [
+        38,
+        39,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "outs": [
+        40,
+        41
+      ],
+      "startTime": {
+        "256": 6127,
+        "512": 3399,
+        "1024": 2988,
+        "1536": 2221,
+        "2048": 3725,
+        "2560": 1951,
+        "3008": 2292
+      },
+      "finishTime": {
+        "256": 9728,
+        "512": 5625,
+        "1024": 4443,
+        "1536": 3697,
+        "2048": 6677,
+        "2560": 3313,
+        "3008": 3622
+      },
+      "level": 7,
+      "upwardRank": 7461,
+      "subDeadline": 37091
+    },
+    {
+      "name": "mShrink",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mShrink",
+          "args": [
+            "mosaic_20191111_212406_21879.fits",
+            "shrunken_20191111_212406_21879.fits",
+            "1"
+          ]
+        },
+        "id": 18,
+        "deploymentType": "256",
+        "scheduledStartTime": 4397,
+        "scheduledFinishTime": 8237
+      },
+      "ins": [
+        40
+      ],
+      "outs": [
+        42
+      ],
+      "startTime": {
+        "256": 5945,
+        "512": 4174,
+        "1024": 2769,
+        "1536": 2097,
+        "2048": 2389,
+        "2560": 2005,
+        "3008": 1972
+      },
+      "finishTime": {
+        "256": 9785,
+        "512": 6696,
+        "1024": 4157,
+        "1536": 3269,
+        "2048": 6546,
+        "2560": 3727,
+        "3008": 3651
+      },
+      "level": 8,
+      "upwardRank": 5033.666666666667,
+      "subDeadline": 38479
+    },
+    {
+      "name": "mJPEG",
+      "function": "command_print",
+      "type": "dataflow",
+      "executor": "syscommand",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "mJPEG",
+          "args": [
+            "-ct",
+            "1",
+            "-gray",
+            "shrunken_20191111_212406_21879.fits",
+            "min",
+            "max",
+            "gaussianlog",
+            "-out",
+            "shrunken_20191111_212406_21879.jpg"
+          ]
+        },
+        "id": 19,
+        "deploymentType": "512",
+        "scheduledStartTime": 5492,
+        "scheduledFinishTime": 7844
+      },
+      "ins": [
+        42
+      ],
+      "outs": [
+        43
+      ],
+      "startTime": {
+        "256": 6610,
+        "512": 3951,
+        "1024": 2982,
+        "1536": 1900,
+        "2048": 3686,
+        "2560": 2024,
+        "3008": 2337
+      },
+      "finishTime": {
+        "256": 9864,
+        "512": 6303,
+        "1024": 4727,
+        "1536": 3074,
+        "2048": 6124,
+        "2560": 3290,
+        "3008": 3923
+      },
+      "level": 9,
+      "upwardRank": 2450.3333333333335,
+      "subDeadline": 40224
+    }
+  ],
+  "signals": [
+    {
+      "name": "2mass-atlas-001124n-j0880032.fits",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "p2mass-atlas-001124n-j0880032.fits"
+    },
+    {
+      "name": "p2mass-atlas-001124n-j0880032_area.fits"
+    },
+    {
+      "name": "big_region_20191111_212406_21879.hdr",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "2mass-atlas-001124n-j0870244.fits",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "p2mass-atlas-001124n-j0870244.fits"
+    },
+    {
+      "name": "p2mass-atlas-001124n-j0870244_area.fits"
+    },
+    {
+      "name": "2mass-atlas-001124n-j0870232.fits",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "p2mass-atlas-001124n-j0870232.fits"
+    },
+    {
+      "name": "p2mass-atlas-001124n-j0870232_area.fits"
+    },
+    {
+      "name": "2mass-atlas-001124n-j0860032.fits",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "p2mass-atlas-001124n-j0860032.fits"
+    },
+    {
+      "name": "p2mass-atlas-001124n-j0860032_area.fits"
+    },
+    {
+      "name": "mDiff",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "mFitplane",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "fit.000001.000002.txt"
+    },
+    {
+      "name": "diff.000001.000002.fits"
+    },
+    {
+      "name": "fit.000001.000003.txt"
+    },
+    {
+      "name": "diff.000001.000003.fits"
+    },
+    {
+      "name": "fit.000002.000003.txt"
+    },
+    {
+      "name": "diff.000002.000003.fits"
+    },
+    {
+      "name": "fit.000002.000004.txt"
+    },
+    {
+      "name": "diff.000002.000004.fits"
+    },
+    {
+      "name": "fit.000003.000004.txt"
+    },
+    {
+      "name": "diff.000003.000004.fits"
+    },
+    {
+      "name": "statfile_20191111_212406_21879.tbl",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "fits.tbl"
+    },
+    {
+      "name": "pimages_20191111_212406_21879.tbl",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "corrections.tbl"
+    },
+    {
+      "name": "c2mass-atlas-001124n-j0880032.fits"
+    },
+    {
+      "name": "c2mass-atlas-001124n-j0880032_area.fits"
+    },
+    {
+      "name": "c2mass-atlas-001124n-j0870244.fits"
+    },
+    {
+      "name": "c2mass-atlas-001124n-j0870244_area.fits"
+    },
+    {
+      "name": "c2mass-atlas-001124n-j0870232.fits"
+    },
+    {
+      "name": "c2mass-atlas-001124n-j0870232_area.fits"
+    },
+    {
+      "name": "c2mass-atlas-001124n-j0860032.fits"
+    },
+    {
+      "name": "c2mass-atlas-001124n-j0860032_area.fits"
+    },
+    {
+      "name": "cimages_20191111_212406_21879.tbl",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "newcimages.tbl"
+    },
+    {
+      "name": "region_20191111_212406_21879.hdr",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "mosaic_20191111_212406_21879.fits"
+    },
+    {
+      "name": "mosaic_20191111_212406_21879_area.fits"
+    },
+    {
+      "name": "shrunken_20191111_212406_21879.fits"
+    },
+    {
+      "name": "shrunken_20191111_212406_21879.jpg"
+    }
+  ]
+}
