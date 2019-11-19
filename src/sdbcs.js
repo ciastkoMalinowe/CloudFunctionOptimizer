@@ -23,6 +23,11 @@ class SDBCS extends SchedulingAlgorithm {
     const userDeadline = this.calculateUserDeadline(maxDeadline, minDeadline);
     const userBudget = this.calculateUserBudget(maxBudget, minBudget);
 
+    console.log("Max budget: " + maxBudget);
+    console.log("Min budget: " + minBudget);
+    console.log("Max deadline: " + maxDeadline);
+    console.log("Min deadline: " + minDeadline);
+
     console.log("userDeadline: " + userDeadline);
     console.log("userBudget: " + userBudget);
 

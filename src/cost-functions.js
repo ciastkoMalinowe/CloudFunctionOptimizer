@@ -37,12 +37,13 @@ class CostFunctions {
   }
 
   minDeadline(tasks) {
-    var allExecutionTimes = [];
-    for(let i = 1; i < 10; i++){
-      let minimumForLevel = Math.min(...tasks.filter(task => task.level === i).map(task => this.taskUtils.findMinTaskExecutionTime(task)));
+    let allExecutionTimes = [];
+    let maximumLevel = this.taskUtils.findTasksMaxLevel(tasks);
+    for(let i = 1; i <= maximumLevel; i++){
+      let minimumForLevel = Math.max(...tasks.filter(task => task.level === i).map(task => this.taskUtils.findMinTaskExecutionTime(task)));
       allExecutionTimes.push(minimumForLevel);
     }
-    return allExecutionTimes.reduce(function(a,b){return a + b})
+    return allExecutionTimes.reduce(function(a,b){return a + b}, 0)
   }
 
   //task with biggest finish time
@@ -63,11 +64,12 @@ class CostFunctions {
     //
 
     var allExecutionTimes = [];
-    for(let i = 1; i < 10; i++){
+    let maximumLevel = this.taskUtils.findTasksMaxLevel(tasks);
+    for(let i = 1; i <= maximumLevel; i++){
       let maximumForLevel = Math.max(...tasks.filter(task => task.level === i).map(task => this.taskUtils.findMaxTaskExecutionTime(task)));
       allExecutionTimes.push(maximumForLevel);
     }
-    return allExecutionTimes.reduce(function(a,b){return a + b})
+    return allExecutionTimes.reduce(function(a,b){return a + b}, 0)
 
   }
 }
