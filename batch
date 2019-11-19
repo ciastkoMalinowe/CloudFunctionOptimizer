@@ -1,0 +1,3 @@
+#!/bin/sh
+cd /net/people/plgmamajews/CloudFunctionOptimizer
+./app ./results/step2/montage_AWS_256_512_1024x5/tmp-times.json ./results/step2/montage_AWS_256_512_1024x5/dag-every_possible0.json ./configuration/config.json $1 $2
