@@ -1,8 +1,7 @@
-const fs = require('fs');
 const _ = require('lodash');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
-const outputCSV = "./results.csv";
-var LinkedList = require('dbly-linked-list');
+const LinkedList = require('dbly-linked-list');
+const pf = require('pareto-frontier');
 
 class MOHEFT extends SchedulingAlgorithm {
     constructor(config) {
@@ -32,15 +31,13 @@ class MOHEFT extends SchedulingAlgorithm {
         console.log("userDeadline: " + userDeadline);
         console.log("userBudget: " + userBudget);
 
-        // if (userBudget < minBudget) { throw new Error("No possible schedule map") }
 
         this.decorateTasksWithUpwardRank(sortedTasks);
         const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
 
         let schedules = [];
         schedules.push(dag);
-        let maxNumberOfSchedules = 50;
-
+        let maxNumberOfSchedules = 200;
 
         tasksSortedUpward.forEach(
             task => {
@@ -85,39 +82,16 @@ class MOHEFT extends SchedulingAlgorithm {
                     schedules = newSchedules;
                 }
 
-
-                //
-                //
-                //
-                // task.config.deploymentType = selectedResource;
-                //
-                // // plannedExecutionCost += this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource);
-                //
-                // Object.assign(task.config, this.getScheduldedTimesOnResource(tasks, task, selectedResource));
-                // deltaCost = deltaCost - [this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource) - this.taskUtils.findMinTaskExecutionCost(task)]
             }
         );
 
 
+        let forPareto = [];
         for (const schedule of schedules) {
-            console.log(schedule.time + ' , ' + schedule.cost)
-            // console.log(this.getExecutionTimeOfSchedule(schedule));
-            // console.log(schedule.tasks.map(task => task.config.deploymentType))
+            forPareto.push([schedule.time, schedule.cost])
         }
-
-
-        const plannedExecutionTime = this.taskUtils.findPlannedExecutionTime(sortedTasks);
-        const inConstrains = (plannedExecutionCost < userBudget && plannedExecutionTime < userDeadline) ? 1 : 0;
-        console.log("Planned execution time: " + plannedExecutionTime);
-        console.log("Planned execution cost: " + plannedExecutionCost);
-        console.log("In constrains? : " + inConstrains);
-
-        tasksSortedUpward.forEach(task => {
-                console.log(task.config.id + " : " + task.config.deploymentType)
-            }
-        );
-
-        fs.appendFileSync(outputCSV, `${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
+        let paretoPoints = pf.getParetoFrontier(forPareto,  { optimize: 'bottomLeft'} );
+        console.log(paretoPoints);
     }
 
     addDistances(sorted, property) {

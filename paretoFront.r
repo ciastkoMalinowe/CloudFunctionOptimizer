@@ -1,5 +1,15 @@
     df <- read.csv("/home/mamajews/Development/CloudFunctionOptimizer/every-possible-wf_0.02-256x512x1024-1_1/paretoFrontAll.txt")
     names(df) <- c('time','cost')
+    type = 'pareto'
+    df <- cbind(df, type)
+    
+    
+    moheft <- read.csv('/home/mamajews/Development/CloudFunctionOptimizer/moheft.csv')
+    names(moheft) <- c('time', 'cost')
+    type = 'moheft-pareto'
+    moheft <- cbind(moheft, type)
+    
+    df <- rbind(df, moheft)
     
     max_budget <- 0.0007034740000000003
     min_budget <- 0.000382806
@@ -23,14 +33,16 @@
     names(sdbws) <- c('time','cost', 'time_constrain', 'cost_constrain') 
     
     require(ggplot2)
-    plot <- ggplot(data = df, aes(x = time, y = cost, col="pareto front"))
+    plot <- ggplot(data = df, aes(x = time, y = cost, col=df$type))
     
-    plot <- plot +coord_cartesian(xlim = c(min(df[,1]), max(df[,1])), ylim = c(min(df[,2]), max(df[,2])))
+    plot <- plot + coord_cartesian(xlim = c(min(df[,1]), max(df[,1])), ylim = c(min(df[,2]), max(df[,2])))
     
-    plot <- plot + scale_color_manual(name = "",breaks = c ("pareto front", "sdbcs", "sdbws", "accepted solutions"), values = c("black", "red", "green", "blue"))
+    plot <- plot + scale_color_manual(name = "",breaks = c ("pareto", "sdbcs", "sdbws", "accepted solutions", "moheft-pareto"), values = c("black", "red", "green", "blue", "rose"))
     plot <- plot + geom_point(size = 1.5) 
     plot <- plot + geom_point(data = sdbcs, aes(color = "sdbcs", x = sdbcs$time, y=sdbcs$cost), size = 1.5) 
     plot <- plot + geom_point(data = sdbcs, aes(color = "sdbws", x = sdbws$time, y=sdbws$cost), size = 1.5) 
+    #plot <- plot + geom_point(data = moheft, aes(color = "moheft", x = sdbcs$time, y=sdbcs$cost), size = 1.5) 
+    
     #plot <- plot + geom_hline(yintercept=user_cost_max, linetype="dashed", color = "blue")
     #plot <- plot + geom_vline(xintercept=user_time_max, linetype="dashed", color = "blue")
     plot <- plot + theme(legend.position = "bottom")
