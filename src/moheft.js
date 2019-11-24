@@ -85,7 +85,12 @@ class MOHEFT extends SchedulingAlgorithm {
             }
         );
 
+        console.log("All points: ");
+        for (const schedule of schedules) {
+            console.log(schedule.time + ' ' + schedule.cost)
+        }
 
+        console.log("Pareto front:")
         let forPareto = [];
         for (const schedule of schedules) {
             forPareto.push([schedule.time, schedule.cost])
