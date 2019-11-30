@@ -93,7 +93,7 @@ class MOHEFT extends SchedulingAlgorithm {
             console.log(schedule.time + ' ' + schedule.cost)
         }
 
-        console.log("Pareto front:");
+        console.log("Pareto front:")
         let forPareto = [];
         for (const schedule of schedules) {
             forPareto.push([schedule.time, schedule.cost, schedule])
@@ -103,13 +103,83 @@ class MOHEFT extends SchedulingAlgorithm {
 
         console.log("Solutions: ");
         let solutions = [];
+        let timeSolutions = [];
         for (const paretoPoint of paretoPoints) {
+            if (paretoPoint[0] <= userDeadline) {
+                timeSolutions.push(paretoPoint[2]);
+            }
             if (paretoPoint[0] <= userDeadline && paretoPoint[1] <= userBudget) {
                 solutions.push(paretoPoint[2]);
             }
         }
 
-        console.log("Number of solutions: " + solutions.length)
+        if(solutions.length > 0){
+
+        }
+
+        let map = this.createMapOfTaskResourceTimeCost(tasksSortedUpward);
+
+        for (const timeSolution of timeSolutions) {
+            let weights = this.createWeights(map, timeSolution);
+            for (let i = 0; i < weights.length; i++) {
+                let taskId = weights[i].taskId;
+                let taskFromSchedule = timeSolution.tasks.filter(task => task.config.id === taskId)[0];
+                taskFromSchedule.config.deploymentType = weights[i].functionType;
+                let newCost = this.getExecutionCostOfSchedule(timeSolution);
+                if (newCost < userBudget) {
+                    console.log("Found!");
+                    console.log(newCost);
+                    console.log(this.getExecutionTimeOfSchedule(timeSolution));
+                    break;
+                }
+            }
+        }
+
+    }
+
+    createMapOfTaskResourceTimeCost(tasksSortedUpward) {
+        let map = new Map();
+        for (const task of tasksSortedUpward) {
+            for (const functionType of this.config.functionTypes) {
+                map.set([task.config.id, functionType], [task.finishTime[functionType] - task.startTime[functionType], this.taskUtils.findTaskExecutionCostOnResource(task, functionType)]);
+            }
+        }
+        return map;
+    }
+
+    createWeights(map, timeSolution) {
+        let weights = [];
+        for (const mapElement of map) {
+            let taskId = mapElement[0][0];
+            let functionType = mapElement[0][1];
+            let time = mapElement[1][0];
+            let cost = mapElement[1][1];
+
+            let taskFromSchedule = timeSolution.tasks.filter(task => task.config.id === taskId)[0];
+            let deploymentType = taskFromSchedule.config.deploymentType;
+
+            if (deploymentType === functionType) {
+                weights.push({'functionType': functionType, 'weight': 0, 'taskId': taskId});
+                continue;
+            }
+
+            let allTasksFromLevel = this.taskUtils.findTasksFromLevel(timeSolution.tasks, taskFromSchedule.level);
+            let levelCost = allTasksFromLevel.map(task => this.taskUtils.findTaskExecutionCostOnResource(task, task.config.deploymentType)).reduce((a, b) => a + b);
+            let allExecutionTimesFromLevel = allTasksFromLevel.map(task => this.taskUtils.findTaskExecutionTimeOnResource(task, task.config.deploymentType));
+            let timeOfLevel = Math.max(...allExecutionTimesFromLevel);
+
+            let newLevelCost = levelCost - this.taskUtils.findTaskExecutionCostOnResource(taskFromSchedule, taskFromSchedule.config.deploymentType) + cost;
+
+
+            let tasksWithoutOneInQuestion = allTasksFromLevel.filter(task => task.config.id !== taskId);
+            let levelTimeWithoutNewDeployment = Math.max(...tasksWithoutOneInQuestion.map(task => this.taskUtils.findTaskExecutionTimeOnResource(task, task.config.deploymentType)));
+            let newLevelTime = Math.max(levelTimeWithoutNewDeployment, time);
+
+            let weight = (timeOfLevel - newLevelTime) / (newLevelCost - levelCost);
+
+            weights.push({'functionType': functionType, 'weight': weight, 'taskId': taskId});
+        }
+        return weights.sort((a, b) => (a.weight - b.weight));
     }
 
     addDistances(sorted, property) {
