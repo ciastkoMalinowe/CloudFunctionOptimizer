@@ -2,7 +2,7 @@ const _ = require('lodash');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
 const LinkedList = require('dbly-linked-list');
 const pf = require('pareto-frontier');
-const MultiMap = require("collections/multi-map");
+fs = require('fs');
 
 class MOHEFT extends SchedulingAlgorithm {
     constructor(config) {
@@ -109,7 +109,13 @@ class MOHEFT extends SchedulingAlgorithm {
             }
         }
 
-        console.log("Number of solutions: " + solutions.length)
+        console.log("Number of solutions: " + solutions.length);
+        let filePath = './outputs_multiple/moheft-pareto.txt';
+        let stream = fs.createWriteStream(filePath, {flags:'a'});
+        for (const paretoPoint of paretoPoints) {
+            stream.write(paretoPoint[0] + ' , ' + paretoPoint[1] + '\n')
+        }
+        stream.close();
     }
 
     addDistances(sorted, property) {
