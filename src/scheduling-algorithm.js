@@ -22,6 +22,27 @@ class SchedulingAlgorithm {
     );
   }
 
+  getExecutionTimeOfScheduleIgnoringUnscheduledTasks(newSchedule) {
+    let allExecutionTimes = [];
+    let tasks = newSchedule.tasks;
+    let maximumLevel = this.taskUtils.findTasksMaxLevel(tasks);
+    for (let i = 1; i <= maximumLevel; i++) {
+      let timesForLevel = tasks.filter(task => task.level === i)
+          .filter(task => task.config.deploymentType !== undefined)
+          .map(task => task.finishTime[task.config.deploymentType] - task.startTime[task.config.deploymentType]);
+
+
+      if (timesForLevel.length > 0) {
+        let minimumForLevel = Math.max(...timesForLevel);
+        allExecutionTimes.push(minimumForLevel);
+      }
+    }
+    return allExecutionTimes.reduce(function (a, b) {
+      return a + b
+    }, 0);
+
+  }
+
   getScheduldedTimesOnResource(tasks, task, functionType) {
     let predecessors = this.taskUtils.findPredecessorsForTask(tasks, task);
     let delay = 0;
@@ -47,17 +68,6 @@ class SchedulingAlgorithm {
       "scheduledStartTime": newStartTime,
       "scheduledFinishTime": newFinishTime
     }
-  }
-
-  computeAverageExecutionTime(task) {
-
-    let total = 0;
-    let times = this.config.functionTypes.map(functionType => {
-      return task.finishTime[functionType] - task.startTime[functionType];
-    });
-
-    times.forEach(time => total += time);
-    return total / times.length;
   }
 
   computeTimeQuality(tasks, task, functionType) {

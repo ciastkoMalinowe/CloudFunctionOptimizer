@@ -4,6 +4,7 @@ const LinkedList = require('dbly-linked-list');
 const pf = require('pareto-frontier');
 const MultiMap = require("collections/multi-map");
 const fs = require('fs');
+const RankUtilities = require('./rank-utilities.js');
 
 class MOHEFT extends SchedulingAlgorithm {
     constructor(config) {
@@ -34,7 +35,7 @@ class MOHEFT extends SchedulingAlgorithm {
         console.log("userBudget: " + userBudget);
 
 
-        this.decorateTasksWithUpwardRank(sortedTasks);
+        RankUtilities.decorateTasksWithUpwardRank(sortedTasks, this.config.functionTypes);
         const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
 
         let schedules = [];
@@ -258,35 +259,6 @@ class MOHEFT extends SchedulingAlgorithm {
         return (subDeadline - minExecutionTime);
     }
 
-    decorateTasksWithUpwardRank(tasks) {
-        tasks.forEach(task => {
-            if (task.upwardRank === undefined) this.computeUpwardRank(tasks, task);
-        });
-    }
-
-    computeUpwardRank(tasks, task) {
-        let averageExecutionTime = this.computeAverageExecutionTime(task);
-        let successors = tasks.filter(x => x.level === task.level + 1);
-
-        if (successors.length === 0) {
-            task.upwardRank = averageExecutionTime;
-        } else {
-            let successorRanks = successors.map(x => this.findOrComputeRank(tasks, x));
-            task.upwardRank = averageExecutionTime + Math.max(...successorRanks);
-        }
-
-        return task.upwardRank;
-    }
-
-    findOrComputeRank(tasks, task) {
-        // Average communication time = 0
-        let originalTask = tasks.find(x => x.config.id === task.config.id);
-        if (originalTask.upwardRank === undefined) {
-            return this.computeUpwardRank(tasks, originalTask);
-        } else {
-            return originalTask.upwardRank;
-        }
-    }
 
     minDeadline(tasks) {
         let allExecutionTimes = [];

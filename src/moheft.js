@@ -2,18 +2,33 @@ const _ = require('lodash');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
 const LinkedList = require('dbly-linked-list');
 const pf = require('pareto-frontier');
+const LogUtilities = require("./log-utilities");
+const RankUtilities = require("./rank-utilities");
+const TaskUtilities = require("./task-utilities");
 fs = require('fs');
 
 class MOHEFT extends SchedulingAlgorithm {
-    constructor(config) {
+    constructor(config, K, finalLogs) {
         super(config);
+        if (K === undefined) {
+            this.K = 50;
+        } else {
+            this.K = K;
+        }
+        if (finalLogs === undefined) {
+            this.finalLogs = true;
+        } else {
+            this.finalLogs = false;
+        }
     }
 
     decorateStrategy(dag) {
         const tasks = dag.tasks;
+        const taskUtilities = new TaskUtilities(this.config);
 
         this.decorateTasksWithLevels(tasks);
-        const sortedTasks = tasks.sort((task1, task2) => task1.level - task2.level);
+        const sortedTasksByLevels = tasks.sort((task1, task2) => task1.level - task2.level);
+        RankUtilities.decorateTasksWithUpwardRank(sortedTasksByLevels, this.config.functionTypes);
 
         const maxDeadline = this.costFunctions.maxDeadline(tasks);
         const minDeadline = this.costFunctions.minDeadline(tasks);
@@ -28,28 +43,25 @@ class MOHEFT extends SchedulingAlgorithm {
         console.log("Min budget: " + minBudget);
         console.log("Max deadline: " + maxDeadline);
         console.log("Min deadline: " + minDeadline);
+        console.log("User deadline: " + userDeadline);
+        console.log("User budget: " + userBudget);
 
-        console.log("userDeadline: " + userDeadline);
-        console.log("userBudget: " + userBudget);
-
-
-        this.decorateTasksWithUpwardRank(sortedTasks);
         const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
 
         let schedules = [];
         schedules.push(dag);
-        let maxNumberOfSchedules = 50;
+        let maxNumberOfSchedules = this.K;
 
         let num = 0;
         tasksSortedUpward.forEach(
             task => {
-                console.log(num++);
+                console.log("Starting processing of task no: " + num++);
                 let taskId = task.config.id;
                 let newSchedules = [];
 
-                for (const dag of schedules) {
+                for (const schedule of schedules) {
                     for (let functionType of this.config.functionTypes) {
-                        let newAssignment = _.cloneDeep(dag);
+                        let newAssignment = _.cloneDeep(schedule);
                         let taskToBeAssigned = newAssignment.tasks.filter(task => task.config.id === taskId)[0];
                         taskToBeAssigned.config.deploymentType = functionType;
                         newSchedules.push(newAssignment);
@@ -57,30 +69,7 @@ class MOHEFT extends SchedulingAlgorithm {
                 }
 
                 if (newSchedules.length > maxNumberOfSchedules) {
-                    let i = 1;
-                    for (const newSchedule of newSchedules) {
-                        newSchedule.cost = this.getExecutionCostOfSchedule(newSchedule);
-                        newSchedule.time = this.getExecutionTimeOfSchedule(newSchedule);
-                        newSchedule.scheduleId = i++;
-                        newSchedule.distance = 0;
-                    }
-
-
-                    let sortedByTime = new LinkedList();
-                    newSchedules.sort((a, b) => a.time - b.time).forEach(value => {
-                        sortedByTime.insert(value);
-                    });
-                    let sortedByCost = new LinkedList();
-                    newSchedules.sort((a, b) => a.cost - b.cost).forEach(value => {
-                        sortedByCost.insert(value);
-                    });
-
-
-                    this.addDistances(sortedByTime, 'time');
-                    this.addDistances(sortedByCost, 'cost');
-
-                    newSchedules = newSchedules.sort((a, b) => b.distance - a.distance).slice(0, maxNumberOfSchedules);
-                    schedules = newSchedules;
+                    schedules = this.selectBestSchedulesAccordingToDistance(newSchedules, taskUtilities, maxNumberOfSchedules, schedules);
                 } else {
                     schedules = newSchedules;
                 }
@@ -111,13 +100,49 @@ class MOHEFT extends SchedulingAlgorithm {
 
         console.log("Number of solutions: " + solutions.length);
         console.log("Size of pareto front: " + paretoPoints.length);
-        let filePath = './outputs_multiple/all_' + this.config.workflow +'.txt';
-        for (const paretoPoint of paretoPoints) {
-            fs.appendFileSync(filePath, paretoPoint[0] + ' , ' + paretoPoint[1] + ',' + 'moheft' + ','
-                + this.config.deadlineParameter + ',' + this.config.budgetParameter +',' + userDeadline + ',' +userBudget + '\n');        }
+
+
+        if (this.finalLogs) {
+            LogUtilities.outputLogsToFile(paretoPoints, userDeadline, userBudget, this.config, 'moheft');
+        }
+        return paretoPoints;
     }
 
-    addDistances(sorted, property) {
+
+    selectBestSchedulesAccordingToDistance(newSchedules, taskUtilities, maxNumberOfSchedules, schedules) {
+        let i = 1;
+        for (const newSchedule of newSchedules) {
+            newSchedule.cost = taskUtilities.getExecutionCostOfScheduleIgnoringUnscheduledTasks(newSchedule);
+            newSchedule.time = taskUtilities.getExecutionTimeOfScheduleIgnoringUnscheduledTasks(newSchedule);
+            newSchedule.scheduleId = i++;
+            newSchedule.distance = 0;
+        }
+        let sortedByTime = this.sortByTime(newSchedules);
+        let sortedByCost = this.sortByCost(newSchedules);
+
+        this.saveCrowdingDistanceInTask(sortedByTime, 'time');
+        this.saveCrowdingDistanceInTask(sortedByCost, 'cost');
+
+        return newSchedules.sort((a, b) => b.distance - a.distance).slice(0, maxNumberOfSchedules);
+    }
+
+    sortByCost(newSchedules) {
+        let sortedByCost = new LinkedList();
+        newSchedules.sort((a, b) => a.cost - b.cost).forEach(value => {
+            sortedByCost.insert(value);
+        });
+        return sortedByCost;
+    }
+
+    sortByTime(newSchedules) {
+        let sortedByTime = new LinkedList();
+        newSchedules.sort((a, b) => a.time - b.time).forEach(value => {
+            sortedByTime.insert(value);
+        });
+        return sortedByTime;
+    }
+
+    saveCrowdingDistanceInTask(sorted, property) {
         let maxValue = sorted.getTailNode().getData()[property];
         let minValue = sorted.getHeadNode().getData()[property];
         sorted.getTailNode().getData().distance = Infinity;
@@ -135,73 +160,6 @@ class MOHEFT extends SchedulingAlgorithm {
         }
     }
 
-    getExecutionCostOfSchedule(newSchedule) {
-        let totalCost = 0;
-        let tasks = newSchedule.tasks;
-        for (const task of tasks) {
-            if (task.config.deploymentType !== undefined) {
-                totalCost += this.taskUtils.findTaskExecutionCostOnResource(task, task.config.deploymentType)
-            }
-        }
-        return totalCost;
-    }
-
-    computeSubDeadline(tasks, task, userDeadline) {
-        // Path do exit task??
-        let successors = tasks.filter(x => x.level === task.level + 1);
-
-        if (successors.length === 0) {
-            task.subDeadline = userDeadline;
-        } else {
-            let successorSubDeadlines = successors.map(x => this.findOrComputeSubDeadline(tasks, x, userDeadline));
-            task.subDeadline = Math.min(...successorSubDeadlines);
-        }
-
-        return task.subDeadline;
-    }
-
-    findOrComputeSubDeadline(tasks, task, userDeadline) {
-        let minExecutionTime = this.taskUtils.findMinTaskExecutionTime(task);
-        let subDeadline;
-        let originalTask = tasks.find(x => x.config.id === task.config.id);
-        if (originalTask.subDeadline === undefined) {
-            subDeadline = this.computeSubDeadline(tasks, originalTask, userDeadline);
-        } else {
-            subDeadline = originalTask.subDeadline;
-        }
-        // Average communication time = 0
-        return (subDeadline - minExecutionTime);
-    }
-
-    decorateTasksWithUpwardRank(tasks) {
-        tasks.forEach(task => {
-            if (task.upwardRank === undefined) this.computeUpwardRank(tasks, task);
-        });
-    }
-
-    computeUpwardRank(tasks, task) {
-        let averageExecutionTime = this.computeAverageExecutionTime(task);
-        let successors = tasks.filter(x => x.level === task.level + 1);
-
-        if (successors.length === 0) {
-            task.upwardRank = averageExecutionTime;
-        } else {
-            let successorRanks = successors.map(x => this.findOrComputeRank(tasks, x));
-            task.upwardRank = averageExecutionTime + Math.max(...successorRanks);
-        }
-
-        return task.upwardRank;
-    }
-
-    findOrComputeRank(tasks, task) {
-        // Average communication time = 0
-        let originalTask = tasks.find(x => x.config.id === task.config.id);
-        if (originalTask.upwardRank === undefined) {
-            return this.computeUpwardRank(tasks, originalTask);
-        } else {
-            return originalTask.upwardRank;
-        }
-    }
 
     minDeadline(tasks) {
         let allExecutionTimes = [];
@@ -215,44 +173,7 @@ class MOHEFT extends SchedulingAlgorithm {
         }, 0)
     }
 
-    getExecutionTimeOfSchedule(newSchedule) {
-        let allExecutionTimes = [];
-        let tasks = newSchedule.tasks;
-        let maximumLevel = this.taskUtils.findTasksMaxLevel(tasks);
-        for (let i = 1; i <= maximumLevel; i++) {
-            let timesForLevel = tasks.filter(task => task.level === i)
-                .filter(task => task.config.deploymentType !== undefined)
-                .map(task => task.finishTime[task.config.deploymentType] - task.startTime[task.config.deploymentType]);
 
-
-            if (timesForLevel.length > 0) {
-                let minimumForLevel = Math.max(...timesForLevel);
-                allExecutionTimes.push(minimumForLevel);
-            }
-        }
-        return allExecutionTimes.reduce(function (a, b) {
-            return a + b
-        }, 0);
-
-
-        //
-        //
-        // const tasks = newSchedule.tasks;
-        // let totalTime = 0;
-        // let maximumLevel = this.taskUtils.findTasksMaxLevel(tasks);
-        //
-        // for (const level of _.range(maximumLevel)) {
-        //     let timeOfLevel = 0;
-        //     for (const task of this.taskUtils.findTasksFromLevel(tasks, level)) {
-        //         let deploymentType = task.config.deploymentType;
-        //         if (deploymentType !== undefined) {
-        //             timeOfLevel = Math.max(timeOfLevel, task.finishTime[deploymentType] - task.startTime[deploymentType])
-        //         }
-        //     }
-        //     totalTime += timeOfLevel;
-        // }
-        // return totalTime;
-    }
 }
 
 module.exports = MOHEFT;

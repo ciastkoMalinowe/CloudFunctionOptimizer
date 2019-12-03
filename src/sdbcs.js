@@ -1,6 +1,9 @@
+const LogUtilities = require( "./log-utilities");
+
 const fs = require('fs');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
 const outputCSV="./results.csv";
+const RankUtilities = require("./rank-utilities");
 
 
 class SDBCS extends SchedulingAlgorithm {
@@ -31,9 +34,8 @@ class SDBCS extends SchedulingAlgorithm {
     console.log("userDeadline: " + userDeadline);
     console.log("userBudget: " + userBudget);
 
-    // if (userBudget < minBudget) { throw new Error("No possible schedule map") }
-
-    this.decorateTasksWithUpwardRank(sortedTasks);
+    if (userBudget < minBudget) { throw new Error("No possible schedule map") }
+    RankUtilities.decorateTasksWithUpwardRank(sortedTasks, this.config.functionTypes);
     this.decorateTasksWithSubdeadline(sortedTasks, userDeadline);
 
     const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
@@ -79,16 +81,7 @@ class SDBCS extends SchedulingAlgorithm {
     console.log("Planned execution cost: " + plannedExecutionCost);
     console.log("In constrains? : " + inConstrains);
 
-    let filePath = './outputs_multiple/all_' + this.config.workflow +'.txt';
-    let stream = fs.createWriteStream(filePath, {flags:'a'});
-    stream.write(plannedExecutionTime + ' , ' + plannedExecutionCost + ',' + 'sdbcs' + ','
-        + this.config.deadlineParameter + ',' + this.config.budgetParameter +',' + userDeadline + ',' +userBudget + '\n');
-    stream.close();
-
-    tasksSortedUpward.forEach(task => {
-          console.log(task.config.id + " : " + task.config.deploymentType)
-        }
-    );
+    LogUtilities.outputLogsToFile([[plannedExecutionTime, plannedExecutionCost]], userDeadline, userBudget, this.config, 'sdbcs');
 
     fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
@@ -134,30 +127,6 @@ class SDBCS extends SchedulingAlgorithm {
     tasks.forEach(task => {
       if(task.upwardRank === undefined) this.computeUpwardRank(tasks, task);
     });
-  }
-
-  computeUpwardRank(tasks, task) {
-    let averageExecutionTime = this.computeAverageExecutionTime(task);
-    let successors = tasks.filter( x => x.level === task.level + 1);
-
-    if(successors.length === 0) {
-      task.upwardRank = averageExecutionTime;
-    } else {
-      let successorRanks = successors.map( x => this.findOrComputeRank(tasks, x));
-      task.upwardRank = averageExecutionTime + Math.max(...successorRanks);
-    }
-
-    return task.upwardRank;
-  }
-
-  findOrComputeRank(tasks, task) {
-    // Average communication time = 0
-    let originalTask = tasks.find( x => x.config.id === task.config.id);
-    if(originalTask.upwardRank === undefined) {
-      return this.computeUpwardRank(tasks, originalTask);
-    } else {
-      return originalTask.upwardRank;
-    }
   }
 
   computeQualityMeasureForResource(tasks, task, functionType, costEfficientFactor) {
