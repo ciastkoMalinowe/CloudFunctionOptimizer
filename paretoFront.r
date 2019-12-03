@@ -54,7 +54,7 @@
         #plot2 <- plot2 + scale_color_manual(name = "",breaks = c ("moheft", "sdbcs", "moheft-loss", "sdbws", "pareto"), values = c("black", "red", "green", "blue", "rose"))
         plot3 <- plot3 + geom_point(size = 1.5)
         plot3 <- plot3 + theme(legend.position = "bottom")
-        plot3 <- plot3 + ggtitle('b = 0.4, c = 0.4')
+        plot3 <- plot3 + ggtitle('b = 0.6, c = 0.6')
         plot3 <- plot3 + geom_hline(yintercept = user_cost_max)
         plot3 <- plot3 + geom_vline(xintercept  = user_time_max)
 

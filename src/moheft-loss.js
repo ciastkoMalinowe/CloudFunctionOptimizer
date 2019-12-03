@@ -144,11 +144,12 @@ class MOHEFT extends SchedulingAlgorithm {
                     solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), newCost]);
                     break;
                 }
+
             }
         }
 
 
-
+        console.log("Number of solutions: " + solutionsWithTimeAndCost.length);
         let filePath = './outputs_multiple/all_' + this.config.workflow +'.txt';
         for (const paretoPoint of solutionsWithTimeAndCost) {
             fs.appendFileSync(filePath, paretoPoint[0] + ' , ' + paretoPoint[1] + ',' + 'moheft-loss' + ','

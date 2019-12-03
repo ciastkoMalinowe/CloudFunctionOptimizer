@@ -90,10 +90,6 @@ class SDBCS extends SchedulingAlgorithm {
         }
     );
 
-
-
-
-
     fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
 
