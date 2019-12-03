@@ -5,8 +5,9 @@ const pf = require('pareto-frontier');
 const MultiMap = require("collections/multi-map");
 const fs = require('fs');
 const RankUtilities = require('./rank-utilities.js');
+const MOHEFT = require('./moheft.js');
 
-class MOHEFT extends SchedulingAlgorithm {
+class MOHEFT_LOSS extends SchedulingAlgorithm {
     constructor(config) {
         super(config);
     }
@@ -34,98 +35,28 @@ class MOHEFT extends SchedulingAlgorithm {
         console.log("userDeadline: " + userDeadline);
         console.log("userBudget: " + userBudget);
 
-
         RankUtilities.decorateTasksWithUpwardRank(sortedTasks, this.config.functionTypes);
-        const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
 
-        let schedules = [];
-        schedules.push(dag);
-        let maxNumberOfSchedules = 10;
-
-        let num = 0;
-        tasksSortedUpward.forEach(
-            task => {
-                console.log(num++);
-                let taskId = task.config.id;
-                let newSchedules = [];
-
-                for (const dag of schedules) {
-                    for (let functionType of this.config.functionTypes) {
-                        let newAssignment = _.cloneDeep(dag);
-                        let taskToBeAssigned = newAssignment.tasks.filter(task => task.config.id === taskId)[0];
-                        taskToBeAssigned.config.deploymentType = functionType;
-                        newSchedules.push(newAssignment);
-                    }
-                }
-
-                if (newSchedules.length > maxNumberOfSchedules) {
-                    let i = 1;
-                    for (const newSchedule of newSchedules) {
-                        newSchedule.cost = this.getExecutionCostOfSchedule(newSchedule);
-                        newSchedule.time = this.getExecutionTimeOfSchedule(newSchedule);
-                        newSchedule.scheduleId = i++;
-                        newSchedule.distance = 0;
-                    }
-
-
-                    let sortedByTime = new LinkedList();
-                    newSchedules.sort((a, b) => a.time - b.time).forEach(value => {
-                        sortedByTime.insert(value);
-                    });
-                    let sortedByCost = new LinkedList();
-                    newSchedules.sort((a, b) => a.cost - b.cost).forEach(value => {
-                        sortedByCost.insert(value);
-                    });
-
-
-                    this.addDistances(sortedByTime, 'time');
-                    this.addDistances(sortedByCost, 'cost');
-
-                    newSchedules = newSchedules.sort((a, b) => b.distance - a.distance).slice(0, maxNumberOfSchedules);
-                    schedules = newSchedules;
-                } else {
-                    schedules = newSchedules;
-                }
-
-            }
-        );
-
-        console.log("All points: ");
-        for (const schedule of schedules) {
-            console.log(schedule.time + ' ' + schedule.cost)
-        }
-
-        console.log("Pareto front:")
-        let forPareto = [];
-        for (const schedule of schedules) {
-            forPareto.push([schedule.time, schedule.cost, schedule])
-        }
-        let paretoPoints = pf.getParetoFrontier(forPareto, {optimize: 'bottomLeft'});
+        let moheft = new MOHEFT(this.config, 10, false);
+        let paretoPoints = moheft.decorateStrategy(dag);
         console.log(paretoPoints);
 
         console.log("Solutions: ");
-        let solutions = [];
         let timeSolutions = [];
         for (const paretoPoint of paretoPoints) {
             if (paretoPoint[0] <= userDeadline) {
                 timeSolutions.push(paretoPoint[2]);
             }
-            if (paretoPoint[0] <= userDeadline && paretoPoint[1] <= userBudget) {
-                solutions.push(paretoPoint[2]);
-            }
         }
 
-        if(solutions.length > 0){
-
-        }
-
+        const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
         let map = this.createMapOfTaskResourceTimeCost(tasksSortedUpward);
 
         let solutionsWithTimeAndCost = [];
         for (const timeSolution of timeSolutions) {
             let weights = this.createWeights(map, timeSolution);
             for (let i = 0; i < weights.length; i++) {
-                if(this.getExecutionCostOfSchedule(timeSolution) < userBudget){
+                if (this.getExecutionCostOfSchedule(timeSolution) < userBudget) {
                     solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), this.getExecutionCostOfSchedule(timeSolution)]);
                     console.log("Found!");
                     console.log(this.getExecutionCostOfSchedule(timeSolution));
@@ -151,10 +82,10 @@ class MOHEFT extends SchedulingAlgorithm {
 
 
         console.log("Number of solutions: " + solutionsWithTimeAndCost.length);
-        let filePath = './outputs_multiple/all_' + this.config.workflow +'.txt';
+        let filePath = './outputs_multiple/all_' + this.config.workflow + '.txt';
         for (const paretoPoint of solutionsWithTimeAndCost) {
             fs.appendFileSync(filePath, paretoPoint[0] + ' , ' + paretoPoint[1] + ',' + 'moheft-loss' + ','
-                + this.config.deadlineParameter + ',' + this.config.budgetParameter +',' + userDeadline + ',' +userBudget + '\n');
+                + this.config.deadlineParameter + ',' + this.config.budgetParameter + ',' + userDeadline + ',' + userBudget + '\n');
         }
     }
 
@@ -312,4 +243,4 @@ class MOHEFT extends SchedulingAlgorithm {
     }
 }
 
-module.exports = MOHEFT;
+module.exports = MOHEFT_LOSS;

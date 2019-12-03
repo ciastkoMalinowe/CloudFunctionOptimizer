@@ -98,8 +98,8 @@ class MOHEFT extends SchedulingAlgorithm {
             }
         }
 
-        console.log("Number of solutions: " + solutions.length);
         console.log("Size of pareto front: " + paretoPoints.length);
+        console.log("Number of solutions: " + solutions.length);
 
 
         if (this.finalLogs) {
