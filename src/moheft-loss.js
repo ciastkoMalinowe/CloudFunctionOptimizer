@@ -3,6 +3,7 @@ const SchedulingAlgorithm = require('./scheduling-algorithm.js');
 const LinkedList = require('dbly-linked-list');
 const pf = require('pareto-frontier');
 const MultiMap = require("collections/multi-map");
+const fs = require('fs');
 
 class MOHEFT extends SchedulingAlgorithm {
     constructor(config) {
@@ -119,9 +120,19 @@ class MOHEFT extends SchedulingAlgorithm {
 
         let map = this.createMapOfTaskResourceTimeCost(tasksSortedUpward);
 
+        let solutionsWithTimeAndCost = [];
         for (const timeSolution of timeSolutions) {
             let weights = this.createWeights(map, timeSolution);
             for (let i = 0; i < weights.length; i++) {
+                if(this.getExecutionCostOfSchedule(timeSolution) < userBudget){
+                    solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), this.getExecutionCostOfSchedule(timeSolution)]);
+                    console.log("Found!");
+                    console.log(this.getExecutionCostOfSchedule(timeSolution));
+                    console.log(this.getExecutionTimeOfSchedule(timeSolution));
+                    break;
+                }
+
+
                 let taskId = weights[i].taskId;
                 let taskFromSchedule = timeSolution.tasks.filter(task => task.config.id === taskId)[0];
                 taskFromSchedule.config.deploymentType = weights[i].functionType;
@@ -130,11 +141,19 @@ class MOHEFT extends SchedulingAlgorithm {
                     console.log("Found!");
                     console.log(newCost);
                     console.log(this.getExecutionTimeOfSchedule(timeSolution));
+                    solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), newCost]);
                     break;
                 }
             }
         }
 
+
+
+        let filePath = './outputs_multiple/all_' + this.config.workflow +'.txt';
+        for (const paretoPoint of solutionsWithTimeAndCost) {
+            fs.appendFileSync(filePath, paretoPoint[0] + ' , ' + paretoPoint[1] + ',' + 'moheft-loss' + ','
+                + this.config.deadlineParameter + ',' + this.config.budgetParameter +',' + userDeadline + ',' +userBudget + '\n');
+        }
     }
 
     createMapOfTaskResourceTimeCost(tasksSortedUpward) {

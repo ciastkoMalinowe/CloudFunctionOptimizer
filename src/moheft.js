@@ -38,7 +38,7 @@ class MOHEFT extends SchedulingAlgorithm {
 
         let schedules = [];
         schedules.push(dag);
-        let maxNumberOfSchedules = 10;
+        let maxNumberOfSchedules = 50;
 
         let num = 0;
         tasksSortedUpward.forEach(
@@ -110,12 +110,11 @@ class MOHEFT extends SchedulingAlgorithm {
         }
 
         console.log("Number of solutions: " + solutions.length);
-        let filePath = './outputs_multiple/moheft-pareto.txt';
-        let stream = fs.createWriteStream(filePath, {flags:'a'});
+        console.log("Size of pareto front: " + paretoPoints.length);
+        let filePath = './outputs_multiple/all_' + this.config.workflow +'.txt';
         for (const paretoPoint of paretoPoints) {
-            stream.write(paretoPoint[0] + ' , ' + paretoPoint[1] + '\n')
-        }
-        stream.close();
+            fs.appendFileSync(filePath, paretoPoint[0] + ' , ' + paretoPoint[1] + ',' + 'moheft' + ','
+                + this.config.deadlineParameter + ',' + this.config.budgetParameter +',' + userDeadline + ',' +userBudget + '\n');        }
     }
 
     addDistances(sorted, property) {

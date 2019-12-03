@@ -79,10 +79,20 @@ class SDBCS extends SchedulingAlgorithm {
     console.log("Planned execution cost: " + plannedExecutionCost);
     console.log("In constrains? : " + inConstrains);
 
+    let filePath = './outputs_multiple/all_' + this.config.workflow +'.txt';
+    let stream = fs.createWriteStream(filePath, {flags:'a'});
+    stream.write(plannedExecutionTime + ' , ' + plannedExecutionCost + ',' + 'sdbcs' + ','
+        + this.config.deadlineParameter + ',' + this.config.budgetParameter +',' + userDeadline + ',' +userBudget + '\n');
+    stream.close();
+
     tasksSortedUpward.forEach(task => {
           console.log(task.config.id + " : " + task.config.deploymentType)
         }
     );
+
+
+
+
 
     fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
