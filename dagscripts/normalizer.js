@@ -23,21 +23,16 @@ function normalize(file) {
         let task = data[0];
         let id = data[1];
         let resource = data[2];
-
         let request_start = data[3];
         let request_end = data[4];
         let request_duration = data[5];
-        let start = request_start;
-        let end = request_end;
-        let time = request_duration;
-
-
-
-
-        let downloaded = data[6];
-        let executed = data[7];
-        let uploaded = data[8];
-        let type = resource;
+        let start = data[6];
+        let end = data[7];
+        let time = data[8];
+        let downloaded = data[9];
+        let executed = data[10];
+        let uploaded = data[11];
+        let type = data[12];
 
         let normalized_start = start - minTimestamp;
         let normalized_end = end - minTimestamp;

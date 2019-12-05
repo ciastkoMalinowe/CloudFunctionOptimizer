@@ -1,35 +1,35 @@
 {
-  "budgetParameter": 1,
-  "deadlineParameter": 1,
-  "functionTypes": [
-   "256", "512","1024"
-  ],
-  "count": 5,
-  "provider": "AWS",
-  "algorithm": "every_possible",
-  "workflow": "montage",
-  "dag": "small_graphs/wf_0.02_with_id.json",
-  "prices": {
-    "AWS": {
-      "128": 0.000000208,
-      "256": 0.000000417,
-      "512": 0.000000834,
-      "1024": 0.000001667,
-      "1536": 0.000002501,
-      "2048": 0.000003334,
-      "2560": 0.000004168,
-      "3008": 0.000004897
-    },
-    "GCF" : {
-      "256": 0.000000463,
-      "512": 0.000000925,
-      "1024": 0.000001650,
-      "2048": 0.000002900
-    },
-    "overheads": {
-      "AWS": 0.043,
-      "GCF": 0.15,
-      "IBM": 0.13
+    "budgetParameter": "0.8",
+    "deadlineParameter": "0.8",
+    "functionTypes": [
+        "256"
+    ],
+    "count": 1,
+    "provider": "AWS",
+    "algorithm": "moheft-loss",
+    "workflow": "montage-0.25",
+    "dag": "dag-with-id.json",
+    "prices": {
+        "AWS": {
+            "128": 2.08e-07,
+            "256": 4.17e-07,
+            "512": 8.34e-07,
+            "1024": 1.667e-06,
+            "1536": 2.501e-06,
+            "2048": 3.334e-06,
+            "2560": 4.168e-06,
+            "3008": 4.897e-06
+        },
+        "GCF": {
+            "256": 4.63e-07,
+            "512": 9.25e-07,
+            "1024": 1.65e-06,
+            "2048": 2.9e-06
+        },
+        "overheads": {
+            "AWS": 0.043,
+            "GCF": 0.15,
+            "IBM": 0.13
+        }
     }
-  }
 }

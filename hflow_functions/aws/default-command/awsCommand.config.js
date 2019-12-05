@@ -6,14 +6,7 @@ const AWS_PATH = "results";
 exports.functionType = FUNCTION_TYPE;
 
 exports.resources = {
-  "128": "<link_to_128_lambda_function",
-  "256": "<link_to_256_lambda_function",
-  "512": "<link_to_512_lambda_function",
-  "1024": "<link_to_1024_lambda_function",
-  "1536": "<link_to_1536_lambda_function",
-  "2048": "<link_to_2048_lambda_function",
-  "2560": "<link_to_2560_lambda_function",
-  "3008": "<link_to_3008_lambda_function",
+  "256": "https://tm8yi4eva1.execute-api.eu-central-1.amazonaws.com/dev/aws-executor-256"
 };
 
 // Google cloud storage
