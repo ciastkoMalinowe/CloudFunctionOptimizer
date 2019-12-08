@@ -14,7 +14,11 @@ provider:
         - "s3:PutObject"
         - "s3:GetObject"
       Resource: "arn:aws:s3:::hyperflow.workflow.test.sdwbs/*"
-
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource: "arn:aws:s3:::hyperflow.ellipsoids/*"
 functions:
 
   aws-executor-128:

@@ -48,16 +48,16 @@ for functionType in $(jq -r '.functionTypes[]' ${config}); do
                 # !!! Temporary HACK for running ellipsoids workflow !!!
                 # Because hyperflow for some reason doesn't reach post-processing tasks during ellipsoids
                 # workflow execution, the program must be terminated manually
-                expect -c "set timeout 360; spawn ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s; expect \", executable: summary.js\" {close}" >> ${folder}/logs_${i}.txt
+                expect -c "set timeout 1000; spawn ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s; expect \", executable: summary.js\" {close}" >> ${folder}/logs_${i}.txt
             else
                 ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s >> ${folder}/logs_${i}.txt
             fi
 
             echo Workflow run ${i} finished! Parsing response...
-            ${appdir}/scripts/parse_log.sh ${folder}/logs_${i}.txt ${functionType} ${provider} >> ${folder}/logs_${i}.csv
+            ${appdir}/scripts/parse_log.sh ${folder}/logs_${i}.txt ${functionType} ${provider} >> ${folder}/logs_${i}.json
 
             # Normalize
-            node ${normalizer} ${folder}/logs_${i}.csv ${outputFile}
+            node ${normalizer} ${folder}/logs_${i}.json ${outputFile}
         fi
     done
 done

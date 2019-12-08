@@ -2,13 +2,19 @@
     "budgetParameter": "0.8",
     "deadlineParameter": "0.8",
     "functionTypes": [
-        "256"
+        "128",
+        "512",
+        "1024",
+        "1536",
+        "2048",
+        "2560",
+        "3008"
     ],
-    "count": 1,
+    "count": 5,
     "provider": "AWS",
-    "algorithm": "moheft-loss",
-    "workflow": "montage-0.25",
-    "dag": "dag-with-id.json",
+    "algorithm": "sdbcs",
+    "workflow": "ellipsoids",
+    "dag": "ellipsoids-1.json",
     "prices": {
         "AWS": {
             "128": 2.08e-07,

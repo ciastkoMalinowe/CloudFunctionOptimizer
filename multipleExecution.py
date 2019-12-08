@@ -9,6 +9,8 @@ parser.add_argument('-fp', '--filePath', action="store", dest="file_path", help=
 parser.add_argument('-bp', '--budgetParameters', nargs="+", action="store", dest="budgetParameters")
 parser.add_argument('-dp', '--deadlineParameters', nargs="+", action="store", dest="deadlineParameters")
 parser.add_argument('-alg', '--algorithms', nargs="+", action="store", dest="algorithms")
+parser.add_argument('-gr', '--graphs', nargs="+", action="store", dest="graphs")
+parser.add_argument('-wf', '--workflow', action="store", dest="workflow", help="workflow", default="")
 
 
 def change_json_key(json_key, new_value, file_path):
@@ -28,15 +30,20 @@ def delete_results_folder():
 
 args = parser.parse_args()
 
+path_to_configuration = args.file_path
+
 for algorithm in args.algorithms:
     for budgetParameter in args.budgetParameters:
         for deadline in args.deadlineParameters:
-            change_json_key("budgetParameter", budgetParameter, args.file_path)
-            change_json_key("deadlineParameter", deadline, args.file_path)
-            change_json_key("algorithm", algorithm, args.file_path)
-            delete_results_folder()
-            process = subprocess.Popen(["./scripts/step2.sh", args.file_path], stdout=subprocess.PIPE)
-            for line in iter(process.stdout.readline, b''):
-                print(str(line))
-            process.stdout.close()
-            process.wait()
+            for graph in args.graphs:
+                change_json_key("budgetParameter", budgetParameter, path_to_configuration)
+                change_json_key("deadlineParameter", deadline, path_to_configuration)
+                change_json_key("algorithm", algorithm, path_to_configuration)
+                change_json_key("workflow", args.workflow, path_to_configuration)
+                change_json_key("dag", graph, path_to_configuration)
+                # delete_results_folder()
+                # process = subprocess.Popen(["./scripts/step2.sh", path_to_configuration], stdout=subprocess.PIPE)
+                # for line in iter(process.stdout.readline, b''):
+                #     print(str(line))
+                # process.stdout.close()
+                # process.wait()
