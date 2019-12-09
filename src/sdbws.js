@@ -68,6 +68,10 @@ class SDBWS extends SchedulingAlgorithm {
     console.log("Planned execution time: " + plannedExecutionTime);
     console.log("Planned execution cost: " + plannedExecutionCost);
     fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
+
+
+    LogUtilities.outputLogsToFile([[plannedExecutionTime, plannedExecutionCost]], userDeadline, userBudget, this.config, 'sdbws');
+
   }
 
   decorateTasksWithSubdeadline(tasks, userDeadline) {

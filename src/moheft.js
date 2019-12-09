@@ -101,13 +101,30 @@ class MOHEFT extends SchedulingAlgorithm {
         console.log("Size of pareto front: " + paretoPoints.length);
         console.log("Number of solutions: " + solutions.length);
 
-
         if (this.finalLogs) {
-            LogUtilities.outputLogsToFile(paretoPoints, userDeadline, userBudget, this.config, 'moheft');
+            let algorithm = 'moheft';
+
+            //Output all the points
+            // LogUtilities.outputLogsToFile(paretoPoints, userDeadline, userBudget, this.config, algorithm);
+
+            //Output only one result
+            this.outputOneResult(solutions, paretoPoints, userDeadline, userBudget, algorithm);
         }
+
+
         return paretoPoints;
     }
 
+
+    outputOneResult(solutions, paretoPoints, userDeadline, userBudget, algorithm) {
+        let points = [];
+        if (solutions.length === 0) {
+            points = [[paretoPoints[0][0], paretoPoints[0][1]]];
+        } else {
+            points = [[solutions[0].time, solutions[0].cost]];
+        }
+        LogUtilities.outputLogsToFile(points, userDeadline, userBudget, this.config, algorithm)
+    }
 
     selectBestSchedulesAccordingToDistance(newSchedules, taskUtilities, maxNumberOfSchedules, schedules) {
         let i = 1;

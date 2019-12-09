@@ -1,8 +1,9 @@
 {
-    "budgetParameter": "0.8",
-    "deadlineParameter": "0.8",
+    "budgetParameter": "0.95",
+    "deadlineParameter": "0.95",
     "functionTypes": [
         "128",
+        "256",
         "512",
         "1024",
         "1536",
@@ -12,7 +13,7 @@
     ],
     "count": 5,
     "provider": "AWS",
-    "algorithm": "sdbcs",
+    "algorithm": "sdbws",
     "workflow": "ellipsoids",
     "dag": "ellipsoids-1.json",
     "prices": {

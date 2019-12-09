@@ -6,6 +6,8 @@ const MultiMap = require("collections/multi-map");
 const fs = require('fs');
 const RankUtilities = require('./rank-utilities.js');
 const MOHEFT = require('./moheft.js');
+const LogUtilities = require("./log-utilities");
+
 
 class MOHEFT_LOSS extends SchedulingAlgorithm {
     constructor(config) {
@@ -82,11 +84,14 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
 
 
         console.log("Number of solutions: " + solutionsWithTimeAndCost.length);
-        let filePath = './outputs_multiple/all_' + this.config.workflow + '.txt';
-        for (const paretoPoint of solutionsWithTimeAndCost) {
-            fs.appendFileSync(filePath, paretoPoint[0] + ' , ' + paretoPoint[1] + ',' + 'moheft-loss' + ','
-                + this.config.deadlineParameter + ',' + this.config.budgetParameter + ',' + userDeadline + ',' + userBudget + '\n');
+
+        for (const solution of solutionsWithTimeAndCost) {
+            let cost = solution[1];
+            let time = solution[0];
+            LogUtilities.outputLogsToFile([[time, cost]], userDeadline, userBudget, this.config, 'moheft-loss')
+            break;
         }
+
     }
 
     createMapOfTaskResourceTimeCost(tasksSortedUpward) {

@@ -35,9 +35,6 @@ function awsCommand(ins, outs, config, cb) {
     const functionType = config.deploymentType ? config.deploymentType : executorConfig.functionType;
     const url = executorConfig.resources[functionType];
 
-
-
-
     const lambda = new aws.Lambda();
 
     const main = async () => {
@@ -59,7 +56,7 @@ function awsCommand(ins, outs, config, cb) {
         const stringValue = JSON.stringify(value);
 
         const params = {
-            FunctionName: 'aws-executor-ellipsoids-dev-aws-executor-128',
+            FunctionName: url,
             Payload: stringValue
         };
 
@@ -75,10 +72,10 @@ function awsCommand(ins, outs, config, cb) {
         body['request_start'] = request_start;
         body['request_end'] = request_end;
         body['request_duration'] = request_duration;
+        body['type'] = functionType
         body['provider'] = executorConfig.provider;
-        body['type'] = functionType;
 
-        console.log(body);
+        console.log("Response: " + JSON.stringify(body));
         console.log('Success!');
         cb(null, outs);
     };
