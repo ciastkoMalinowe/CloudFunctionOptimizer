@@ -2,6 +2,7 @@
 import json
 import argparse
 import subprocess
+import shutil
 
 parser = argparse.ArgumentParser(description="Modifying config.json file, executing algorithms, with every possible "
                                              "combinations (budget x cost)")
@@ -23,16 +24,30 @@ def change_json_key(json_key, new_value, file_path):
 
 
 def delete_results_folder():
-    global process
-    process = subprocess.Popen(["rm", "-rf", "./results/step2"])
-    process.wait()
+    shutil.rmtree("./results/step2")
 
 
 args = parser.parse_args()
 
 path_to_configuration = args.file_path
 
+
+def delete_results_and_run_process():
+    delete_results_folder()
+    process = subprocess.Popen(["./scripts/step2.sh", path_to_configuration], stdout=subprocess.PIPE)
+    for line in iter(process.stdout.readline, b''):
+        print(str(line))
+    process.stdout.close()
+    process.wait()
+
+
 for algorithm in args.algorithms:
+
+    if algorithm == "moheft":
+        change_json_key("algorithm", algorithm, path_to_configuration)
+        delete_results_and_run_process()
+        continue
+
     for budget_parameter in args.budget_parameters:
         for deadline_parameter in args.deadline_parameters:
             for graph in args.graphs:
@@ -41,9 +56,4 @@ for algorithm in args.algorithms:
                 change_json_key("algorithm", algorithm, path_to_configuration)
                 change_json_key("workflow", args.workflow, path_to_configuration)
                 change_json_key("dag", graph, path_to_configuration)
-                delete_results_folder()
-                process = subprocess.Popen(["./scripts/step2.sh", path_to_configuration], stdout=subprocess.PIPE)
-                for line in iter(process.stdout.readline, b''):
-                    print(str(line))
-                process.stdout.close()
-                process.wait()
+                delete_results_and_run_process()

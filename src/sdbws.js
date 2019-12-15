@@ -1,6 +1,7 @@
 const fs = require('fs');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
 const outputCSV="./results.csv";
+const LogUtilities = require( "./log-utilities");
 
 class SDBWS extends SchedulingAlgorithm {
   constructor(config) {

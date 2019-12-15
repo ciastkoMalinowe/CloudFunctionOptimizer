@@ -103,18 +103,42 @@ class MOHEFT extends SchedulingAlgorithm {
 
         if (this.finalLogs) {
             let algorithm = 'moheft';
+            //
+            //     //Output all the points
+            //     // LogUtilities.outputLogsToFile(paretoPoints, userDeadline, userBudget, this.config, algorithm);
+            //     //Output only one result
+            //     this.outputOneResult(solutions, paretoPoints, userDeadline, userBudget, algorithm);
+            //
 
-            //Output all the points
-            // LogUtilities.outputLogsToFile(paretoPoints, userDeadline, userBudget, this.config, algorithm);
-
-            //Output only one result
-            this.outputOneResult(solutions, paretoPoints, userDeadline, userBudget, algorithm);
+            this.outputResultsForMultipleBudgetsAndDeadlines(maxDeadline, minDeadline, maxBudget, minBudget, solutions, paretoPoints);
         }
-
 
         return paretoPoints;
     }
 
+
+    outputResultsForMultipleBudgetsAndDeadlines(maxDeadline, minDeadline, maxBudget, minBudget, solutions, paretoPoints,) {
+        const budgets = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90];
+        const deadlines = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90];
+        for (const budget of budgets) {
+            for (const deadline of deadlines) {
+                this.config.deadlineParameter = deadline;
+                this.config.budgetParameter = budget;
+                let currDeadline = this.calculateUserDeadline(maxDeadline, minDeadline);
+                let currBudget = this.calculateUserBudget(maxBudget, minBudget);
+
+                solutions = [];
+                for (const paretoPoint of paretoPoints) {
+                    if (paretoPoint[0] <= currDeadline && paretoPoint[1] <= currBudget) {
+                        solutions.push(paretoPoint[2]);
+                    }
+                }
+
+                this.outputOneResult(solutions, paretoPoints, currDeadline, currBudget, 'moheft');
+            }
+        }
+        return solutions;
+    }
 
     outputOneResult(solutions, paretoPoints, userDeadline, userBudget, algorithm) {
         let points = [];
