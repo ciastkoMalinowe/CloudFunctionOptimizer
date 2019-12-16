@@ -24,7 +24,7 @@ def change_json_key(json_key, new_value, file_path):
 
 
 def delete_results_folder():
-    shutil.rmtree("./results/step2")
+    shutil.rmtree("./results/step2", ignore_errors=True)
 
 
 args = parser.parse_args()
@@ -42,7 +42,7 @@ def delete_results_and_run_process():
 
 
 for algorithm in args.algorithms:
-
+    print(algorithm)
     if algorithm == "moheft":
         change_json_key("algorithm", algorithm, path_to_configuration)
         delete_results_and_run_process()
