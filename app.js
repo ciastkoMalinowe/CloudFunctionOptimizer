@@ -1,3 +1,5 @@
+#!/usr/bin/env node --max-old-space-size=4096
+
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 

@@ -48,6 +48,6 @@ node ${timeDecorator} ${dagPath} ${inputFile} ${outputFile}
 
 echo Decorated with times
 echo node ${dbwsDecorator} ${outputFile} ${outputDag}
-node ${dbwsDecorator} ${outputFile} ${outputDag} ${config}
+node ${dbwsDecorator} ${outputFile} ${outputDag} ${config} --max-old-space-size=4096 
 
 echo DAG ready

@@ -11,7 +11,7 @@ class MOHEFT extends SchedulingAlgorithm {
     constructor(config, K, finalLogs) {
         super(config);
         if (K === undefined) {
-            this.K = 50;
+            this.K = 10;
         } else {
             this.K = K;
         }
