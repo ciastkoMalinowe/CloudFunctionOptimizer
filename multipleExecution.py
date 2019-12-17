@@ -35,10 +35,12 @@ path_to_configuration = args.file_path
 def delete_results_and_run_process():
     delete_results_folder()
     process = subprocess.Popen(["./scripts/step2.sh", path_to_configuration], stdout=subprocess.PIPE)
-    for line in iter(process.stdout.readline, b''):
-        print(str(line))
-    process.stdout.close()
-    process.wait()
+    while True:
+        output = process.stdout.readline().decode()
+        if output == '' and process.poll() is not None:
+            break
+        if output:
+            print(output.strip())
 
 
 for algorithm in args.algorithms:
