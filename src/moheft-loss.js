@@ -1,20 +1,18 @@
 const _ = require('lodash');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
-const LinkedList = require('dbly-linked-list');
-const pf = require('pareto-frontier');
-const MultiMap = require("collections/multi-map");
-const fs = require('fs');
 const RankUtilities = require('./rank-utilities.js');
 const MOHEFT = require('./moheft.js');
 const LogUtilities = require("./log-utilities");
+var hash = require('object-hash');
 
+const CACHE_NAME = 'cache-moheft-loss';
 
 class MOHEFT_LOSS extends SchedulingAlgorithm {
     constructor(config) {
         super(config);
     }
 
-    decorateStrategy(dag) {
+    decorateStrategy(dag, cache = true) {
         const tasks = dag.tasks;
 
         this.decorateTasksWithLevels(tasks);
@@ -39,10 +37,31 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
 
         RankUtilities.decorateTasksWithUpwardRank(sortedTasks, this.config.functionTypes);
 
-        let moheft = new MOHEFT(this.config, 10, false);
-        let paretoPoints = moheft.decorateStrategy(dag);
-        console.log(paretoPoints);
+        let paretoPoints = [];
+        const hashValue = hash(dag);
+        if (cache === true) {
+            try {
+                const rawdata = fs.readFileSync(CACHE_NAME);
+                const data = JSON.parse(rawdata);
+                if (data.hash === hashValue) {
+                    paretoPoints = data.paretoPoints;
+                } else {
+                    this.clearCache();
+                }
+            } catch (exception) {
+                this.clearCache();
+            }
+        }
 
+        if (paretoPoints.length === 0) {
+            const moheft = new MOHEFT(this.config, 10, false);
+            paretoPoints = moheft.decorateStrategy(dag);
+            if (cache === true) {
+                fs.appendFileSync(CACHE_NAME, JSON.stringify({hash: hashValue, paretoPoints: paretoPoints}))
+            }
+        }
+
+        console.log(paretoPoints);
         console.log("Solutions: ");
         let timeSolutions = [];
         for (const paretoPoint of paretoPoints) {
@@ -85,13 +104,31 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
 
         console.log("Number of solutions: " + solutionsWithTimeAndCost.length);
 
+        let logWritten = false;
         for (const solution of solutionsWithTimeAndCost) {
-            let cost = solution[1];
-            let time = solution[0];
-            LogUtilities.outputLogsToFile([[time, cost]], userDeadline, userBudget, this.config, 'moheft-loss')
-            break;
+            if(solution[0] < userDeadline){
+                let time = solution[0];
+                let cost = solution[1];
+                LogUtilities.outputLogsToFile([[time, cost]], userDeadline, userBudget, this.config, 'moheft-loss');
+                logWritten = true;
+                break;
+            }
         }
 
+        if(!logWritten){
+            let cost = solutionsWithTimeAndCost[0][1];
+            let time = solutionsWithTimeAndCost[0][0];
+            LogUtilities.outputLogsToFile([[time, cost]], userDeadline, userBudget, this.config, 'moheft-loss');
+        }
+
+    }
+
+    clearCache() {
+        try {
+            fs.unlinkSync(CACHE_NAME)
+        } catch (error) {
+            //do nothing
+        }
     }
 
     createMapOfTaskResourceTimeCost(tasksSortedUpward) {
