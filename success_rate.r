@@ -35,3 +35,20 @@ ggplot(result, aes(x = dag, y = result$`success rate`, fill = alg)) +
   geom_col(position = "dodge", colour = "black") +
   ylab("success rate") +
   scale_fill_brewer(palette = "Pastel1")
+
+
+resultSum <- data.frame(alg = character(), 'success rate' = double())
+for (algCursor in allAlgorithms){
+  allSuccessRates <- (result %>% filter(alg == algCursor))$'success rate'
+  avg = mean(allSuccessRates)
+  toBeAppended <- data.frame(algCursor, avg)
+  resultSum <- rbind(resultSum, toBeAppended)
+}
+
+
+ggplot(resultSum, aes(x = reorder(algCursor, -avg), y = avg)) +
+  geom_col(fill = "lightblue", colour = "black") +
+  ylab("success rate") +
+  xlab("algorithm")
+  scale_fill_brewer(palette = "Pastel1")
+
