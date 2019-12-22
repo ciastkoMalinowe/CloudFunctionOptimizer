@@ -1,7 +1,7 @@
 library(tidyverse)
 require(ggplot2)
 
-df <- read.csv('/home/mamajews/development/CloudFunctionOptimizer/outputs_multiple/all_ellipsoids_fix.txt', stringsAsFactors = FALSE)
+df <- read.csv('/home/mamajews/development/CloudFunctionOptimizer/outputs_multiple/all_ellipsoids.txt', stringsAsFactors = FALSE)
 names(df) <- c('time', 'cost', 'algorithm', 'deadlineParameter', 'budgetParameter', 'userDeadline', 'userBudget',
                'dag', 'inConstraints')
 keeps <- c('algorithm', 'deadlineParameter', 'budgetParameter', 'dag', 'inConstraints')
@@ -30,11 +30,15 @@ for (dagCursor in allDags){
 
 names(result)[2] <- "success rate"
 names(result)[3] <- "dag"
-  
-ggplot(result, aes(x = dag, y = result$`success rate`, fill = alg)) +
+result <- mutate(result,
+       `number of base executions` = gsub("ellipsoids_", "",gsub(".json", "" ,dag))
+)
+ggplot(result, aes(x = `number of base executions`, y = result$`success rate`, fill = alg)) +
   geom_col(position = "dodge", colour = "black") +
   ylab("success rate") +
-  scale_fill_brewer(palette = "Pastel1")
+  scale_fill_brewer(palette = "Pastel1") +
+  theme(legend.position="top") +
+  xlab("number of base executions")
 
 
 resultSum <- data.frame(alg = character(), 'success rate' = double())
