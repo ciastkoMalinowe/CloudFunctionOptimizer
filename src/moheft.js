@@ -15,11 +15,7 @@ class MOHEFT extends SchedulingAlgorithm {
         } else {
             this.K = K;
         }
-        if (finalLogs === undefined) {
-            this.finalLogs = true;
-        } else {
-            this.finalLogs = false;
-        }
+        this.finalLogs = finalLogs === undefined;
     }
 
     decorateStrategy(dag) {
@@ -53,6 +49,7 @@ class MOHEFT extends SchedulingAlgorithm {
         let maxNumberOfSchedules = this.K;
 
         let num = 0;
+        let startTime = Date.now();
         tasksSortedUpward.forEach(
             task => {
                 console.log("Starting processing of task no: " + num++);
@@ -76,7 +73,8 @@ class MOHEFT extends SchedulingAlgorithm {
 
             }
         );
-
+        let endTime = Date.now();
+        console.log("Time of moheft execution: " + (endTime - startTime) + 'ms');
         console.log("All points: ");
         for (const schedule of schedules) {
             console.log(schedule.time + ' ' + schedule.cost)
