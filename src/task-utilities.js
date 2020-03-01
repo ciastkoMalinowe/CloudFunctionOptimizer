@@ -8,8 +8,19 @@ class TaskUtilities {
         let totalCost = 0;
         let tasks = newSchedule.tasks;
         for (const task of tasks) {
-            if (task.config.deploymentType !== undefined) {
+            if (task!= undefined && task.config.deploymentType !== undefined) {
                 totalCost += this.findTaskExecutionCostOnResource(task, task.config.deploymentType)
+            }
+        }
+        return totalCost;
+    }
+
+    getExecutionCostOfScheduleIgnoringUnscheduledTasks(newSchedule, idToStartFinishTimeMap) {
+        let totalCost = 0;
+        let tasks = newSchedule.tasks;
+        for (const task of tasks) {
+            if (task!= undefined && task.config.deploymentType !== undefined) {
+                totalCost += this.findTaskExecutionCostOnResourceWithMap(task, task.config.deploymentType, idToStartFinishTimeMap)
             }
         }
         return totalCost;
@@ -20,9 +31,31 @@ class TaskUtilities {
         let tasks = newSchedule.tasks;
         let maximumLevel = this.findTasksMaxLevel(tasks);
         for (let i = 1; i <= maximumLevel; i++) {
-            let timesForLevel = tasks.filter(task => task.level === i)
+            let timesForLevel = tasks.filter(task => task !== undefined)
+                .filter(task => task.level === i)
                 .filter(task => task.config.deploymentType !== undefined)
                 .map(task => task.finishTime[task.config.deploymentType] - task.startTime[task.config.deploymentType]);
+
+
+            if (timesForLevel.length > 0) {
+                let minimumForLevel = Math.max(...timesForLevel);
+                allExecutionTimes.push(minimumForLevel);
+            }
+        }
+        return allExecutionTimes.reduce(function (a, b) {
+            return a + b
+        }, 0);
+    }
+
+    getExecutionTimeOfScheduleIgnoringUnscheduledTasks(newSchedule, idToStartFinishTimeMap) {
+        let allExecutionTimes = [];
+        let tasks = newSchedule.tasks;
+        let maximumLevel = this.findTasksMaxLevel(tasks);
+        for (let i = 1; i <= maximumLevel; i++) {
+            let timesForLevel = tasks.filter(task => task !== undefined)
+                .filter(task => task.level === i)
+                .filter(task => task.config.deploymentType !== undefined)
+                .map(task => idToStartFinishTimeMap.get(task.config.id).finishTime[task.config.deploymentType] - idToStartFinishTimeMap.get(task.config.id).startTime[task.config.deploymentType]);
 
 
             if (timesForLevel.length > 0) {
@@ -56,7 +89,7 @@ class TaskUtilities {
     }
 
     findTasksMaxLevel(tasks) {
-        return Math.max(...tasks.map(task => task.level));
+        return Math.max(...tasks.filter(item => item !== undefined).map(task => task.level));
     }
 
     findMaxTaskExecutionTime(task) {
@@ -79,6 +112,13 @@ class TaskUtilities {
 
     findTaskExecutionCostOnResource(task, resourceType) {
         let time = task.finishTime[resourceType] - task.startTime[resourceType];
+        return (Math.ceil(time / 100) * this.config.prices[this.config.provider][resourceType]);
+    }
+
+    findTaskExecutionCostOnResourceWithMap(task, resourceType, idToStartFinishTimeMap) {
+        let id = task.config.id;
+        let stats = idToStartFinishTimeMap.get(id);
+        let time = stats.finishTime[resourceType] - stats.startTime[resourceType];
         return (Math.ceil(time / 100) * this.config.prices[this.config.provider][resourceType]);
     }
 

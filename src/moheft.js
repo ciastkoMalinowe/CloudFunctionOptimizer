@@ -44,33 +44,84 @@ class MOHEFT extends SchedulingAlgorithm {
 
         const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
 
+        let backupDag = _.cloneDeep(dag);
+        let backupTasks = _.cloneDeep(tasks);
         let schedules = [];
         schedules.push(dag);
-        let maxNumberOfSchedules = this.K;
 
+        delete dag.signals;
+        delete dag.ins;
+        delete dag.outs;
+        delete dag.tasks;
+        dag.tasks = Array(tasks.length);
+
+        let maxNumberOfSchedules = this.K;
         let num = 0;
         let startTime = Date.now();
+
+        let idToIndexMap = new Map();
+        let idToStartFinishTime = new Map();
+        for (let i = 0; i < tasks.length; i++) {
+            idToIndexMap.set(tasks[i].config.id, i);
+            idToStartFinishTime.set(tasks[i].config.id, {
+                startTime: _.cloneDeep(tasks[i].startTime),
+                finishTime: _.cloneDeep(tasks[i].finishTime)
+            });
+            delete tasks[i].ins;
+            delete tasks[i].outs;
+            delete tasks[i].startTime;
+            delete tasks[i].finishTime;
+        }
+
+        let currentIndex = 0;
         tasksSortedUpward.forEach(
             task => {
+
                 console.log("Starting processing of task no: " + num++);
                 let taskId = task.config.id;
                 let newSchedules = [];
 
                 for (const schedule of schedules) {
                     for (let functionType of this.config.functionTypes) {
+                        // let newAssignment = schedule;
+                        // for (let i = 0; i < newAssignment.tasks.length; i++) {
+                        //     newAssignment.tasks[i].config = _.cloneDeep(schedule.tasks[i].config)
+                        // newAssignment.tasks = _.cloneDeep(schedule.tasks);
+                        // }
                         let newAssignment = _.cloneDeep(schedule);
-                        let taskToBeAssigned = newAssignment.tasks.filter(task => task.config.id === taskId)[0];
+                        newAssignment.tasks[currentIndex] = _.cloneDeep(task);
+                        let indexOfTask = idToIndexMap.get(taskId);
+                        let taskToBeAssigned = newAssignment.tasks[indexOfTask];
                         taskToBeAssigned.config.deploymentType = functionType;
                         newSchedules.push(newAssignment);
                     }
                 }
 
+                // const oldSchedules = schedules;
                 if (newSchedules.length > maxNumberOfSchedules) {
-                    schedules = this.selectBestSchedulesAccordingToDistance(newSchedules, taskUtilities, maxNumberOfSchedules, schedules);
+                    schedules = this.selectBestSchedulesAccordingToDistance(newSchedules, taskUtilities, maxNumberOfSchedules, idToStartFinishTime);
                 } else {
                     schedules = newSchedules;
                 }
 
+
+                // let filteredOutSchedules = [];
+                // let seenIds = new Set();
+                // for (const schedule of schedules) {
+                //     if(!seenIds.has(schedule.scheduleId)){
+                //         seenIds.add(schedule.scheduleId);
+                //         filteredOutSchedules.push(schedule);
+                //     }
+                // }
+
+
+                // for (const oldSchedule of oldSchedules) {
+                //     delete oldSchedule.tasks;
+                //     delete oldSchedule.signals;
+                //     delete oldSchedule.ins;
+                //     delete oldSchedule.outs;
+                // }
+                currentIndex++;
             }
         );
         let endTime = Date.now();
@@ -94,6 +145,21 @@ class MOHEFT extends SchedulingAlgorithm {
             if (paretoPoint[0] <= userDeadline && paretoPoint[1] <= userBudget) {
                 solutions.push(paretoPoint[2]);
             }
+        }
+
+        for (const solution of solutions) {
+            let tasks = solution.tasks;
+            for (let i = 0; i < tasks.length; i++) {
+                console.log(i);
+                tasks[i].ins = _.cloneDeep(backupTasks[i].ins);
+                tasks[i].outs = _.cloneDeep(backupTasks[i].outs);
+                tasks[i].startTime = _.cloneDeep(backupTasks[i].startTime);
+                tasks[i].finishTime = _.cloneDeep(backupTasks[i].finishTime);
+            }
+
+            solution.signals = _.cloneDeep(backupDag.signals);
+            solution.ins = _.cloneDeep(backupDag.ins);
+            solution.outs = _.cloneDeep(backupDag.outs);
         }
 
         console.log("Size of pareto front: " + paretoPoints.length);
@@ -148,12 +214,13 @@ class MOHEFT extends SchedulingAlgorithm {
         LogUtilities.outputLogsToFile(points, userDeadline, userBudget, this.config, algorithm)
     }
 
-    selectBestSchedulesAccordingToDistance(newSchedules, taskUtilities, maxNumberOfSchedules, schedules) {
-        let i = 1;
+    static scheduleId = 0;
+
+    selectBestSchedulesAccordingToDistance(newSchedules, taskUtilities, maxNumberOfSchedules) {
         for (const newSchedule of newSchedules) {
             newSchedule.cost = taskUtilities.getExecutionCostOfScheduleIgnoringUnscheduledTasks(newSchedule);
             newSchedule.time = taskUtilities.getExecutionTimeOfScheduleIgnoringUnscheduledTasks(newSchedule);
-            newSchedule.scheduleId = i++;
+            newSchedule.scheduleId = MOHEFT.scheduleId++;
             newSchedule.distance = 0;
         }
         let sortedByTime = this.sortByTime(newSchedules);
@@ -164,6 +231,23 @@ class MOHEFT extends SchedulingAlgorithm {
 
         return newSchedules.sort((a, b) => b.distance - a.distance).slice(0, maxNumberOfSchedules);
     }
+
+    selectBestSchedulesAccordingToDistance(newSchedules, taskUtilities, maxNumberOfSchedules, idToStartFinish) {
+        for (const newSchedule of newSchedules) {
+            newSchedule.cost = taskUtilities.getExecutionCostOfScheduleIgnoringUnscheduledTasks(newSchedule, idToStartFinish);
+            newSchedule.time = taskUtilities.getExecutionTimeOfScheduleIgnoringUnscheduledTasks(newSchedule, idToStartFinish);
+            newSchedule.scheduleId = MOHEFT.scheduleId++;
+            newSchedule.distance = 0;
+        }
+        let sortedByTime = this.sortByTime(newSchedules);
+        let sortedByCost = this.sortByCost(newSchedules);
+
+        this.saveCrowdingDistanceInTask(sortedByTime, 'time');
+        this.saveCrowdingDistanceInTask(sortedByCost, 'cost');
+
+        return newSchedules.sort((a, b) => b.distance - a.distance).slice(0, maxNumberOfSchedules);
+    }
+
 
     sortByCost(newSchedules) {
         let sortedByCost = new LinkedList();

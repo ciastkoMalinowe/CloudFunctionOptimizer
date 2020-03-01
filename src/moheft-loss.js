@@ -41,8 +41,22 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
         console.log(paretoPoints);
         console.log("Solutions: ");
         let timeSolutions = this.getSolutionsThatFitInDeadline(paretoPoints, userDeadline);
+        if(timeSolutions.length === 0){
+            console.log("No solutions from MOHEFT!");
+            //TODO fix this
+        }
 
-        const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
+
+        const tasksSortedUpward = timeSolutions[0].tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
+        // let idToIndexMap = new Map();
+        // let idToStartFinishTime = new Map();
+        // for (let i = 0; i < tasks.length; i++) {
+        //     idToIndexMap.set(tasks[i].config.id, i);
+        //     idToStartFinishTime.set(tasks[i].config.id, {
+        //         startTime: _.cloneDeep(tasks[i].startTime),
+        //         finishTime: _.cloneDeep(tasks[i].finishTime)
+        //     });
+        // }
         let map = this.createMapOfTaskResourceTimeCost(tasksSortedUpward);
 
         let solutionsWithTimeAndCost = [];
