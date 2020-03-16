@@ -1,10 +1,10 @@
 library(tidyverse)
 require(ggplot2)
-
-df <- read.csv('/home/mamajews/development/CloudFunctionOptimizer/outputs_multiple/all_ellipsoids.txt', stringsAsFactors = FALSE)
+algorithm <- "montage"
+df <- read.csv(sprintf("/home/mamajews/Development/CloudFunctionOptimizer/outputs_multiple/all_%s.txt", algorithm), stringsAsFactors = FALSE)
 names(df) <- c('time', 'cost', 'algorithm', 'deadlineParameter', 'budgetParameter', 'userDeadline', 'userBudget',
                'dag', 'inConstraints')
-keeps <- c('algorithm', 'deadlineParameter', 'budgetParameter', 'dag', 'inConstraints')
+keeps <- c('algorithm', 'deadlineParameter', 'budgetParameter', 'dag', 'inConstraints', 'time', 'cost')
 dfCut <- df[keeps]
 
 allAlgorithms <- unique(df[['algorithm']])
@@ -20,8 +20,10 @@ for (dagCursor in allDags){
     dfCut <- dfCut %>% filter(dag == dagCursor)
     algorithmFiltered <- dfCut %>% filter(algorithm == alg)
     noObservations <- nrow(algorithmFiltered)
-    
+    #noObservations <- 324
     success <- nrow(algorithmFiltered %>% filter(inConstraints == 'true'))
+    print(success)
+    print(noObservations)
     print(success / noObservations)
     toBeAppended <- data.frame(alg, success/noObservations, dagCursor)
     result <- rbind(result, toBeAppended)
@@ -31,15 +33,23 @@ for (dagCursor in allDags){
 names(result)[2] <- "success rate"
 names(result)[3] <- "dag"
 result <- mutate(result,
-       `number of base executions` = gsub("ellipsoids_", "",gsub(".json", "" ,dag))
+                 `number of base executions` = gsub("workflow_", "", gsub("ellipsoids_", "",gsub(".json", "" ,dag)))
 )
+
+result <- mutate(result,
+                 `asNumber` = strtoi(`number of base executions`, base = 0L)
+                 
+)
+
+labX <- "number of nodes"
+tikz(sprintf('/home/mamajews/Development/Lambda-Scheduling-MSc/images/success-rate-%s.tex', algorithm),width=6, height=3)
 ggplot(result, aes(x = `number of base executions`, y = result$`success rate`, fill = alg)) +
   geom_col(position = "dodge", colour = "black") +
   ylab("success rate") +
   scale_fill_brewer(palette = "Pastel1") +
   theme(legend.position="top") +
-  xlab("number of base executions")
-
+  xlab(labX)
+dev.off()
 
 resultSum <- data.frame(alg = character(), 'success rate' = double())
 for (algCursor in allAlgorithms){
@@ -49,10 +59,19 @@ for (algCursor in allAlgorithms){
   resultSum <- rbind(resultSum, toBeAppended)
 }
 
-
+tikz(sprintf('/home/mamajews/Development/Lambda-Scheduling-MSc/images/summarized-%s.tex',algorithm),width=3.5, height=3)
 ggplot(resultSum, aes(x = reorder(algCursor, -avg), y = avg)) +
   geom_col(fill = "lightblue", colour = "black") +
   ylab("success rate") +
   xlab("algorithm")
-  scale_fill_brewer(palette = "Pastel1")
+scale_fill_brewer(palette = "Pastel1")
+dev.off()
 
+#Scatter plot 
+tikz('scatter-plot-montage.tex',width=5, height=3)
+
+df <- df %>% filter(dag == '0.15')
+df <- df %>% filter(dag == '0.15')
+ggplot(df, aes(x=df$cost, y=df$time, color=algorithm,shape=algorithm)) +
+  geom_point(size=5) + xlab('cost')+ ylab('time') +  theme(legend.position="top") + scale_fill_discrete(name="Experimental\nCondition")
+dev.off()

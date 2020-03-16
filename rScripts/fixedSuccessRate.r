@@ -1,8 +1,9 @@
 library(tidyverse)
 require(ggplot2)
+require(tikzDevice)
 algorithm <- "montage"
 
-fixedBudget <- 0.75
+fixedBudget <- 0.25
 selectedDag <- 0.15
 
 df <- read.csv(sprintf("/home/mamajews/Development/CloudFunctionOptimizer/outputs_multiple/all_%s.txt", algorithm), stringsAsFactors = FALSE)
@@ -54,7 +55,7 @@ result <- mutate(result,
 )
 
 tikz(sprintf('/home/mamajews/Development/Lambda-Scheduling-MSc/images/success-rate-%s-%s-budget-fixed-%s.tex', selectedDag, algorithm, fixedBudget)
-  , width = 3.5, height = 3)
+  , width = 3.75, height = 3)
 labX <- "Deadline parameter range"
 ggplot(result, aes(x = `number of base executions`, y = result$`success rate`, fill = alg)) +
   geom_col(position = "dodge", colour = "black") +
