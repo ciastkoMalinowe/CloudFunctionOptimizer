@@ -54,7 +54,7 @@ dev.off()
 resultSum <- data.frame(alg = character(), 'success rate' = double())
 for (algCursor in allAlgorithms){
   allSuccessRates <- (result %>% filter(alg == algCursor))$'success rate'
-  avg = mean(allSuccessRates)
+  avg <- mean(allSuccessRates)
   toBeAppended <- data.frame(algCursor, avg)
   resultSum <- rbind(resultSum, toBeAppended)
 }
