@@ -55,39 +55,54 @@ It is possible to run .js script. When .js file is detected as executable, fork 
 When expected executables are not given during deployment process, the handler will look for them in S3. 
 The files will be downloaded to /tmp, given exec permissions and executed.
 
-## SDBWS
+## SDBWS/SDBCS/MOHEFT/MOHEFT-LOSS
 
-Running SDBWS consists of several steps:
+Running these algorithms consists of several steps:
 - decorating DAG with ids,
 - executing DAG on selected homogeneous resources,
 - parsing logs from executions to obtain task times on all resources,
 - normalizing task times,
-- running SDBWS algorithm to produce decorated DAG,
+- running algorithm to produce decorated DAG,
 - executing decorated DAG on resources assigned by the algorithm.
 
 Current version is prepared to run on AWS Lambda.
 
-1. In `configuration/config.js`, set your cloud provider, resource memory sizes and their pricing:
+1.In `configuration/config.js`, set your cloud provider, algorithm, resource memory sizes and their pricing:
 ```
-const FUNCTION_TYPES = ["256", "512", "1024", "1536"];
-const PROVIDER = "AWS";
-
-const PRICES = {
-    "AWS" : {
-        "256": 0.000000417,
-        "512": 0.000000834,
-        "1024": 0.000001667,
-        "1536": 0.000002501
+{
+    "budgetParameter": "0.10",
+    "deadlineParameter": "0.55",
+    "functionTypes": [
+        "128",
+        "256",
+        "512",
+        "1024",
+        "1536",
+        "2048",
+        "2560",
+        "3008"
+    ],
+    "count": 5,
+    "provider": "AWS",
+    "algorithm": "moheft-loss",
+    "workflow": "ellipsoids",
+    "dag": "ellipsoids_10.json",
+    "prices": {
+        "AWS": {
+            "128": 2.08e-07,
+            "256": 4.17e-07,
+            "512": 8.34e-07,
+            "1024": 1.667e-06,
+            "1536": 2.501e-06,
+            "2048": 3.334e-06,
+            "2560": 4.168e-06,
+            "3008": 4.897e-06
+        },
     }
 }
 ```
 
-Set user parameters:
-```
-const BUDGET_PARAMETER = 0.3;
-const DEADLINE_PARAMETER = 0.7;
-```
-The values should be from range [0, 1].
+The values (budget and deadline) should be from range [0, 1].
 
 2.Decorate DAG with task ids:
 ```
