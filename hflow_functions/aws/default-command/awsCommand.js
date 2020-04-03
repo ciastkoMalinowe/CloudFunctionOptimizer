@@ -66,13 +66,15 @@ function awsCommand(ins, outs, config, cb) {
         console.log("Function: " + executable + " response status code: " + result.StatusCode);
 
         const request_duration = request_end - request_start;
+        console.log(result.Payload);
         const body = JSON.parse(JSON.parse(result.Payload).body);
+        console.log(body);
         body['id'] = config.id;
         body['resource'] = functionType;
         body['request_start'] = request_start;
         body['request_end'] = request_end;
         body['request_duration'] = request_duration;
-        body['type'] = functionType
+        body['type'] = functionType;
         body['provider'] = executorConfig.provider;
 
         console.log("Response: " + JSON.stringify(body));

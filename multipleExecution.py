@@ -3,6 +3,9 @@ import json
 import argparse
 import subprocess
 import shutil
+import time
+import os.path
+import csv
 
 parser = argparse.ArgumentParser(description="Modifying config.json file, executing algorithms, with every possible "
                                              "combinations (budget x cost)")
@@ -43,19 +46,31 @@ def delete_results_and_run_process():
             print(output.strip())
 
 
+def write_times_to_file(elapsed_time, algorithm, dag, target_file):
+    row = [elapsed_time, algorithm, dag]
+    with open(target_file, 'a') as fd:
+        writer = csv.writer(fd)
+        writer.writerow(row)
+
+
 for algorithm in args.algorithms:
     print(algorithm)
-    if algorithm == "moheft":
-        change_json_key("algorithm", algorithm, path_to_configuration)
-        delete_results_and_run_process()
-        continue
+    # if algorithm == "moheft":
+    #     change_json_key("algorithm", algorithm, path_to_configuration)
+    #     delete_results_and_run_process()
+    #     continue
 
     for budget_parameter in args.budget_parameters:
         for deadline_parameter in args.deadline_parameters:
+            print("Processing :" + deadline_parameter.__str__() + " " + budget_parameter.__str__() + " " + algorithm)
             for graph in args.graphs:
                 change_json_key("budgetParameter", budget_parameter, path_to_configuration)
                 change_json_key("deadlineParameter", deadline_parameter, path_to_configuration)
                 change_json_key("algorithm", algorithm, path_to_configuration)
                 change_json_key("workflow", args.workflow, path_to_configuration)
                 change_json_key("dag", graph, path_to_configuration)
+                start_time = time.time()
                 delete_results_and_run_process()
+                end_time = time.time()
+                elapsed_time = time.time() - start_time
+                write_times_to_file(elapsed_time, algorithm, graph, "times_file.csv")

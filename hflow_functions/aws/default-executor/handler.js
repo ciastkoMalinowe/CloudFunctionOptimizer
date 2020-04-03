@@ -72,6 +72,8 @@ module.exports.executor = function (event, context, mainCallback) {
                 } else {
                     fs.writeFile("/tmp/" + file, data.Body, function (err) {
                         if (err) {
+                            console.log("");
+                            console.log(err);
                             console.log("Unable to save file " + file);
                             callback(err);
                             return;
@@ -88,12 +90,17 @@ module.exports.executor = function (event, context, mainCallback) {
         }, function (err) {
             t_downloaded = Date.now();
             if (err) {
-                console.error("Failed to download file " + file);
+                if(file !== undefined){
+                    console.error("Failed to download file " + file);
+                } else {
+                    console.error("Failed to download file" + err.toString())
+                }
+
                 // 500 status code will force the Hyperflow to retry request in case of race condition on S3
                 const response = {
                     statusCode: 500,
                     body: JSON.stringify({
-                        message: "S3 download error"
+                        message: "S3 download error" + err.toString()
                     })
                 };
                 mainCallback(null, response);
@@ -186,7 +193,6 @@ module.exports.executor = function (event, context, mainCallback) {
             }
         });
     }
-
     async.waterfall([
         clearTmpDir,
         download,

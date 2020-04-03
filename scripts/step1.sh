@@ -21,14 +21,19 @@ outputFile=${outputFolder}/normalized_logs.csv
 # Run with ./scripts/step1.sh  <path_to_configuration>
 
 # Check if results already exists
-if [[ -d "$outputFolder" ]] ;then
-    echo Results ${workflow}_${provider}_${functionTypesTitle}x${count} already exists in path: ${outputFolder}
-    echo Delete folder \"${outputFolder}\" to have a new data and try again
-    exit 0
-fi
+#if [[ -d "$outputFolder" ]] ;then
+#    echo Results ${workflow}_${provider}_${functionTypesTitle}x${count} already exists in path: ${outputFolder}
+#    echo Delete folder \"${outputFolder}\" to have a new data and try again
+#    exit 0
+#fi
 
-mkdir -p ${outputFolder}
-printf "task id resource request_start request_end request_duration start end time downloaded executed uploaded type\n" > ${outputFile}
+mkdir -p "${outputFolder}"
+
+if [[ ! -d "$outputFile" ]] ;then
+  printf "task id resource request_start request_end request_duration start end time downloaded executed uploaded type\n" > "${outputFile}"
+else
+  echo "Summary file already exist, new results will be appended"
+fi
 
 for functionType in $(jq -r '.functionTypes[]' ${config}); do
     echo Executing workflow for type: ${functionType}
@@ -37,6 +42,9 @@ for functionType in $(jq -r '.functionTypes[]' ${config}); do
 
     if [[ ! -d "$folder" ]] ;then
         mkdir -p ${folder}
+    else
+        echo "Already exists: ${folder}. Not procedding for function type: ${functionType}"
+        continue
     fi
 
     echo Saving to ${folder}
@@ -59,5 +67,6 @@ for functionType in $(jq -r '.functionTypes[]' ${config}); do
             # Normalize
             node ${normalizer} ${folder}/logs_${i}.json ${outputFile}
         fi
+        sleep 15
     done
 done

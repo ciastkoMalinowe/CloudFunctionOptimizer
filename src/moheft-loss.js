@@ -38,13 +38,28 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
         RankUtilities.decorateTasksWithUpwardRank(sortedTasks, this.config.functionTypes);
         let paretoPoints = this.getMoheftParetoPoints(dag, cache);
 
-        console.log(paretoPoints);
-        console.log("Solutions: ");
+        // console.log(paretoPoints);
+        // console.log("Solutions: ");
         let timeSolutions = this.getSolutionsThatFitInDeadline(paretoPoints, userDeadline);
-        if(timeSolutions.length === 0){
-            console.log("No solutions from MOHEFT!");
-            //TODO fix this
-        }
+        // if(timeSolutions.length === 0){
+        //     let newSolution = {};
+        //     newSolution.tasks = tasksSortedUpward;
+        //     //asssuming that the last one in array is the fastest TODO do not assume
+        //     let fastestFunctionType = this.config.functionType[this.config.functionType.length - 1];
+        //     for (const task of newSolution.tasks) {
+        //         task.config.deploymentType = fastestFunctionType;
+        //     }
+        //
+        //     newSolution.cost = this.getExecutionCostOfSchedule(newSolution);
+        //     newSolution.time = this.getExecutionTimeOfSchedule(newSolution);
+        //     newSolution.scheduleId = 1;
+        //     newSolution.distance = null;
+        //     newSolution.ins = dag.ins;
+        //     newSolution.outs = dag.outs;
+        //     newSolution.signals = dag.signals;
+        //     timeSolutions = [];
+        //     timeSolutions.push(newSolution);
+        // }
 
 
         const tasksSortedUpward = timeSolutions[0].tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
@@ -59,27 +74,36 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
         // }
         let map = this.createMapOfTaskResourceTimeCost(tasksSortedUpward);
 
+
+
+
+
         let solutionsWithTimeAndCost = [];
+        console.log("Number of solutions that fit in the time deadline: " + timeSolutions.length);
+        let timeSolutionsBackup = _.cloneDeep(timeSolutions);
         for (const timeSolution of timeSolutions) {
             let weights = this.createWeights(map, timeSolution);
+            console.log(weights.length);
             for (let i = 0; i < weights.length; i++) {
-                if (this.getExecutionCostOfSchedule(timeSolution) < userBudget) {
-                    solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), this.getExecutionCostOfSchedule(timeSolution)]);
-                    console.log("Found!");
-                    console.log(this.getExecutionCostOfSchedule(timeSolution));
-                    console.log(this.getExecutionTimeOfSchedule(timeSolution));
+                let costOfSchedule = this.getExecutionCostOfSchedule(timeSolution);
+                if (costOfSchedule < userBudget) {
+                    solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), costOfSchedule]);
+                    // if(i > 0){
+                    //     console.log("Found, improved MOHEFT!" + this.config.budgetParameter + ";" + this.config.deadlineParameter);
+                    // }
+                    // console.log(costOfSchedule);
+                    // console.log(this.getExecutionTimeOfSchedule(timeSolution));
                     break;
                 }
-
 
                 let taskId = weights[i].taskId;
                 let taskFromSchedule = timeSolution.tasks.filter(task => task.config.id === taskId)[0];
                 taskFromSchedule.config.deploymentType = weights[i].functionType;
-                let newCost = this.getExecutionCostOfSchedule(timeSolution);
+                let newCost = costOfSchedule;
                 if (newCost < userBudget) {
-                    console.log("Found!");
-                    console.log(newCost);
-                    console.log(this.getExecutionTimeOfSchedule(timeSolution));
+                    // console.log("Found, improved MOHEFT!" + this.config.budgetParameter + ";" + this.config.deadlineParameter);
+                    // console.log(newCost);
+                    // console.log(this.getExecutionTimeOfSchedule(timeSolution));
                     solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), newCost]);
                     break;
                 }
@@ -102,8 +126,17 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
         }
 
         if(!logWritten){
-            let cost = solutionsWithTimeAndCost[0][1];
-            let time = solutionsWithTimeAndCost[0][0];
+            let minimumCost = Math.pow(2, 53);
+            let time = 0;
+
+            for (const timeSolution of timeSolutionsBackup) {
+                if(timeSolution.cost < minimumCost){
+                    minimumCost = timeSolution.cost;
+                    time = timeSolution.time;
+                }
+            }
+
+            let cost = minimumCost;
             LogUtilities.outputLogsToFile([[time, cost]], userDeadline, userBudget, this.config, 'moheft-loss');
         }
 
@@ -122,6 +155,15 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
                 timeSolutions.push(paretoPoint[2]);
             }
         }
+
+
+        if(timeSolutions.length === 0){
+            for (const paretoPoint of paretoPoints) {
+                timeSolutions.push(paretoPoint[2])
+            }
+        }
+
+
         return timeSolutions;
     }
 

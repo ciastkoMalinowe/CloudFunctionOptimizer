@@ -89,8 +89,9 @@ class MOHEFT extends SchedulingAlgorithm {
                         // newAssignment.tasks = _.cloneDeep(schedule.tasks);
                         // }
                         let newAssignment = _.cloneDeep(schedule);
-                        newAssignment.tasks[currentIndex] = _.cloneDeep(task);
+                        //TODO to check
                         let indexOfTask = idToIndexMap.get(taskId);
+                        newAssignment.tasks[currentIndex] = _.cloneDeep(task);
                         let taskToBeAssigned = newAssignment.tasks[indexOfTask];
                         taskToBeAssigned.config.deploymentType = functionType;
                         newSchedules.push(newAssignment);
@@ -147,7 +148,8 @@ class MOHEFT extends SchedulingAlgorithm {
             }
         }
 
-        for (const solution of solutions) {
+        for (const paretoPoint of paretoPoints) {
+            let solution = paretoPoint[2];
             let tasks = solution.tasks;
             for (let i = 0; i < tasks.length; i++) {
                 console.log(i);
@@ -182,8 +184,8 @@ class MOHEFT extends SchedulingAlgorithm {
 
 
     outputResultsForMultipleBudgetsAndDeadlines(maxDeadline, minDeadline, maxBudget, minBudget, solutions, paretoPoints,) {
-        const budgets = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90];
-        const deadlines = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90];
+        const budgets = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95];
+        const deadlines = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95];
         for (const budget of budgets) {
             for (const deadline of deadlines) {
                 this.config.deadlineParameter = deadline;
