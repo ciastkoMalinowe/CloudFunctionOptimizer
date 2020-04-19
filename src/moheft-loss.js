@@ -87,10 +87,10 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
             for (let i = 0; i < weights.length; i++) {
                 let costOfSchedule = this.getExecutionCostOfSchedule(timeSolution);
                 if (costOfSchedule < userBudget) {
-                    solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), costOfSchedule]);
-                    // if(i > 0){
-                    //     console.log("Found, improved MOHEFT!" + this.config.budgetParameter + ";" + this.config.deadlineParameter);
-                    // }
+                    solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), costOfSchedule, timeSolution]);
+                    if(i > 0){
+                        console.log("Found, improved MOHEFT!" + this.config.budgetParameter + ";" + this.config.deadlineParameter);
+                    }
                     // console.log(costOfSchedule);
                     // console.log(this.getExecutionTimeOfSchedule(timeSolution));
                     break;
@@ -101,10 +101,10 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
                 taskFromSchedule.config.deploymentType = weights[i].functionType;
                 let newCost = costOfSchedule;
                 if (newCost < userBudget) {
-                    // console.log("Found, improved MOHEFT!" + this.config.budgetParameter + ";" + this.config.deadlineParameter);
+                    console.log("Found, improved MOHEFT!" + this.config.budgetParameter + ";" + this.config.deadlineParameter);
                     // console.log(newCost);
                     // console.log(this.getExecutionTimeOfSchedule(timeSolution));
-                    solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), newCost]);
+                    solutionsWithTimeAndCost.push([this.getExecutionTimeOfSchedule(timeSolution), newCost, timeSolution]);
                     break;
                 }
 
@@ -138,6 +138,15 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
 
             let cost = minimumCost;
             LogUtilities.outputLogsToFile([[time, cost]], userDeadline, userBudget, this.config, 'moheft-loss');
+        }
+
+
+        if(solutionsWithTimeAndCost.length > 0){
+            let selectedSolution = solutionsWithTimeAndCost[0][2];
+            for (const task of selectedSolution.tasks) {
+                Object.assign(task.config, this.getScheduldedTimesOnResource(selectedSolution.tasks, task, task.config.deploymentType));
+            }
+            dag.tasks = selectedSolution.tasks
         }
 
     }
