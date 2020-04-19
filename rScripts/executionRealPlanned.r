@@ -10,14 +10,18 @@ scheduled$startTime <- (scheduled$startTime) / 1000
 scheduled$endTime <- (scheduled$endTime ) / 1000
 scheduled$functionType = as.character(scheduled$functionType)
 
-ggplot(scheduled) +
+ggplot(scheduled) +we
   geom_segment(aes(x = id, xend = id, y = startTime, yend = endTime, colour=functionType), size=5) +
   # geom_rect(aes(x = id, xend = id, y = startTime, yend = endTime), color = "grey", ) +
   # geom_point( aes(x=id, y=startTime), color=rgb(0.2,0.7,0.1,0.5), size=2 ) +
   # geom_point( aes(x=id, y=endTime), color=rgb(0.7,0.2,0.1,0.5), size=2) +
   coord_flip()+
   xlab("Task id") +
-  ylab("Time [s]")
+  ylab("Time [s]") +
+  labs(colour = "Function type") +
+  scale_x_continuous(breaks = seq(1, 34, by = 1))
+
+
 
   #
   # minimum <- min(df$request_start)
