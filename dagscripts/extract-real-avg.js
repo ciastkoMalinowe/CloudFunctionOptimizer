@@ -28,7 +28,7 @@ function extract(file) {
 
         dag = JSON.parse(dag);
 
-        const tasks = dag.tasks;
+        const tasks = dag.processes;
 
         tasks.forEach(task => {
             let time = task.finishTime[config.algorithm] - task.startTime[config.algorithm];
@@ -37,6 +37,7 @@ function extract(file) {
 
     });
 }
+
 
 
 

@@ -1,0 +1,54 @@
+service: aws-executor-ellipsoids
+app: aws-executor-cfo-ellipsoids
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  timeout: 900
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource: "arn:aws:s3:::hyperflow-ellipsoids/*"
+
+functions:
+
+  aws-executor-128:
+    handler: handler.executor
+    description: AWS executor 128MB memory size
+    memorySize: 128
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - RequestQueue128
+              - Arn
+          batchSize: 1
+              
+  aws-executor-2048:
+    handler: handler.executor
+    description: AWS executor 128MB memory size
+    memorySize: 2048
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - RequestQueue2048
+              - Arn
+          batchSize: 1
+resources:
+  Resources:
+    RequestQueue128:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "RequestQueue128"
+        VisibilityTimeout: 900
+    RequestQueue2048:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "RequestQueue2048"
+        VisibilityTimeout: 900
+        

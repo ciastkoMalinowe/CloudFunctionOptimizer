@@ -1,0 +1,67 @@
+service: aws-executor-montage
+app: aws-executor-cfo-montage
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  timeout: 900
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"       
+      Resource: "arn:aws:s3:::hyperflow-montage/*"
+      
+    - Sid: AWSLambdaVPCAccessExecutionRole
+      Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+        - ec2:CreateNetworkInterface
+        - ec2:DescribeNetworkInterfaces
+        - ec2:DeleteNetworkInterface
+      Resource: "*"
+    - Sid: AmazonElasticFileSystemClientFullAccess
+      Effect: Allow
+      Action:
+        - elasticfilesystem:ClientMount
+        - elasticfilesystem:ClientRootAccess
+        - elasticfilesystem:ClientWrite
+        - elasticfilesystem:DescribeMountTargets
+      Resource: "*"
+
+
+functions:
+
+  aws-executor-2048:
+    handler: handler.executor
+    description: AWS executor 2048MB memory size
+    memorySize: 2048
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - RequestQueue
+              - Arn
+          batchSize: 1
+    fileSystemConfig:
+      localMountPath: /mnt/montage
+      arn: arn:aws:elasticfilesystem:eu-west-1:313841846228:access-point/fsap-0e481c5d2df26a9ff
+    vpc:
+      securityGroupIds:
+        - sg-98c301df
+      subnetIds:
+        - subnet-0f1c9da7a02c0503a
+        - subnet-0d33a3cfc784e2c3d
+        - subnet-03383682aea0d0520
+        
+resources:
+  Resources:
+    RequestQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "RequestQueue"
+        VisibilityTimeout: 900

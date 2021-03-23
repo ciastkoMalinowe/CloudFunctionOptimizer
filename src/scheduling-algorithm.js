@@ -24,7 +24,7 @@ class SchedulingAlgorithm {
 
   getExecutionTimeOfScheduleIgnoringUnscheduledTasks(newSchedule) {
     let allExecutionTimes = [];
-    let tasks = newSchedule.tasks;
+    let tasks = newSchedule.processes;
     let maximumLevel = this.taskUtils.findTasksMaxLevel(tasks);
     for (let i = 1; i <= maximumLevel; i++) {
       let timesForLevel = tasks.filter(task => task.level === i)

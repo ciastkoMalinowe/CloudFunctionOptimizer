@@ -1,0 +1,12 @@
+{
+  "name": "aws-fargate-executor",
+  "version": "1.0.0",
+  "main": "handler.js",
+  "scripts": {
+    "start": "node handler.js"
+  },
+  "dependencies": {
+    "async": "^2.6.2",
+    "aws-sdk": "^2.429.0"
+  }
+}

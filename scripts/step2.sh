@@ -47,7 +47,7 @@ echo node ${timeDecorator} ${dagPath} ${inputFile} ${outputFile}
 node ${timeDecorator} ${dagPath} ${inputFile} ${outputFile}
 
 echo Decorated with times
-echo node --stack-size=65500 ${dbwsDecorator} ${outputFile} ${outputDag}
-node --inspect ${dbwsDecorator} ${outputFile} ${outputDag} ${config}  
+echo node ${dbwsDecorator} ${outputFile} ${outputDag}
+node ${dbwsDecorator} ${outputFile} ${outputDag} ${config}
 
 echo DAG ready

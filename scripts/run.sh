@@ -4,7 +4,7 @@ scriptdir=`dirname "$0"`
 appdir=`dirname "${scriptdir}"`
 configPath=$1
 config=${appdir}/${configPath}
-
+echo ${config}
 # Step 1
 if ! ./scripts/step1.sh ${config}; then
     echo "Step 1 returned error"

@@ -1,0 +1,56 @@
+service: aws-executor-montage
+app: aws-executor-cfo-montage
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  timeout: 900
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"       
+      Resource: "arn:aws:s3:::hyperflow-montage/*"
+      
+    - Sid: AWSLambdaVPCAccessExecutionRole
+      Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+        - ec2:CreateNetworkInterface
+        - ec2:DescribeNetworkInterfaces
+        - ec2:DeleteNetworkInterface
+      Resource: "*"
+    - Sid: AmazonElasticFileSystemClientFullAccess
+      Effect: Allow
+      Action:
+        - elasticfilesystem:ClientMount
+        - elasticfilesystem:ClientRootAccess
+        - elasticfilesystem:ClientWrite
+        - elasticfilesystem:DescribeMountTargets
+      Resource: "*"
+
+
+functions:
+
+  aws-executor-1024:
+    handler: handler.executor
+    description: AWS executor 1024MB memory size
+    memorySize: 1024
+    events:
+    - http:
+        path: aws-executor-1024
+        method: post
+    fileSystemConfig:
+      localMountPath: /mnt/montage
+      arn: arn:aws:elasticfilesystem:eu-west-1:313841846228:access-point/fsap-0eeb5ff6f698304c5
+    vpc:
+      securityGroupIds:
+        - sg-98c301df
+      subnetIds:
+        - subnet-0f1c9da7a02c0503a
+        - subnet-0d33a3cfc784e2c3d
+        - subnet-03383682aea0d0520

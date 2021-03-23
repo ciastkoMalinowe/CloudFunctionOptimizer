@@ -4,7 +4,8 @@ scriptdir=`dirname "$0"`
 appdir=`dirname "${scriptdir}"`
 configPath=$1
 config=${appdir}/${configPath}
-normalizer=${appdir}/dagscripts/normalizer.js
+lambda_normalizer=${appdir}/dagscripts/normalizer2.js
+fargate_normalizer=${appdir}/dagscripts/normalizer_fargate.js
 dagPath=`jq -r '.dag' ${config}`
 provider=`jq -r '.provider' ${config}`
 count=`jq '.count' ${config}`
@@ -21,19 +22,14 @@ outputFile=${outputFolder}/normalized_logs.csv
 # Run with ./scripts/step1.sh  <path_to_configuration>
 
 # Check if results already exists
-#if [[ -d "$outputFolder" ]] ;then
-#    echo Results ${workflow}_${provider}_${functionTypesTitle}x${count} already exists in path: ${outputFolder}
-#    echo Delete folder \"${outputFolder}\" to have a new data and try again
-#    exit 0
-#fi
-
-mkdir -p "${outputFolder}"
-
-if [[ ! -d "$outputFile" ]] ;then
-  printf "task id resource request_start request_end request_duration start end time downloaded executed uploaded type\n" > "${outputFile}"
-else
-  echo "Summary file already exist, new results will be appended"
+if [[ -d "$outputFolder" ]] ;then
+    echo Results ${workflow}_${provider}_${functionTypesTitle}x${count} already exists in path: ${outputFolder}
+    echo Delete folder \"${outputFolder}\" to have a new data and try again
+    exit 0
 fi
+
+mkdir -p ${outputFolder}
+printf "task id resource request_start request_end request_duration start end time downloaded executed uploaded type\n" > ${outputFile}
 
 for functionType in $(jq -r '.functionTypes[]' ${config}); do
     echo Executing workflow for type: ${functionType}
@@ -42,31 +38,35 @@ for functionType in $(jq -r '.functionTypes[]' ${config}); do
 
     if [[ ! -d "$folder" ]] ;then
         mkdir -p ${folder}
-    else
-        echo "Already exists: ${folder}. Not procedding for function type: ${functionType}"
-        continue
     fi
 
     echo Saving to ${folder}
     for ((i = 1; i <= count; i++))
     do
+        #if true ;then
         if [[ ! -d "$folder/logs_$i.txt" ]] ;then
             # Run Hyperflow
             if [[ "$workflow" == "ellipsoids" ]] ;then
                 # !!! Temporary HACK for running ellipsoids workflow !!!
                 # Because hyperflow for some reason doesn't reach post-processing tasks during ellipsoids
                 # workflow execution, the program must be terminated manually
-                expect -c "set timeout 1000; spawn ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s; expect \", executable: summary.js\" {close}" >> ${folder}/logs_${i}.txt
+                expect -c "set timeout 360; spawn ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s; expect \", executable: summary.js\" {close}" >> ${folder}/logs_${i}.txt
             else
                 ${appdir}/node_modules/hyperflow/bin/hflow run ${dagPath} -s >> ${folder}/logs_${i}.txt
             fi
 
             echo Workflow run ${i} finished! Parsing response...
-            ${appdir}/scripts/parse_log.sh ${folder}/logs_${i}.txt ${functionType} ${provider} >> ${folder}/logs_${i}.json
+            if [[ $functionType == lambda* ]] ;then
+            	${appdir}/scripts/parse_log2.sh ${folder}/logs_${i}.txt ${functionType} ${provider} >> ${folder}/logs_${i}.csv
 
-            # Normalize
-            node ${normalizer} ${folder}/logs_${i}.json ${outputFile}
+            	# Normalize
+            	node ${lambda_normalizer} ${folder}/logs_${i}.csv ${outputFile}
+            else
+            	${appdir}/scripts/parse_fargate.sh ${folder}/logs_${i}.txt ${functionType} ${provider} >> ${folder}/logs_${i}.csv
+
+            	# Normalize
+            	node ${fargate_normalizer} ${folder}/logs_${i}.csv ${outputFile}
+            fi
         fi
-        sleep 15
     done
 done

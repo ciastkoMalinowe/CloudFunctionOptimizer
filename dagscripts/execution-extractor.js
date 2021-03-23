@@ -25,14 +25,14 @@ function saveToCSV(file) {
   fs.readFile(file, (err, dag) => {
     dag = JSON.parse(dag);
     isDAGValid(dag);
-    const tasks = dag.tasks;
+    const tasks = dag.processes;
     appendTimestamps(tasks);
   });
 }
 
 function isDAGValid(dag) {
 
-  const tasks = dag.tasks;
+  const tasks = dag.processes;
 
   if(!tasks){
     throw  new Error("There are no tasks in DAG!");

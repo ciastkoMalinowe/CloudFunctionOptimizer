@@ -4,7 +4,7 @@ scriptdir=`dirname "$0"`
 appdir=`dirname "${scriptdir}"`
 configPath=$1
 config=${appdir}/${configPath}
-normalizer=${appdir}/dagscripts/normalizer.js
+normalizer=${appdir}/dagscripts/normalizer2.js
 provider=`jq -r '.provider' ${config}`
 count=`jq '.count' ${config}`
 workflow=`jq -r '.workflow' ${config}`
@@ -52,7 +52,7 @@ do
     fi
 
     echo Workflow run ${i} finished! Parsing response...
-    ${appdir}/scripts/parse_log.sh ${outputFolder}/logs_${i}.txt ${algorithm} ${provider} >> ${outputFolder}/logs_${i}.csv
+    ${appdir}/scripts/parse_log2.sh ${outputFolder}/logs_${i}.txt ${algorithm} ${provider} >> ${outputFolder}/logs_${i}.csv
 
     # Normalize
     node ${normalizer} ${outputFolder}/logs_${i}.csv ${outputFile}

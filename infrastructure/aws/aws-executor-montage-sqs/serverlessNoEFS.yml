@@ -1,0 +1,80 @@
+service: aws-executor-montage
+app: aws-executor-cfo-montage
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  timeout: 900
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource: "arn:aws:s3:::hyperflow-montage/*"
+
+functions:
+
+  aws-executor-512:
+    handler: handler.executor
+    description: AWS executor 512MB memory size
+    memorySize: 512
+    events:
+    - http:
+        path: aws-executor-512
+        method: post
+        
+  aws-executor-768:
+    handler: handler.executor
+    description: AWS executor 768MB memory size
+    memorySize: 768
+    events:
+    - http:
+        path: aws-executor-768
+        method: post
+        
+  aws-executor-1024:
+    handler: handler.executor
+    description: AWS executor 1024MB memory size
+    memorySize: 1024
+    events:
+    - http:
+        path: aws-executor-1024
+        method: post
+
+  aws-executor-1280:
+    handler: handler.executor
+    description: AWS executor 1280MB memory size
+    memorySize: 1280
+    events:
+    - http:
+        path: aws-executor-1280
+        method: post
+        
+  aws-executor-1536:
+    handler: handler.executor
+    description: AWS executor 1536MB memory size
+    memorySize: 1536
+    events:
+    - http:
+        path: aws-executor-1536
+        method: post
+  
+  aws-executor-1792:
+    handler: handler.executor
+    description: AWS executor 1792MB memory size
+    memorySize: 1792
+    events:
+    - http:
+        path: aws-executor-1792
+        method: post
+
+  aws-executor-2048:
+      handler: handler.executor
+      description: AWS executor 2048MB memory size
+      memorySize: 2048
+      events:
+      - http:
+          path: aws-executor-2048
+          method: post

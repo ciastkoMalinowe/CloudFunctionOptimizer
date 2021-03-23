@@ -13,7 +13,7 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
     }
 
     decorateStrategy(dag, cache = true) {
-        const tasks = dag.tasks;
+        const tasks = dag.processes;
 
         this.decorateTasksWithLevels(tasks);
         const sortedTasks = tasks.sort((task1, task2) => task1.level - task2.level);
@@ -62,7 +62,7 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
         // }
 
 
-        const tasksSortedUpward = timeSolutions[0].tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
+        const tasksSortedUpward = timeSolutions[0].processes.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
         // let idToIndexMap = new Map();
         // let idToStartFinishTime = new Map();
         // for (let i = 0; i < tasks.length; i++) {
@@ -97,7 +97,7 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
                 }
 
                 let taskId = weights[i].taskId;
-                let taskFromSchedule = timeSolution.tasks.filter(task => task.config.id === taskId)[0];
+                let taskFromSchedule = timeSolution.processes.filter(task => task.config.id === taskId)[0];
                 taskFromSchedule.config.deploymentType = weights[i].functionType;
                 let newCost = costOfSchedule;
                 if (newCost < userBudget) {
@@ -143,10 +143,10 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
 
         if(solutionsWithTimeAndCost.length > 0){
             let selectedSolution = solutionsWithTimeAndCost[0][2];
-            for (const task of selectedSolution.tasks) {
-                Object.assign(task.config, this.getScheduldedTimesOnResource(selectedSolution.tasks, task, task.config.deploymentType));
+            for (const task of selectedSolution.processes) {
+                Object.assign(task.config, this.getScheduldedTimesOnResource(selectedSolution.processes, task, task.config.deploymentType));
             }
-            dag.tasks = selectedSolution.tasks
+            dag.processes = selectedSolution.processes
         }
 
     }
@@ -200,7 +200,7 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
         }
 
         if (paretoPoints.length === 0) {
-            const moheft = new MOHEFT(this.config, 10, false);
+            const moheft = new MOHEFT(this.config, 500, false);
             paretoPoints = moheft.decorateStrategy(dag);
             if (cache === true) {
                 fs.appendFileSync(CACHE_NAME, JSON.stringify({hash: hashValue, paretoPoints: paretoPoints}))
@@ -241,7 +241,7 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
             let time = mapElement[1][0];
             let cost = mapElement[1][1];
 
-            let taskFromSchedule = timeSolution.tasks.filter(task => task.config.id === taskId)[0];
+            let taskFromSchedule = timeSolution.processes.filter(task => task.config.id === taskId)[0];
             let deploymentType = taskFromSchedule.config.deploymentType;
 
             if (deploymentType === functionType) {
@@ -249,7 +249,7 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
                 continue;
             }
 
-            let allTasksFromLevel = this.taskUtils.findTasksFromLevel(timeSolution.tasks, taskFromSchedule.level);
+            let allTasksFromLevel = this.taskUtils.findTasksFromLevel(timeSolution.processes, taskFromSchedule.level);
             let levelCost = allTasksFromLevel.map(task => this.taskUtils.findTaskExecutionCostOnResource(task, task.config.deploymentType)).reduce((a, b) => a + b);
             let allExecutionTimesFromLevel = allTasksFromLevel.map(task => this.taskUtils.findTaskExecutionTimeOnResource(task, task.config.deploymentType));
             let timeOfLevel = Math.max(...allExecutionTimesFromLevel);
@@ -288,7 +288,7 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
 
     getExecutionCostOfSchedule(newSchedule) {
         let totalCost = 0;
-        let tasks = newSchedule.tasks;
+        let tasks = newSchedule.processes;
         for (const task of tasks) {
             if (task.config.deploymentType !== undefined) {
                 totalCost += this.taskUtils.findTaskExecutionCostOnResource(task, task.config.deploymentType)
@@ -339,7 +339,7 @@ class MOHEFT_LOSS extends SchedulingAlgorithm {
 
     getExecutionTimeOfSchedule(newSchedule) {
         let allExecutionTimes = [];
-        let tasks = newSchedule.tasks;
+        let tasks = newSchedule.processes;
         let maximumLevel = this.taskUtils.findTasksMaxLevel(tasks);
         for (let i = 1; i <= maximumLevel; i++) {
             let timesForLevel = tasks.filter(task => task.level === i)

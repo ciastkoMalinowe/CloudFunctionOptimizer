@@ -33,7 +33,7 @@ function saveToCSV(file) {
     fs.readFile(file, (err, dag) => {
         dag = JSON.parse(dag);
         isDAGValid(dag);
-        const tasks = dag.tasks;
+        const tasks = dag.processes;
         const functionTypes = config.functionTypes;
         functionTypes.forEach(type => appendTimeAndPriceByType(tasks, type));
         appendFinishTimeAndPriceForReal(tasks);
@@ -43,7 +43,7 @@ function saveToCSV(file) {
 
 function isDAGValid(dag) {
 
-    const tasks = dag.tasks;
+    const tasks = dag.processes;
 
     if(!tasks){
         throw  new Error("There are no tasks in DAG!");
@@ -153,4 +153,3 @@ function appendToTimestampsCSVfile(task, time) {
 function normalizeDouble(number, n = 3) {
     return Math.round(number * Math.pow(10, n)) / Math.pow(10, n);
 }
-

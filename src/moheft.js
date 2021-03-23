@@ -11,15 +11,15 @@ class MOHEFT extends SchedulingAlgorithm {
     constructor(config, K, finalLogs) {
         super(config);
         if (K === undefined) {
-            this.K = 10;
+            this.K = 150;
         } else {
             this.K = K;
         }
-        this.finalLogs = finalLogs === undefined;
+        this.finalLogs = true;
     }
 
     decorateStrategy(dag) {
-        const tasks = dag.tasks;
+        const tasks = dag.processes;
         const taskUtilities = new TaskUtilities(this.config);
 
         this.decorateTasksWithLevels(tasks);
@@ -52,8 +52,8 @@ class MOHEFT extends SchedulingAlgorithm {
         delete dag.signals;
         delete dag.ins;
         delete dag.outs;
-        delete dag.tasks;
-        dag.tasks = Array(tasks.length);
+        delete dag.processes;
+        dag.processes = Array(tasks.length);
 
         let maxNumberOfSchedules = this.K;
         let num = 0;
@@ -77,7 +77,7 @@ class MOHEFT extends SchedulingAlgorithm {
         tasksSortedUpward.forEach(
             task => {
 
-                console.log("Starting processing of task no: " + num++);
+          //      console.log("Starting processing of task no: " + num++);
                 let taskId = task.config.id;
                 let newSchedules = [];
 
@@ -91,8 +91,8 @@ class MOHEFT extends SchedulingAlgorithm {
                         let newAssignment = _.cloneDeep(schedule);
                         //TODO to check
                         let indexOfTask = idToIndexMap.get(taskId);
-                        newAssignment.tasks[currentIndex] = _.cloneDeep(task);
-                        let taskToBeAssigned = newAssignment.tasks[indexOfTask];
+                        newAssignment.processes[currentIndex] = _.cloneDeep(task);
+                        let taskToBeAssigned = newAssignment.processes[indexOfTask];
                         taskToBeAssigned.config.deploymentType = functionType;
                         newSchedules.push(newAssignment);
                     }
@@ -150,9 +150,9 @@ class MOHEFT extends SchedulingAlgorithm {
 
         for (const paretoPoint of paretoPoints) {
             let solution = paretoPoint[2];
-            let tasks = solution.tasks;
+            let tasks = solution.processes;
             for (let i = 0; i < tasks.length; i++) {
-                console.log(i);
+                //console.log(i);
                 tasks[i].ins = _.cloneDeep(backupTasks[i].ins);
                 tasks[i].outs = _.cloneDeep(backupTasks[i].outs);
                 tasks[i].startTime = _.cloneDeep(backupTasks[i].startTime);
@@ -167,8 +167,12 @@ class MOHEFT extends SchedulingAlgorithm {
         console.log("Size of pareto front: " + paretoPoints.length);
         console.log("Number of solutions: " + solutions.length);
 
+        fs.writeFileAsync("/home/amnich/Documents/magisterka/CloudFunctionOptimizer/time_tests/e200-large/moheft-dag.json", JSON.stringify(paretoPoints, null, 2));
+            
         if (this.finalLogs) {
             let algorithm = 'moheft';
+            // console.log(JSON.stringify(toReturn, null, 2))
+           // fs.writeFileAsync("/home/amnich/Documents/magisterka/CloudFunctionOptimizer/time_tests/e500/moheft-dag.json", JSON.stringify(paretoPoints, null, 2));
             //
             //     //Output all the points
             //     // LogUtilities.outputLogsToFile(paretoPoints, userDeadline, userBudget, this.config, algorithm);
@@ -176,16 +180,16 @@ class MOHEFT extends SchedulingAlgorithm {
             //     this.outputOneResult(solutions, paretoPoints, userDeadline, userBudget, algorithm);
             //
 
-            this.outputResultsForMultipleBudgetsAndDeadlines(maxDeadline, minDeadline, maxBudget, minBudget, solutions, paretoPoints);
+         //   this.outputResultsForMultipleBudgetsAndDeadlines(maxDeadline, minDeadline, maxBudget, minBudget, solutions, paretoPoints);
         }
-
+        //console.log(paretoPoints[1][2].processes);
         return paretoPoints;
     }
 
 
     outputResultsForMultipleBudgetsAndDeadlines(maxDeadline, minDeadline, maxBudget, minBudget, solutions, paretoPoints,) {
-        const budgets = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95];
-        const deadlines = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95];
+        const budgets = [0.01,0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2];
+        const deadlines = [0.01,0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2];
         for (const budget of budgets) {
             for (const deadline of deadlines) {
                 this.config.deadlineParameter = deadline;

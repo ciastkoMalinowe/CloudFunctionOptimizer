@@ -6,34 +6,12 @@ class CostFunctions {
 
   //minimum cost for task
   minBudget(tasks) {
-    let costs = [];
-
-    this.config.functionTypes.forEach(functionType => {
-      let times = tasks.map(task => task.finishTime[functionType] - task.startTime[functionType]);
-      let workflowCost = 0;
-      times
-        .map(time => Math.ceil(time / 100) * this.config.prices[this.config.provider][functionType])
-        .forEach(cost => workflowCost += cost);
-      costs.push(workflowCost);
-    });
-
-    return Math.min(...costs);
+    return tasks.map(task => this.taskUtils.findMinTaskExecutionCost(task)).reduce(function(a,b){return a + b}, 0)
   }
 
   //maximum cost of task
   maxBudget(tasks) {
-    let costs = [];
-
-    this.config.functionTypes.forEach(functionType => {
-      let times = tasks.map(task => task.finishTime[functionType] - task.startTime[functionType]);
-      let workflowCost = 0;
-      times
-        .map(time => Math.ceil(time / 100) * this.config.prices[this.config.provider][functionType])
-        .forEach(cost => workflowCost += cost);
-      costs.push(workflowCost);
-    });
-
-    return Math.max(...costs);
+    return tasks.map(task => this.taskUtils.findMaxTaskExecutionCost(task)).reduce(function(a,b){return a + b}, 0)
   }
 
   minDeadline(tasks) {

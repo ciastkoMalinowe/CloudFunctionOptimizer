@@ -9,7 +9,7 @@ class SDBWS extends SchedulingAlgorithm {
   }
 
   decorateStrategy(dag) {
-    const tasks = dag.tasks;
+    const tasks = dag.processes;
 
     //dividing graph into levels, and sorting it by levels
     this.decorateTasksWithLevels(tasks);

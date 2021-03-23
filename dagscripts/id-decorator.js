@@ -23,8 +23,7 @@ function addIDToDag(file) {
     fs.readFile(file, (err, dag) => {
 
         dag = JSON.parse(dag);
-
-        const tasks = dag.tasks;
+        const tasks = dag.processes;
         let count = 1;
         tasks.forEach(task => task.config.id = count++);
 

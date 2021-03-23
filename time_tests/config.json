@@ -1,0 +1,52 @@
+{
+  "budgetParameter": 0.6,
+  "deadlineParameter": 0.6,
+  "functionTypes": [
+    "lambda-6144",
+    "lambda-5120",
+    "lambda-4096",
+    "lambda-3072",
+    "lambda-2560",
+    "lambda-2048",
+    "lambda-1536",
+    "lambda-1024"
+  ],
+  "count": 5,
+  "provider": "AWS",
+  "algorithm": "loss",
+  "workflow": "montage",
+  "dag": "./ellipsoids-200.json",
+  "prices": {
+    "AWS": {
+      "lambda-128": 2.08e-07,
+      "lambda-256": 4.17e-07,
+      "lambda-512": 8.33e-07,
+      "lambda-768": 1.25e-06,
+      "lambda-1024": 1.667e-06,
+      "lambda-1280": 2.084e-06,
+      "lambda-1536": 2.5e-06,
+      "lambda-1792": 2.917e-06,
+      "lambda-2048": 3.333e-06,
+      "lambda-2560": 4.167e-06,
+      "lambda-3072": 5e-06,
+      "lambda-4096": 6.667e-06,
+      "lambda-5120": 8.334e-06,
+      "lambda-6144": 1e-05,
+      "fargate-512025": 1.1244e-05,
+      "fargate-1050": 4.4977e-05,
+      "fargate-21": 0.000179911,
+      "fargate-42": 0.000719644
+    },
+    "GCF": {
+      "256": 4.63e-07,
+      "512": 9.25e-07,
+      "1024": 1.65e-06,
+      "2048": 2.9e-06
+    },
+    "overheads": {
+      "AWS": 0.043,
+      "GCF": 0.15,
+      "IBM": 0.13
+    }
+  }
+}

@@ -6,7 +6,7 @@ class TaskUtilities {
 
     getExecutionCostOfScheduleIgnoringUnscheduledTasks(newSchedule) {
         let totalCost = 0;
-        let tasks = newSchedule.tasks;
+        let tasks = newSchedule.processes;
         for (const task of tasks) {
             if (task!= undefined && task.config.deploymentType !== undefined) {
                 totalCost += this.findTaskExecutionCostOnResource(task, task.config.deploymentType)
@@ -17,7 +17,7 @@ class TaskUtilities {
 
     getExecutionCostOfScheduleIgnoringUnscheduledTasks(newSchedule, idToStartFinishTimeMap) {
         let totalCost = 0;
-        let tasks = newSchedule.tasks;
+        let tasks = newSchedule.processes;
         for (const task of tasks) {
             if (task!= undefined && task.config.deploymentType !== undefined) {
                 totalCost += this.findTaskExecutionCostOnResourceWithMap(task, task.config.deploymentType, idToStartFinishTimeMap)
@@ -28,7 +28,7 @@ class TaskUtilities {
 
     getExecutionTimeOfScheduleIgnoringUnscheduledTasks(newSchedule) {
         let allExecutionTimes = [];
-        let tasks = newSchedule.tasks;
+        let tasks = newSchedule.processes;
         let maximumLevel = this.findTasksMaxLevel(tasks);
         for (let i = 1; i <= maximumLevel; i++) {
             let timesForLevel = tasks.filter(task => task !== undefined)
@@ -49,7 +49,7 @@ class TaskUtilities {
 
     getExecutionTimeOfScheduleIgnoringUnscheduledTasks(newSchedule, idToStartFinishTimeMap) {
         let allExecutionTimes = [];
-        let tasks = newSchedule.tasks;
+        let tasks = newSchedule.processes;
         let maximumLevel = this.findTasksMaxLevel(tasks);
         for (let i = 1; i <= maximumLevel; i++) {
             let timesForLevel = tasks.filter(task => task !== undefined)

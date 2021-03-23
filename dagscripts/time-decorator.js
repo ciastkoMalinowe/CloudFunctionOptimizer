@@ -19,11 +19,11 @@ console.log(`CSV file path is ${csvPath}`);
 let dag = fs.readFileSync(dagPath);
 dag = JSON.parse(dag);
 
-if(!dag.tasks){
-    throw new Error("There are no tasks in dag file");
-}
+// if(!dag.tasks){
+//     throw new Error("There are no tasks in dag file");
+// }
 
-let tasks = dag.tasks;
+let tasks = dag.processes;
 
 let idTypeMap = new Map();
 

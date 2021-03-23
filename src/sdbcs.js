@@ -1,10 +1,4 @@
-const LogUtilities = require( "./log-utilities");
-
-const fs = require('fs');
 const SchedulingAlgorithm = require('./scheduling-algorithm.js');
-const outputCSV="./results.csv";
-const RankUtilities = require("./rank-utilities");
-
 
 class SDBCS extends SchedulingAlgorithm {
   constructor(config) {
@@ -12,7 +6,7 @@ class SDBCS extends SchedulingAlgorithm {
   }
 
   decorateStrategy(dag) {
-    const tasks = dag.tasks;
+    const tasks = dag.processes;
 
     this.decorateTasksWithLevels(tasks);
     const sortedTasks = tasks.sort((task1, task2) => task1.level - task2.level);
@@ -26,24 +20,19 @@ class SDBCS extends SchedulingAlgorithm {
     const userDeadline = this.calculateUserDeadline(maxDeadline, minDeadline);
     const userBudget = this.calculateUserBudget(maxBudget, minBudget);
 
-    console.log("Max budget: " + maxBudget);
-    console.log("Min budget: " + minBudget);
-    console.log("Max deadline: " + maxDeadline);
-    console.log("Min deadline: " + minDeadline);
-
     console.log("userDeadline: " + userDeadline);
     console.log("userBudget: " + userBudget);
 
-    if (userBudget < minBudget) { throw new Error("No possible schedule map") }
-    RankUtilities.decorateTasksWithUpwardRank(sortedTasks, this.config.functionTypes);
+    if (userBudget < minBudget) {
+      throw new Error("No possible schedule map")
+    }
+
+    this.decorateTasksWithUpwardRank(sortedTasks);
     this.decorateTasksWithSubdeadline(sortedTasks, userDeadline);
 
     const tasksSortedUpward = tasks.sort((task1, task2) => task2.upwardRank - task1.upwardRank);
     const costEfficientFactor = minBudget / userBudget;
     let deltaCost = userBudget - minBudget;
-
-    let plannedExecutionCost = 0;
-
     tasksSortedUpward.forEach(
       task => {
         let maximumAvailableBudget = deltaCost + this.taskUtils.findMinTaskExecutionCost(task);
@@ -67,23 +56,11 @@ class SDBCS extends SchedulingAlgorithm {
         }
 
         task.config.deploymentType = selectedResource;
-
-        plannedExecutionCost += this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource);
-
+        // copy schedulded times to config
         Object.assign(task.config, this.getScheduldedTimesOnResource(tasks, task, selectedResource));
         deltaCost = deltaCost - [this.taskUtils.findTaskExecutionCostOnResource(task, selectedResource) - this.taskUtils.findMinTaskExecutionCost(task)]
       }
     );
-
-    const plannedExecutionTime = this.taskUtils.findPlannedExecutionTime(sortedTasks);
-    const inConstrains = (plannedExecutionCost < userBudget && plannedExecutionTime < userDeadline) ? 1: 0;
-    console.log("Planned execution time: " + plannedExecutionTime);
-    console.log("Planned execution cost: " + plannedExecutionCost);
-    console.log("In constrains? : " + inConstrains);
-
-    LogUtilities.outputLogsToFile([[plannedExecutionTime, plannedExecutionCost]], userDeadline, userBudget, this.config, 'sdbcs');
-
-    fs.appendFileSync(outputCSV,`${maxDeadline} ${minDeadline} ${userDeadline} ${plannedExecutionTime} ${maxBudget} ${minBudget} ${userBudget} ${plannedExecutionCost} ${inConstrains}\n`);
   }
 
   isProcesorAdmisible(task, procesor, maxBudget) {
@@ -98,7 +75,7 @@ class SDBCS extends SchedulingAlgorithm {
 
   computeSubDeadline(tasks, task, userDeadline) {
     // Path do exit task??
-    let successors = tasks.filter( x => x.level === task.level + 1);
+    let successors = tasks.filter( x => x.level === task.level + 1); //?????????
 
     if(successors.length === 0) {
       task.subDeadline = userDeadline;
@@ -127,6 +104,40 @@ class SDBCS extends SchedulingAlgorithm {
     tasks.forEach(task => {
       if(task.upwardRank === undefined) this.computeUpwardRank(tasks, task);
     });
+  }
+  
+  computeAverageExecutionTime(task) {
+    let total = 0;
+    let times = this.config.functionTypes.map(functionType => {
+      return task.finishTime[functionType] - task.startTime[functionType];
+    });
+
+    times.forEach(time => total += time);
+    return total / times.length;
+  }
+
+  computeUpwardRank(tasks, task) {
+    let averageExecutionTime = this.computeAverageExecutionTime(task);
+    let successors = tasks.filter( x => x.level === task.level + 1);
+
+    if(successors.length === 0) {
+      task.upwardRank = averageExecutionTime;
+    } else {
+      let successorRanks = successors.map( x => this.findOrComputeRank(tasks, x));
+      task.upwardRank = averageExecutionTime + Math.max(...successorRanks);
+    }
+
+    return task.upwardRank;
+  }
+
+  findOrComputeRank(tasks, task) {
+    // Average communication time = 0
+    let originalTask = tasks.find( x => x.config.id === task.config.id);
+    if(originalTask.upwardRank === undefined) {
+      return this.computeUpwardRank(tasks, originalTask);
+    } else {
+      return originalTask.upwardRank;
+    }
   }
 
   computeQualityMeasureForResource(tasks, task, functionType, costEfficientFactor) {

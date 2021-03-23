@@ -1,0 +1,45 @@
+hfid: lwl61fEYM
+Done processing workflow JSON.
+createInstance time: 48ms
+Wf id=971
+Time:  Executing:  {"executable":"mProject","args":["-X","2mass-atlas-001021s-j0560033.fits","p2mass-atlas-001021s-j0560033.fits","region-oversized.hdr"],"env":{},"inputs":[{"name":"2mass-atlas-001021s-j0560033.fits","_id":1,"data":[{}],"sigIdx":1},{"name":"region-oversized.hdr","_id":2,"data":[{}],"sigIdx":1}],"outputs":[{"name":"p2mass-atlas-001021s-j0560033.fits"},{"name":"p2mass-atlas-001021s-j0560033_area.fits"}],"options":{"storage":"aws","bucket":"hyperflow-montage","prefix":"data/2mass/0.15","efs":"/mnt/montage","nfs":"/mnt/montage","task_id":1}}
+hfid: wo6bCwHRt
+Done processing workflow JSON.
+createInstance time: 47ms
+Wf id=972
+Time:  Executing:  {"executable":"mProject","args":["-X","2mass-atlas-001021s-j0560033.fits","p2mass-atlas-001021s-j0560033.fits","region-oversized.hdr"],"env":{},"inputs":[{"name":"2mass-atlas-001021s-j0560033.fits","_id":1,"data":[{}],"sigIdx":1},{"name":"region-oversized.hdr","_id":2,"data":[{}],"sigIdx":1}],"outputs":[{"name":"p2mass-atlas-001021s-j0560033.fits"},{"name":"p2mass-atlas-001021s-j0560033_area.fits"}],"options":{"storage":"aws","bucket":"hyperflow-montage","prefix":"data/2mass/0.15"}}
+hfid: GN2CUbjZr
+Done processing workflow JSON.
+createInstance time: 115ms
+Wf id=973
+Time:  Executing:  {"executable":"mProject","args":["-X","2mass-atlas-001021s-j0560033.fits","p2mass-atlas-001021s-j0560033.fits","region-oversized.hdr"],"env":{},"inputs":[{"name":"2mass-atlas-001021s-j0560033.fits","_id":1,"data":[{}],"sigIdx":1},{"name":"region-oversized.hdr","_id":2,"data":[{}],"sigIdx":1}],"outputs":[{"name":"p2mass-atlas-001021s-j0560033.fits"},{"name":"p2mass-atlas-001021s-j0560033_area.fits"}],"options":{"storage":"aws","bucket":"hyperflow-montage","prefix":"data/2mass/0.15","efs":"/mnt/montage","task_id":1}}
+hfid: BBo94zhjh
+Done processing workflow JSON.
+createInstance time: 63ms
+Wf id=974
+Time:  Executing:  {"executable":"mProject","args":["-X","2mass-atlas-001021s-j0560033.fits","p2mass-atlas-001021s-j0560033.fits","region-oversized.hdr"],"env":{},"inputs":[{"name":"2mass-atlas-001021s-j0560033.fits","_id":1,"data":[{}],"sigIdx":1},{"name":"region-oversized.hdr","_id":2,"data":[{}],"sigIdx":1}],"outputs":[{"name":"p2mass-atlas-001021s-j0560033.fits"},{"name":"p2mass-atlas-001021s-j0560033_area.fits"}],"options":{"storage":"aws","bucket":"hyperflow-montage","prefix":"data/2mass/0.15","efs":"/mnt/montage","task_id":1}}
+hfid: tspZVOCJH
+Done processing workflow JSON.
+createInstance time: 52ms
+Wf id=975
+Time:  Executing:  {"executable":"mProject","args":["-X","2mass-atlas-001021s-j0560033.fits","p2mass-atlas-001021s-j0560033.fits","region-oversized.hdr"],"env":{},"inputs":[{"name":"2mass-atlas-001021s-j0560033.fits","_id":1,"data":[{}],"sigIdx":1},{"name":"region-oversized.hdr","_id":2,"data":[{}],"sigIdx":1}],"outputs":[{"name":"p2mass-atlas-001021s-j0560033.fits"},{"name":"p2mass-atlas-001021s-j0560033_area.fits"}],"options":{"storage":"aws","bucket":"hyperflow-montage","prefix":"data/2mass/0.15","efs":"/mnt/montage","task_id":1}}
+Function: mProject response status code: 200
+{"statusCode":200,"body":"{\"start\":1614726191657,\"end\":1614726235348,\"duration\":43691,\"downloading_duration\":269,\"execution_duration\":42976,\"uploading_duration\":446,\"executable\":\"mProject\",\"args\":[\"-X\",\"2mass-atlas-001021s-j0560033.fits\",\"p2mass-atlas-001021s-j0560033.fits\",\"region-oversized.hdr\"]}"}
+{
+  start: 1614726191657,
+  end: 1614726235348,
+  duration: 43691,
+  downloading_duration: 269,
+  execution_duration: 42976,
+  uploading_duration: 446,
+  executable: 'mProject',
+  args: [
+    '-X',
+    '2mass-atlas-001021s-j0560033.fits',
+    'p2mass-atlas-001021s-j0560033.fits',
+    'region-oversized.hdr'
+  ]
+}
+Response: {"start":1614726191657,"end":1614726235348,"duration":43691,"downloading_duration":269,"execution_duration":42976,"uploading_duration":446,"executable":"mProject","args":["-X","2mass-atlas-001021s-j0560033.fits","p2mass-atlas-001021s-j0560033.fits","region-oversized.hdr"],"id":1,"resource":"lambda-512","request_start":1614726191316,"request_end":1614726235384,"request_duration":44068,"type":"lambda-512"}
+Success!
+Workflow [975] finished. Exec trace: 1.
