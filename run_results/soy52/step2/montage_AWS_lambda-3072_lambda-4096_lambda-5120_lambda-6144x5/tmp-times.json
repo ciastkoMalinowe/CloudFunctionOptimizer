@@ -1,0 +1,3425 @@
+{
+  "ins": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    63
+  ],
+  "outs": [
+    64,
+    65,
+    107,
+    109,
+    110,
+    112,
+    113
+  ],
+  "processes": [
+    {
+      "name": "alignment_to_reference",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "bwa-wrapper",
+          "args": [
+            "mem",
+            "-t",
+            "2",
+            "-M",
+            "Gmax_275_v2.0.fa",
+            "USB-001_1.fastq",
+            "USB-001_2.fastq"
+          ],
+          "stdout": "20180321-083514-USB-001_aligned_reads.sam"
+        },
+        "id": 1
+      },
+      "ins": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        13
+      ],
+      "startTime": {
+        "lambda-3072": 0,
+        "lambda-4096": 0,
+        "lambda-5120": 0,
+        "lambda-6144": 0
+      },
+      "finishTime": {
+        "lambda-3072": 23555,
+        "lambda-4096": 16867,
+        "lambda-5120": 21482,
+        "lambda-6144": 20056
+      }
+    },
+    {
+      "name": "sort_sam",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "picard-wrapper",
+          "args": [
+            "SortSam.jar",
+            "CREATE_INDEX=TRUE",
+            "MAX_RECORDS_IN_RAM=5000000",
+            "TMP_DIR=.",
+            "I=20180321-083514-USB-001_aligned_reads.sam",
+            "O=20180321-083514-USB-001_sorted_reads.bam",
+            "SO=coordinate",
+            "VALIDATION_STRINGENCY=LENIENT"
+          ]
+        },
+        "id": 2
+      },
+      "ins": [
+        13,
+        10
+      ],
+      "outs": [
+        14,
+        15
+      ],
+      "startTime": {
+        "lambda-3072": 23563,
+        "lambda-4096": 16873,
+        "lambda-5120": 21488,
+        "lambda-6144": 20062
+      },
+      "finishTime": {
+        "lambda-3072": 26334,
+        "lambda-4096": 19676,
+        "lambda-5120": 25260,
+        "lambda-6144": 21774
+      }
+    },
+    {
+      "name": "dedup",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "picard-wrapper",
+          "args": [
+            "MarkDuplicates.jar",
+            "CREATE_INDEX=TRUE",
+            "MAX_RECORDS_IN_RAM=5000000",
+            "TMP_DIR=.",
+            "I=20180321-083514-USB-001_sorted_reads.bam",
+            "O=20180321-083514-USB-001_deduped_reads.bam",
+            "METRICS_FILE=20180321-083514-USB-001_deduped.metrics",
+            "VALIDATION_STRINGENCY=LENIENT"
+          ]
+        },
+        "id": 3
+      },
+      "ins": [
+        10,
+        14,
+        15
+      ],
+      "outs": [
+        16,
+        17
+      ],
+      "startTime": {
+        "lambda-3072": 26355,
+        "lambda-4096": 19680,
+        "lambda-5120": 25264,
+        "lambda-6144": 21780
+      },
+      "finishTime": {
+        "lambda-3072": 29043,
+        "lambda-4096": 23560,
+        "lambda-5120": 26855,
+        "lambda-6144": 23446
+      }
+    },
+    {
+      "name": "add_replace",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "picard-wrapper",
+          "args": [
+            "AddOrReplaceReadGroups.jar",
+            "MAX_RECORDS_IN_RAM=5000000",
+            "TMP_DIR=.",
+            "I=20180321-083514-USB-001_deduped_reads.bam",
+            "O=20180321-083514-USB-001_addrepl.bam",
+            "RGID=USB-001",
+            "LB=USB-001",
+            "PL=Illumina",
+            "SM=USB-001",
+            "CN=BGI",
+            "RGPU=USB-001",
+            "VALIDATION_STRINGENCY=LENIENT",
+            "SORT_ORDER=coordinate",
+            "CREATE_INDEX=TRUE"
+          ]
+        },
+        "id": 4
+      },
+      "ins": [
+        10,
+        16,
+        17
+      ],
+      "outs": [
+        18,
+        19
+      ],
+      "startTime": {
+        "lambda-3072": 29051,
+        "lambda-4096": 23568,
+        "lambda-5120": 26861,
+        "lambda-6144": 23451
+      },
+      "finishTime": {
+        "lambda-3072": 29636,
+        "lambda-4096": 25160,
+        "lambda-5120": 27390,
+        "lambda-6144": 24125
+      }
+    },
+    {
+      "name": "realign_target_creator",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "RealignerTargetCreator",
+            "-nt",
+            "2",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_addrepl.bam",
+            "-o",
+            "20180321-083514-USB-001_intervals.list"
+          ]
+        },
+        "id": 5
+      },
+      "ins": [
+        1,
+        18,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        19,
+        11,
+        12
+      ],
+      "outs": [
+        20
+      ],
+      "startTime": {
+        "lambda-3072": 29642,
+        "lambda-4096": 25165,
+        "lambda-5120": 27396,
+        "lambda-6144": 24130
+      },
+      "finishTime": {
+        "lambda-3072": 67907,
+        "lambda-4096": 70627,
+        "lambda-5120": 65180,
+        "lambda-6144": 59933
+      }
+    },
+    {
+      "name": "indel_realign",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "IndelRealigner",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_addrepl.bam",
+            "-targetIntervals",
+            "20180321-083514-USB-001_intervals.list",
+            "-o",
+            "20180321-083514-USB-001_indel_realigned.bam"
+          ]
+        },
+        "id": 6
+      },
+      "ins": [
+        1,
+        18,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        20,
+        10,
+        19,
+        11,
+        12
+      ],
+      "outs": [
+        21,
+        22
+      ],
+      "startTime": {
+        "lambda-3072": 67912,
+        "lambda-4096": 70634,
+        "lambda-5120": 65184,
+        "lambda-6144": 59941
+      },
+      "finishTime": {
+        "lambda-3072": 106917,
+        "lambda-4096": 108602,
+        "lambda-5120": 102947,
+        "lambda-6144": 97703
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr01",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr01.vcf"
+          ]
+        },
+        "id": 7
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        23,
+        24
+      ],
+      "startTime": {
+        "lambda-3072": 107013,
+        "lambda-4096": 108670,
+        "lambda-5120": 103028,
+        "lambda-6144": 97791
+      },
+      "finishTime": {
+        "lambda-3072": 142674,
+        "lambda-4096": 146578,
+        "lambda-5120": 139737,
+        "lambda-6144": 136138
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr02",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr02.vcf"
+          ]
+        },
+        "id": 8
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        25,
+        26
+      ],
+      "startTime": {
+        "lambda-3072": 107016,
+        "lambda-4096": 108672,
+        "lambda-5120": 103030,
+        "lambda-6144": 97793
+      },
+      "finishTime": {
+        "lambda-3072": 144205,
+        "lambda-4096": 146643,
+        "lambda-5120": 141036,
+        "lambda-6144": 135103
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr03",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr03.vcf"
+          ]
+        },
+        "id": 9
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        27,
+        28
+      ],
+      "startTime": {
+        "lambda-3072": 107018,
+        "lambda-4096": 108675,
+        "lambda-5120": 103034,
+        "lambda-6144": 97796
+      },
+      "finishTime": {
+        "lambda-3072": 142970,
+        "lambda-4096": 146590,
+        "lambda-5120": 140992,
+        "lambda-6144": 134838
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr04",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr04.vcf"
+          ]
+        },
+        "id": 10
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        29,
+        30
+      ],
+      "startTime": {
+        "lambda-3072": 106970,
+        "lambda-4096": 108640,
+        "lambda-5120": 102996,
+        "lambda-6144": 97754
+      },
+      "finishTime": {
+        "lambda-3072": 143556,
+        "lambda-4096": 145577,
+        "lambda-5120": 140722,
+        "lambda-6144": 134516
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr05",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr05.vcf"
+          ]
+        },
+        "id": 11
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        31,
+        32
+      ],
+      "startTime": {
+        "lambda-3072": 106973,
+        "lambda-4096": 108642,
+        "lambda-5120": 102998,
+        "lambda-6144": 97757
+      },
+      "finishTime": {
+        "lambda-3072": 143721,
+        "lambda-4096": 145515,
+        "lambda-5120": 139668,
+        "lambda-6144": 133229
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr06",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr06.vcf"
+          ]
+        },
+        "id": 12
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        33,
+        34
+      ],
+      "startTime": {
+        "lambda-3072": 106975,
+        "lambda-4096": 108644,
+        "lambda-5120": 103000,
+        "lambda-6144": 97759
+      },
+      "finishTime": {
+        "lambda-3072": 144527,
+        "lambda-4096": 144328,
+        "lambda-5120": 140713,
+        "lambda-6144": 133656
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr07",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr07.vcf"
+          ]
+        },
+        "id": 13
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        35,
+        36
+      ],
+      "startTime": {
+        "lambda-3072": 106978,
+        "lambda-4096": 108646,
+        "lambda-5120": 103002,
+        "lambda-6144": 97761
+      },
+      "finishTime": {
+        "lambda-3072": 142786,
+        "lambda-4096": 145612,
+        "lambda-5120": 140824,
+        "lambda-6144": 134420
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr08",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr08.vcf"
+          ]
+        },
+        "id": 14
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        37,
+        38
+      ],
+      "startTime": {
+        "lambda-3072": 106980,
+        "lambda-4096": 108647,
+        "lambda-5120": 103004,
+        "lambda-6144": 97763
+      },
+      "finishTime": {
+        "lambda-3072": 142792,
+        "lambda-4096": 144582,
+        "lambda-5120": 140910,
+        "lambda-6144": 133984
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr09",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr09.vcf"
+          ]
+        },
+        "id": 15
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        39,
+        40
+      ],
+      "startTime": {
+        "lambda-3072": 106983,
+        "lambda-4096": 108649,
+        "lambda-5120": 103005,
+        "lambda-6144": 97765
+      },
+      "finishTime": {
+        "lambda-3072": 143220,
+        "lambda-4096": 144433,
+        "lambda-5120": 140782,
+        "lambda-6144": 135062
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr10",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr10.vcf"
+          ]
+        },
+        "id": 16
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        41,
+        42
+      ],
+      "startTime": {
+        "lambda-3072": 106986,
+        "lambda-4096": 108651,
+        "lambda-5120": 103007,
+        "lambda-6144": 97767
+      },
+      "finishTime": {
+        "lambda-3072": 143971,
+        "lambda-4096": 145542,
+        "lambda-5120": 140779,
+        "lambda-6144": 133958
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr11",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr11.vcf"
+          ]
+        },
+        "id": 17
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        43,
+        44
+      ],
+      "startTime": {
+        "lambda-3072": 106988,
+        "lambda-4096": 108652,
+        "lambda-5120": 103009,
+        "lambda-6144": 97769
+      },
+      "finishTime": {
+        "lambda-3072": 142632,
+        "lambda-4096": 144392,
+        "lambda-5120": 140824,
+        "lambda-6144": 135328
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr12",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr12.vcf"
+          ]
+        },
+        "id": 18
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        45,
+        46
+      ],
+      "startTime": {
+        "lambda-3072": 106991,
+        "lambda-4096": 108654,
+        "lambda-5120": 103010,
+        "lambda-6144": 97771
+      },
+      "finishTime": {
+        "lambda-3072": 142743,
+        "lambda-4096": 145568,
+        "lambda-5120": 140842,
+        "lambda-6144": 134205
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr13",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr13.vcf"
+          ]
+        },
+        "id": 19
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        47,
+        48
+      ],
+      "startTime": {
+        "lambda-3072": 106993,
+        "lambda-4096": 108655,
+        "lambda-5120": 103013,
+        "lambda-6144": 97773
+      },
+      "finishTime": {
+        "lambda-3072": 144882,
+        "lambda-4096": 145413,
+        "lambda-5120": 140885,
+        "lambda-6144": 137041
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr14",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr14.vcf"
+          ]
+        },
+        "id": 20
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        49,
+        50
+      ],
+      "startTime": {
+        "lambda-3072": 106995,
+        "lambda-4096": 108657,
+        "lambda-5120": 103015,
+        "lambda-6144": 97775
+      },
+      "finishTime": {
+        "lambda-3072": 143783,
+        "lambda-4096": 154934,
+        "lambda-5120": 140847,
+        "lambda-6144": 135985
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr15",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr15.vcf"
+          ]
+        },
+        "id": 21
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        51,
+        52
+      ],
+      "startTime": {
+        "lambda-3072": 106998,
+        "lambda-4096": 108658,
+        "lambda-5120": 103016,
+        "lambda-6144": 97777
+      },
+      "finishTime": {
+        "lambda-3072": 143516,
+        "lambda-4096": 147368,
+        "lambda-5120": 140914,
+        "lambda-6144": 138404
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr16",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr16.vcf"
+          ]
+        },
+        "id": 22
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        53,
+        54
+      ],
+      "startTime": {
+        "lambda-3072": 107001,
+        "lambda-4096": 108660,
+        "lambda-5120": 103018,
+        "lambda-6144": 97779
+      },
+      "finishTime": {
+        "lambda-3072": 144017,
+        "lambda-4096": 146483,
+        "lambda-5120": 139656,
+        "lambda-6144": 137395
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr17",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr17.vcf"
+          ]
+        },
+        "id": 23
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        55,
+        56
+      ],
+      "startTime": {
+        "lambda-3072": 107004,
+        "lambda-4096": 108662,
+        "lambda-5120": 103019,
+        "lambda-6144": 97781
+      },
+      "finishTime": {
+        "lambda-3072": 142653,
+        "lambda-4096": 146524,
+        "lambda-5120": 139601,
+        "lambda-6144": 136378
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr18",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr18.vcf"
+          ]
+        },
+        "id": 24
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        57,
+        58
+      ],
+      "startTime": {
+        "lambda-3072": 107006,
+        "lambda-4096": 108664,
+        "lambda-5120": 103021,
+        "lambda-6144": 97784
+      },
+      "finishTime": {
+        "lambda-3072": 142588,
+        "lambda-4096": 146597,
+        "lambda-5120": 139612,
+        "lambda-6144": 137397
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr19",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr19.vcf"
+          ]
+        },
+        "id": 25
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        59,
+        60
+      ],
+      "startTime": {
+        "lambda-3072": 107008,
+        "lambda-4096": 108666,
+        "lambda-5120": 103023,
+        "lambda-6144": 97786
+      },
+      "finishTime": {
+        "lambda-3072": 143005,
+        "lambda-4096": 146617,
+        "lambda-5120": 139670,
+        "lambda-6144": 138411
+      }
+    },
+    {
+      "name": "haplotype_caller",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "HaplotypeCaller",
+            "--emitRefConfidence",
+            "GVCF",
+            "--variant_index_type",
+            "LINEAR",
+            "--variant_index_parameter",
+            "128000",
+            "-L",
+            "Chr20",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-I",
+            "20180321-083514-USB-001_indel_realigned.bam",
+            "-o",
+            "20180321-083514-USB-001_Chr20.vcf"
+          ]
+        },
+        "id": 26
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        21,
+        9,
+        22,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        61,
+        62
+      ],
+      "startTime": {
+        "lambda-3072": 107011,
+        "lambda-4096": 108668,
+        "lambda-5120": 103025,
+        "lambda-6144": 97788
+      },
+      "finishTime": {
+        "lambda-3072": 142645,
+        "lambda-4096": 146671,
+        "lambda-5120": 139855,
+        "lambda-6144": 134941
+      }
+    },
+    {
+      "name": "merge_gcvf",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "CombineGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-mergeGVCF.vcf",
+            "--variant",
+            "haplotype-files.list"
+          ]
+        },
+        "id": 27
+      },
+      "ins": [
+        45,
+        4,
+        33,
+        6,
+        39,
+        9,
+        36,
+        53,
+        41,
+        52,
+        42,
+        11,
+        54,
+        44,
+        37,
+        58,
+        57,
+        48,
+        38,
+        46,
+        25,
+        51,
+        34,
+        50,
+        31,
+        24,
+        35,
+        43,
+        3,
+        59,
+        62,
+        5,
+        29,
+        28,
+        63,
+        10,
+        32,
+        30,
+        26,
+        12,
+        1,
+        47,
+        27,
+        40,
+        7,
+        55,
+        61,
+        23,
+        56,
+        60,
+        49
+      ],
+      "outs": [
+        64,
+        65
+      ],
+      "startTime": {
+        "lambda-3072": 145830,
+        "lambda-4096": 155222,
+        "lambda-5120": 141254,
+        "lambda-6144": 140010
+      },
+      "finishTime": {
+        "lambda-3072": 179842,
+        "lambda-4096": 191643,
+        "lambda-5120": 176991,
+        "lambda-6144": 175217
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr01.vcf",
+            "-L",
+            "Chr01",
+            "--variant",
+            "20180321-083514-USB-001_Chr01.vcf"
+          ]
+        },
+        "id": 28
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        23,
+        10,
+        11,
+        24,
+        12
+      ],
+      "outs": [
+        66,
+        67
+      ],
+      "startTime": {
+        "lambda-3072": 142683,
+        "lambda-4096": 146586,
+        "lambda-5120": 139742,
+        "lambda-6144": 136145
+      },
+      "finishTime": {
+        "lambda-3072": 176848,
+        "lambda-4096": 181897,
+        "lambda-5120": 175385,
+        "lambda-6144": 172106
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr02.vcf",
+            "-L",
+            "Chr02",
+            "--variant",
+            "20180321-083514-USB-001_Chr02.vcf"
+          ]
+        },
+        "id": 29
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        25,
+        10,
+        11,
+        26,
+        12
+      ],
+      "outs": [
+        68,
+        69
+      ],
+      "startTime": {
+        "lambda-3072": 144214,
+        "lambda-4096": 146655,
+        "lambda-5120": 141047,
+        "lambda-6144": 135108
+      },
+      "finishTime": {
+        "lambda-3072": 179312,
+        "lambda-4096": 182147,
+        "lambda-5120": 175552,
+        "lambda-6144": 169933
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr03.vcf",
+            "-L",
+            "Chr03",
+            "--variant",
+            "20180321-083514-USB-001_Chr03.vcf"
+          ]
+        },
+        "id": 30
+      },
+      "ins": [
+        1,
+        27,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        28,
+        11,
+        12
+      ],
+      "outs": [
+        70,
+        71
+      ],
+      "startTime": {
+        "lambda-3072": 142978,
+        "lambda-4096": 146598,
+        "lambda-5120": 141002,
+        "lambda-6144": 134841
+      },
+      "finishTime": {
+        "lambda-3072": 178130,
+        "lambda-4096": 181397,
+        "lambda-5120": 175740,
+        "lambda-6144": 170714
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr04.vcf",
+            "-L",
+            "Chr04",
+            "--variant",
+            "20180321-083514-USB-001_Chr04.vcf"
+          ]
+        },
+        "id": 31
+      },
+      "ins": [
+        1,
+        29,
+        3,
+        4,
+        5,
+        30,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        72,
+        73
+      ],
+      "startTime": {
+        "lambda-3072": 143563,
+        "lambda-4096": 145582,
+        "lambda-5120": 140726,
+        "lambda-6144": 134528
+      },
+      "finishTime": {
+        "lambda-3072": 178869,
+        "lambda-4096": 179552,
+        "lambda-5120": 176477,
+        "lambda-6144": 169413
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr05.vcf",
+            "-L",
+            "Chr05",
+            "--variant",
+            "20180321-083514-USB-001_Chr05.vcf"
+          ]
+        },
+        "id": 32
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        31,
+        10,
+        32,
+        11,
+        12
+      ],
+      "outs": [
+        74,
+        75
+      ],
+      "startTime": {
+        "lambda-3072": 143728,
+        "lambda-4096": 145523,
+        "lambda-5120": 139676,
+        "lambda-6144": 133241
+      },
+      "finishTime": {
+        "lambda-3072": 177869,
+        "lambda-4096": 179751,
+        "lambda-5120": 175291,
+        "lambda-6144": 169392
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr06.vcf",
+            "-L",
+            "Chr06",
+            "--variant",
+            "20180321-083514-USB-001_Chr06.vcf"
+          ]
+        },
+        "id": 33
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        33,
+        6,
+        7,
+        9,
+        34,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        76,
+        77
+      ],
+      "startTime": {
+        "lambda-3072": 144534,
+        "lambda-4096": 144341,
+        "lambda-5120": 140720,
+        "lambda-6144": 133670
+      },
+      "finishTime": {
+        "lambda-3072": 179722,
+        "lambda-4096": 179240,
+        "lambda-5120": 175314,
+        "lambda-6144": 169596
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr07.vcf",
+            "-L",
+            "Chr07",
+            "--variant",
+            "20180321-083514-USB-001_Chr07.vcf"
+          ]
+        },
+        "id": 34
+      },
+      "ins": [
+        1,
+        35,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        36,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        78,
+        79
+      ],
+      "startTime": {
+        "lambda-3072": 142793,
+        "lambda-4096": 145617,
+        "lambda-5120": 140830,
+        "lambda-6144": 134431
+      },
+      "finishTime": {
+        "lambda-3072": 177930,
+        "lambda-4096": 179690,
+        "lambda-5120": 174474,
+        "lambda-6144": 170449
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr08.vcf",
+            "-L",
+            "Chr08",
+            "--variant",
+            "20180321-083514-USB-001_Chr08.vcf"
+          ]
+        },
+        "id": 35
+      },
+      "ins": [
+        1,
+        37,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        38,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        80,
+        81
+      ],
+      "startTime": {
+        "lambda-3072": 142807,
+        "lambda-4096": 144600,
+        "lambda-5120": 140915,
+        "lambda-6144": 133992
+      },
+      "finishTime": {
+        "lambda-3072": 179114,
+        "lambda-4096": 179521,
+        "lambda-5120": 174474,
+        "lambda-6144": 168873
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr09.vcf",
+            "-L",
+            "Chr09",
+            "--variant",
+            "20180321-083514-USB-001_Chr09.vcf"
+          ]
+        },
+        "id": 36
+      },
+      "ins": [
+        1,
+        3,
+        40,
+        4,
+        5,
+        6,
+        7,
+        39,
+        9,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        82,
+        83
+      ],
+      "startTime": {
+        "lambda-3072": 143230,
+        "lambda-4096": 144450,
+        "lambda-5120": 140787,
+        "lambda-6144": 135071
+      },
+      "finishTime": {
+        "lambda-3072": 178293,
+        "lambda-4096": 178542,
+        "lambda-5120": 174913,
+        "lambda-6144": 170695
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr10.vcf",
+            "-L",
+            "Chr10",
+            "--variant",
+            "20180321-083514-USB-001_Chr10.vcf"
+          ]
+        },
+        "id": 37
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        41,
+        10,
+        42,
+        11,
+        12
+      ],
+      "outs": [
+        84,
+        85
+      ],
+      "startTime": {
+        "lambda-3072": 143983,
+        "lambda-4096": 145548,
+        "lambda-5120": 140784,
+        "lambda-6144": 133967
+      },
+      "finishTime": {
+        "lambda-3072": 187909,
+        "lambda-4096": 180604,
+        "lambda-5120": 175534,
+        "lambda-6144": 169870
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr11.vcf",
+            "-L",
+            "Chr11",
+            "--variant",
+            "20180321-083514-USB-001_Chr11.vcf"
+          ]
+        },
+        "id": 38
+      },
+      "ins": [
+        1,
+        43,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        44,
+        12
+      ],
+      "outs": [
+        86,
+        87
+      ],
+      "startTime": {
+        "lambda-3072": 142641,
+        "lambda-4096": 144400,
+        "lambda-5120": 140830,
+        "lambda-6144": 135336
+      },
+      "finishTime": {
+        "lambda-3072": 178795,
+        "lambda-4096": 178725,
+        "lambda-5120": 174419,
+        "lambda-6144": 173115
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr12.vcf",
+            "-L",
+            "Chr12",
+            "--variant",
+            "20180321-083514-USB-001_Chr12.vcf"
+          ]
+        },
+        "id": 39
+      },
+      "ins": [
+        1,
+        45,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        46,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        88,
+        89
+      ],
+      "startTime": {
+        "lambda-3072": 142752,
+        "lambda-4096": 145576,
+        "lambda-5120": 140853,
+        "lambda-6144": 134209
+      },
+      "finishTime": {
+        "lambda-3072": 178891,
+        "lambda-4096": 180734,
+        "lambda-5120": 175444,
+        "lambda-6144": 172247
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr13.vcf",
+            "-L",
+            "Chr13",
+            "--variant",
+            "20180321-083514-USB-001_Chr13.vcf"
+          ]
+        },
+        "id": 40
+      },
+      "ins": [
+        1,
+        47,
+        48,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        90,
+        91
+      ],
+      "startTime": {
+        "lambda-3072": 144894,
+        "lambda-4096": 145433,
+        "lambda-5120": 140895,
+        "lambda-6144": 137046
+      },
+      "finishTime": {
+        "lambda-3072": 181060,
+        "lambda-4096": 179423,
+        "lambda-5120": 175829,
+        "lambda-6144": 174030
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr14.vcf",
+            "-L",
+            "Chr14",
+            "--variant",
+            "20180321-083514-USB-001_Chr14.vcf"
+          ]
+        },
+        "id": 41
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        49,
+        6,
+        7,
+        9,
+        50,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        92,
+        93
+      ],
+      "startTime": {
+        "lambda-3072": 143820,
+        "lambda-4096": 154943,
+        "lambda-5120": 140854,
+        "lambda-6144": 135990
+      },
+      "finishTime": {
+        "lambda-3072": 179918,
+        "lambda-4096": 191344,
+        "lambda-5120": 175817,
+        "lambda-6144": 173038
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr15.vcf",
+            "-L",
+            "Chr15",
+            "--variant",
+            "20180321-083514-USB-001_Chr15.vcf"
+          ]
+        },
+        "id": 42
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        51,
+        10,
+        52,
+        11,
+        12
+      ],
+      "outs": [
+        94,
+        95
+      ],
+      "startTime": {
+        "lambda-3072": 143530,
+        "lambda-4096": 147379,
+        "lambda-5120": 140920,
+        "lambda-6144": 138411
+      },
+      "finishTime": {
+        "lambda-3072": 179789,
+        "lambda-4096": 183045,
+        "lambda-5120": 176103,
+        "lambda-6144": 173249
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr16.vcf",
+            "-L",
+            "Chr16",
+            "--variant",
+            "20180321-083514-USB-001_Chr16.vcf"
+          ]
+        },
+        "id": 43
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        53,
+        10,
+        11,
+        54,
+        12
+      ],
+      "outs": [
+        96,
+        97
+      ],
+      "startTime": {
+        "lambda-3072": 144028,
+        "lambda-4096": 146494,
+        "lambda-5120": 139666,
+        "lambda-6144": 137402
+      },
+      "finishTime": {
+        "lambda-3072": 180122,
+        "lambda-4096": 181214,
+        "lambda-5120": 174274,
+        "lambda-6144": 184454
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr17.vcf",
+            "-L",
+            "Chr17",
+            "--variant",
+            "20180321-083514-USB-001_Chr17.vcf"
+          ]
+        },
+        "id": 44
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        55,
+        56,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        98,
+        99
+      ],
+      "startTime": {
+        "lambda-3072": 142666,
+        "lambda-4096": 146535,
+        "lambda-5120": 139618,
+        "lambda-6144": 136384
+      },
+      "finishTime": {
+        "lambda-3072": 177892,
+        "lambda-4096": 182924,
+        "lambda-5120": 174619,
+        "lambda-6144": 171004
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr18.vcf",
+            "-L",
+            "Chr18",
+            "--variant",
+            "20180321-083514-USB-001_Chr18.vcf"
+          ]
+        },
+        "id": 45
+      },
+      "ins": [
+        1,
+        57,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        58,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        100,
+        101
+      ],
+      "startTime": {
+        "lambda-3072": 142603,
+        "lambda-4096": 146608,
+        "lambda-5120": 139619,
+        "lambda-6144": 137405
+      },
+      "finishTime": {
+        "lambda-3072": 177802,
+        "lambda-4096": 183196,
+        "lambda-5120": 174321,
+        "lambda-6144": 173481
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr19.vcf",
+            "-L",
+            "Chr19",
+            "--variant",
+            "20180321-083514-USB-001_Chr19.vcf"
+          ]
+        },
+        "id": 46
+      },
+      "ins": [
+        1,
+        3,
+        59,
+        4,
+        5,
+        6,
+        7,
+        9,
+        60,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        102,
+        103
+      ],
+      "startTime": {
+        "lambda-3072": 143014,
+        "lambda-4096": 146628,
+        "lambda-5120": 139682,
+        "lambda-6144": 138417
+      },
+      "finishTime": {
+        "lambda-3072": 177951,
+        "lambda-4096": 181678,
+        "lambda-5120": 174438,
+        "lambda-6144": 174392
+      }
+    },
+    {
+      "name": "genotype_gvcfs",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "GenotypeGVCFs",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-GVCF_Chr20.vcf",
+            "-L",
+            "Chr20",
+            "--variant",
+            "20180321-083514-USB-001_Chr20.vcf"
+          ]
+        },
+        "id": 47
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        61,
+        6,
+        7,
+        9,
+        62,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        104,
+        105
+      ],
+      "startTime": {
+        "lambda-3072": 142655,
+        "lambda-4096": 146677,
+        "lambda-5120": 139865,
+        "lambda-6144": 134945
+      },
+      "finishTime": {
+        "lambda-3072": 178759,
+        "lambda-4096": 182231,
+        "lambda-5120": 175495,
+        "lambda-6144": 170843
+      }
+    },
+    {
+      "name": "combine_variants",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "CombineVariants",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-o",
+            "20180321-083514-All.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr01.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr02.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr03.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr04.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr05.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr06.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr07.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr08.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr09.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr10.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr11.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr12.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr13.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr14.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr15.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr16.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr17.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr18.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr19.vcf",
+            "--variant",
+            "20180321-083514-GVCF_Chr20.vcf"
+          ]
+        },
+        "id": 48
+      },
+      "ins": [
+        105,
+        4,
+        6,
+        73,
+        68,
+        9,
+        81,
+        74,
+        70,
+        11,
+        69,
+        78,
+        103,
+        98,
+        95,
+        104,
+        94,
+        91,
+        100,
+        71,
+        10,
+        79,
+        90,
+        102,
+        92,
+        67,
+        3,
+        88,
+        84,
+        5,
+        96,
+        85,
+        76,
+        77,
+        82,
+        80,
+        83,
+        86,
+        12,
+        1,
+        66,
+        93,
+        7,
+        97,
+        99,
+        89,
+        101,
+        72,
+        87,
+        75
+      ],
+      "outs": [
+        106,
+        107
+      ],
+      "startTime": {
+        "lambda-3072": 193926,
+        "lambda-4096": 191502,
+        "lambda-5120": 177056,
+        "lambda-6144": 185965
+      },
+      "finishTime": {
+        "lambda-3072": 230840,
+        "lambda-4096": 227286,
+        "lambda-5120": 211914,
+        "lambda-6144": 219926
+      }
+    },
+    {
+      "name": "select_variants_snp",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "SelectVariants",
+            "-nt",
+            "2",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-selectType",
+            "SNP",
+            "-V",
+            "20180321-083514-All.vcf",
+            "-o",
+            "20180321-083514-All.vcf_snp_only.vcf"
+          ]
+        },
+        "id": 49
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        106,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        108
+      ],
+      "startTime": {
+        "lambda-3072": 230849,
+        "lambda-4096": 227293,
+        "lambda-5120": 211919,
+        "lambda-6144": 219934
+      },
+      "finishTime": {
+        "lambda-3072": 265828,
+        "lambda-4096": 263099,
+        "lambda-5120": 248733,
+        "lambda-6144": 254930
+      }
+    },
+    {
+      "name": "filtering_snp",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "VariantFiltration",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-V",
+            "20180321-083514-All.vcf_snp_only.vcf",
+            "--filterExpression",
+            "QD < 2.0 || FS > 60.0 || MQ < 40.0 || Haplotypescore > 20.0",
+            "--filterName",
+            "my_snp_filter",
+            "-o",
+            "20180321-083514-All_filtered_snp.vcf"
+          ]
+        },
+        "id": 50
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        108,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        109,
+        110
+      ],
+      "startTime": {
+        "lambda-3072": 265840,
+        "lambda-4096": 263105,
+        "lambda-5120": 248738,
+        "lambda-6144": 254935
+      },
+      "finishTime": {
+        "lambda-3072": 303665,
+        "lambda-4096": 297924,
+        "lambda-5120": 283869,
+        "lambda-6144": 288191
+      }
+    },
+    {
+      "name": "select_variants_indel",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "SelectVariants",
+            "-nt",
+            "2",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-selectType",
+            "INDEL",
+            "-V",
+            "20180321-083514-All.vcf",
+            "-o",
+            "20180321-083514-All.vcf_indel_only.vcf"
+          ]
+        },
+        "id": 51
+      },
+      "ins": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        106,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        111
+      ],
+      "startTime": {
+        "lambda-3072": 230852,
+        "lambda-4096": 227295,
+        "lambda-5120": 211921,
+        "lambda-6144": 219937
+      },
+      "finishTime": {
+        "lambda-3072": 268012,
+        "lambda-4096": 263116,
+        "lambda-5120": 248742,
+        "lambda-6144": 253888
+      }
+    },
+    {
+      "name": "filtering_indel",
+      "function": "awsLambdaCommand",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "config": {
+        "executor": {
+          "executable": "gatk-wrapper",
+          "args": [
+            "-T",
+            "VariantFiltration",
+            "-R",
+            "Gmax_275_v2.0.fa",
+            "-V",
+            "20180321-083514-All.vcf_indel_only.vcf",
+            "--filterExpression",
+            "QD < 2.0 || FS > 200.0 || MQ < 40 || Haplotypescore > 20.0",
+            "--filterName",
+            "my_indel_filter",
+            "-o",
+            "20180321-083514-All_filtered_indel.vcf"
+          ]
+        },
+        "id": 52
+      },
+      "ins": [
+        1,
+        111,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12
+      ],
+      "outs": [
+        112,
+        113
+      ],
+      "startTime": {
+        "lambda-3072": 268019,
+        "lambda-4096": 263122,
+        "lambda-5120": 248748,
+        "lambda-6144": 253895
+      },
+      "finishTime": {
+        "lambda-3072": 304752,
+        "lambda-4096": 299083,
+        "lambda-5120": 285738,
+        "lambda-6144": 287014
+      }
+    }
+  ],
+  "signals": [
+    {
+      "name": "software.tar.gz",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "Gmax_275_v2.0.fa.sa",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "USB-001_2.fastq",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "Gmax_275_v2.0.fa",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "Gmax_275_v2.0.fa.amb",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "Gmax_275_v2.0.fa.bwt",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "Gmax_275_v2.0.fa.ann",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "Gmax_275_v2.0.fa.pac",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "USB-001_1.fastq",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "chromosome.txt",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "software.tar.gz",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "Gmax_275_v2.0.dict",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "Gmax_275_v2.0.fa.fai",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "20180321-083514-USB-001_aligned_reads.sam"
+    },
+    {
+      "name": "20180321-083514-USB-001_sorted_reads.bai"
+    },
+    {
+      "name": "20180321-083514-USB-001_sorted_reads.bam"
+    },
+    {
+      "name": "20180321-083514-USB-001_deduped_reads.bam"
+    },
+    {
+      "name": "20180321-083514-USB-001_deduped_reads.bai"
+    },
+    {
+      "name": "20180321-083514-USB-001_addrepl.bam"
+    },
+    {
+      "name": "20180321-083514-USB-001_addrepl.bai"
+    },
+    {
+      "name": "20180321-083514-USB-001_intervals.list"
+    },
+    {
+      "name": "20180321-083514-USB-001_indel_realigned.bam"
+    },
+    {
+      "name": "20180321-083514-USB-001_indel_realigned.bai"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr01.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr01.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr02.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr02.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr03.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr03.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr04.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr04.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr05.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr05.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr06.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr06.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr07.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr07.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr08.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr08.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr09.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr09.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr10.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr10.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr11.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr11.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr12.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr12.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr13.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr13.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr14.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr14.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr15.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr15.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr16.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr16.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr17.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr17.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr18.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr18.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr19.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr19.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr20.vcf"
+    },
+    {
+      "name": "20180321-083514-USB-001_Chr20.vcf.idx"
+    },
+    {
+      "name": "haplotype-files.list",
+      "data": [
+        {}
+      ]
+    },
+    {
+      "name": "20180321-083514-mergeGVCF.vcf"
+    },
+    {
+      "name": "20180321-083514-mergeGVCF.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr01.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr01.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr02.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr02.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr03.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr03.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr04.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr04.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr05.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr05.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr06.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr06.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr07.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr07.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr08.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr08.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr09.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr09.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr10.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr10.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr11.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr11.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr12.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr12.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr13.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr13.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr14.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr14.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr15.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr15.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr16.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr16.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr17.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr17.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr18.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr18.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr19.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr19.vcf"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr20.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-GVCF_Chr20.vcf"
+    },
+    {
+      "name": "20180321-083514-All.vcf"
+    },
+    {
+      "name": "20180321-083514-All.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-All.vcf_snp_only.vcf"
+    },
+    {
+      "name": "20180321-083514-All_filtered_snp.vcf"
+    },
+    {
+      "name": "20180321-083514-All_filtered_snp.vcf.idx"
+    },
+    {
+      "name": "20180321-083514-All.vcf_indel_only.vcf"
+    },
+    {
+      "name": "20180321-083514-All_filtered_indel.vcf"
+    },
+    {
+      "name": "20180321-083514-All_filtered_indel.vcf.idx"
+    }
+  ]
+}

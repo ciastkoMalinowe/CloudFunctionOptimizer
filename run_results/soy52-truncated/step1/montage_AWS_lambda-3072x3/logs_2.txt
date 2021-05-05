@@ -1,0 +1,1492 @@
+hfid: 6kCFgo60L
+Done processing workflow JSON.
+createInstance time: 53ms
+Wf id=1336
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"bwa-wrapper","args":["mem","-t","2","-M","Gmax_275_v2.0.fa","USB-001_1.fastq","USB-001_2.fastq"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"USB-001_2.fastq","_id":3,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"USB-001_1.fastq","_id":9,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_aligned_reads.sam"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":1},"stdout":"20180321-083514-USB-001_aligned_reads.sam","logName":"6i5j182y.nw5"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618284899594,
+  end: 1618284920380,
+  duration: 20786,
+  downloading_duration: 0,
+  execution_duration: 20758,
+  uploading_duration: 0,
+  executable: 'bwa-wrapper',
+  args: [
+    'mem',
+    '-t',
+    '2',
+    '-M',
+    'Gmax_275_v2.0.fa',
+    'USB-001_1.fastq',
+    'USB-001_2.fastq'
+  ]
+}
+Response: {"start":1618284899594,"end":1618284920380,"duration":20786,"downloading_duration":0,"execution_duration":20758,"uploading_duration":0,"executable":"bwa-wrapper","args":["mem","-t","2","-M","Gmax_275_v2.0.fa","USB-001_1.fastq","USB-001_2.fastq"],"id":1,"resource":"lambda-3072","request_start":1618284899251,"request_end":1618284921526,"request_duration":22275,"type":"lambda-3072"}
+Lambda task: bwa-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"picard-wrapper","args":["SortSam.jar","CREATE_INDEX=TRUE","MAX_RECORDS_IN_RAM=5000000","TMP_DIR=/mnt/montage","I=20180321-083514-USB-001_aligned_reads.sam","O=20180321-083514-USB-001_sorted_reads.bam","SO=coordinate","VALIDATION_STRINGENCY=LENIENT"],"env":{},"inputs":[{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_aligned_reads.sam","_id":14,"source":1,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_sorted_reads.bai"},{"name":"20180321-083514-USB-001_sorted_reads.bam"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":2},"logName":"5nqyx875.2sm"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618284921889,
+  end: 1618284922359,
+  duration: 470,
+  downloading_duration: 0,
+  execution_duration: 470,
+  uploading_duration: 0,
+  executable: 'picard-wrapper',
+  args: [
+    'SortSam.jar',
+    'CREATE_INDEX=TRUE',
+    'MAX_RECORDS_IN_RAM=5000000',
+    'TMP_DIR=/mnt/montage',
+    'I=20180321-083514-USB-001_aligned_reads.sam',
+    'O=20180321-083514-USB-001_sorted_reads.bam',
+    'SO=coordinate',
+    'VALIDATION_STRINGENCY=LENIENT'
+  ]
+}
+Response: {"start":1618284921889,"end":1618284922359,"duration":470,"downloading_duration":0,"execution_duration":470,"uploading_duration":0,"executable":"picard-wrapper","args":["SortSam.jar","CREATE_INDEX=TRUE","MAX_RECORDS_IN_RAM=5000000","TMP_DIR=/mnt/montage","I=20180321-083514-USB-001_aligned_reads.sam","O=20180321-083514-USB-001_sorted_reads.bam","SO=coordinate","VALIDATION_STRINGENCY=LENIENT"],"id":2,"resource":"lambda-3072","request_start":1618284921537,"request_end":1618284927500,"request_duration":5963,"type":"lambda-3072"}
+Lambda task: picard-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"picard-wrapper","args":["MarkDuplicates.jar","CREATE_INDEX=TRUE","MAX_RECORDS_IN_RAM=5000000","TMP_DIR=/mnt/montage","I=20180321-083514-USB-001_sorted_reads.bam","O=20180321-083514-USB-001_deduped_reads.bam","METRICS_FILE=20180321-083514-USB-001_deduped.metrics","VALIDATION_STRINGENCY=LENIENT"],"env":{},"inputs":[{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_sorted_reads.bai","_id":15,"source":2,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_sorted_reads.bam","_id":16,"source":2,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_deduped_reads.bam"},{"name":"20180321-083514-USB-001_deduped_reads.bai"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":3},"logName":"ce5xp49g.zno"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618284927800,
+  end: 1618284929067,
+  duration: 1267,
+  downloading_duration: 0,
+  execution_duration: 1267,
+  uploading_duration: 0,
+  executable: 'picard-wrapper',
+  args: [
+    'MarkDuplicates.jar',
+    'CREATE_INDEX=TRUE',
+    'MAX_RECORDS_IN_RAM=5000000',
+    'TMP_DIR=/mnt/montage',
+    'I=20180321-083514-USB-001_sorted_reads.bam',
+    'O=20180321-083514-USB-001_deduped_reads.bam',
+    'METRICS_FILE=20180321-083514-USB-001_deduped.metrics',
+    'VALIDATION_STRINGENCY=LENIENT'
+  ]
+}
+Response: {"start":1618284927800,"end":1618284929067,"duration":1267,"downloading_duration":0,"execution_duration":1267,"uploading_duration":0,"executable":"picard-wrapper","args":["MarkDuplicates.jar","CREATE_INDEX=TRUE","MAX_RECORDS_IN_RAM=5000000","TMP_DIR=/mnt/montage","I=20180321-083514-USB-001_sorted_reads.bam","O=20180321-083514-USB-001_deduped_reads.bam","METRICS_FILE=20180321-083514-USB-001_deduped.metrics","VALIDATION_STRINGENCY=LENIENT"],"id":3,"resource":"lambda-3072","request_start":1618284927509,"request_end":1618284933401,"request_duration":5892,"type":"lambda-3072"}
+Lambda task: picard-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"picard-wrapper","args":["AddOrReplaceReadGroups.jar","MAX_RECORDS_IN_RAM=5000000","TMP_DIR=/mnt/montage","I=20180321-083514-USB-001_deduped_reads.bam","O=20180321-083514-USB-001_addrepl.bam","RGID=USB-001","LB=USB-001","PL=Illumina","SM=USB-001","CN=BGI","RGPU=USB-001","VALIDATION_STRINGENCY=LENIENT","SORT_ORDER=coordinate","CREATE_INDEX=TRUE"],"env":{},"inputs":[{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_deduped_reads.bam","_id":17,"source":3,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_deduped_reads.bai","_id":18,"source":3,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_addrepl.bam"},{"name":"20180321-083514-USB-001_addrepl.bai"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":4},"logName":"av4gkdgo.6mf"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618284933663,
+  end: 1618284934165,
+  duration: 502,
+  downloading_duration: 0,
+  execution_duration: 502,
+  uploading_duration: 0,
+  executable: 'picard-wrapper',
+  args: [
+    'AddOrReplaceReadGroups.jar',
+    'MAX_RECORDS_IN_RAM=5000000',
+    'TMP_DIR=/mnt/montage',
+    'I=20180321-083514-USB-001_deduped_reads.bam',
+    'O=20180321-083514-USB-001_addrepl.bam',
+    'RGID=USB-001',
+    'LB=USB-001',
+    'PL=Illumina',
+    'SM=USB-001',
+    'CN=BGI',
+    'RGPU=USB-001',
+    'VALIDATION_STRINGENCY=LENIENT',
+    'SORT_ORDER=coordinate',
+    'CREATE_INDEX=TRUE'
+  ]
+}
+Response: {"start":1618284933663,"end":1618284934165,"duration":502,"downloading_duration":0,"execution_duration":502,"uploading_duration":0,"executable":"picard-wrapper","args":["AddOrReplaceReadGroups.jar","MAX_RECORDS_IN_RAM=5000000","TMP_DIR=/mnt/montage","I=20180321-083514-USB-001_deduped_reads.bam","O=20180321-083514-USB-001_addrepl.bam","RGID=USB-001","LB=USB-001","PL=Illumina","SM=USB-001","CN=BGI","RGPU=USB-001","VALIDATION_STRINGENCY=LENIENT","SORT_ORDER=coordinate","CREATE_INDEX=TRUE"],"id":4,"resource":"lambda-3072","request_start":1618284933410,"request_end":1618284939288,"request_duration":5878,"type":"lambda-3072"}
+Lambda task: picard-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","RealignerTargetCreator","-nt","2","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_addrepl.bam","-o","20180321-083514-USB-001_intervals.list"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_addrepl.bam","_id":19,"source":4,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_addrepl.bai","_id":20,"source":4,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_intervals.list"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":5},"logName":"7ivpk73.8ipj"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618284939544,
+  end: 1618285123306,
+  duration: 183762,
+  downloading_duration: 0,
+  execution_duration: 183762,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'RealignerTargetCreator',
+    '-nt',
+    '2',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_addrepl.bam',
+    '-o',
+    '20180321-083514-USB-001_intervals.list'
+  ]
+}
+Response: {"start":1618284939544,"end":1618285123306,"duration":183762,"downloading_duration":0,"execution_duration":183762,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","RealignerTargetCreator","-nt","2","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_addrepl.bam","-o","20180321-083514-USB-001_intervals.list"],"id":5,"resource":"lambda-3072","request_start":1618284939307,"request_end":1618285127274,"request_duration":187967,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","IndelRealigner","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_addrepl.bam","-targetIntervals","20180321-083514-USB-001_intervals.list","-o","20180321-083514-USB-001_indel_realigned.bam"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_addrepl.bam","_id":19,"source":4,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_addrepl.bai","_id":20,"source":4,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_intervals.list","_id":21,"source":5,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_indel_realigned.bam"},{"name":"20180321-083514-USB-001_indel_realigned.bai"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":6},"logName":"7j2wpa4v.wso"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285127625,
+  end: 1618285161015,
+  duration: 33390,
+  downloading_duration: 0,
+  execution_duration: 33390,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'IndelRealigner',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_addrepl.bam',
+    '-targetIntervals',
+    '20180321-083514-USB-001_intervals.list',
+    '-o',
+    '20180321-083514-USB-001_indel_realigned.bam'
+  ]
+}
+Response: {"start":1618285127625,"end":1618285161015,"duration":33390,"downloading_duration":0,"execution_duration":33390,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","IndelRealigner","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_addrepl.bam","-targetIntervals","20180321-083514-USB-001_intervals.list","-o","20180321-083514-USB-001_indel_realigned.bam"],"id":6,"resource":"lambda-3072","request_start":1618285127284,"request_end":1618285165103,"request_duration":37819,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr04","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr04.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr04.vcf"},{"name":"20180321-083514-USB-001_Chr04.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":10},"logName":"55z1ylr5.e2i"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr05","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr05.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr05.vcf.idx"},{"name":"20180321-083514-USB-001_Chr05.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":11},"logName":"c2hy0mqc.6lb"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr06","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr06.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr06.vcf"},{"name":"20180321-083514-USB-001_Chr06.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":12},"logName":"285gvbda.313"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr07","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr07.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr07.vcf"},{"name":"20180321-083514-USB-001_Chr07.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":13},"logName":"6j8r8g10.a5s"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr08","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr08.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr08.vcf.idx"},{"name":"20180321-083514-USB-001_Chr08.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":14},"logName":"9w4pdyr9.kbd"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr09","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr09.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr09.vcf.idx"},{"name":"20180321-083514-USB-001_Chr09.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":15},"logName":"7dxhldr4.2ru"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr10","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr10.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr10.vcf"},{"name":"20180321-083514-USB-001_Chr10.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":16},"logName":"1jzbwqsg.hqr"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr11","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr11.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr11.vcf"},{"name":"20180321-083514-USB-001_Chr11.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":17},"logName":"917je16s.ygs"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr12","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr12.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr12.vcf.idx"},{"name":"20180321-083514-USB-001_Chr12.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":18},"logName":"ajhuy2u.crak"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr13","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr13.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr13.vcf"},{"name":"20180321-083514-USB-001_Chr13.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":19},"logName":"bpmdkl15.cp7"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr14","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr14.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr14.vcf"},{"name":"20180321-083514-USB-001_Chr14.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":20},"logName":"cdkfuepq.nth"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr15","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr15.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr15.vcf"},{"name":"20180321-083514-USB-001_Chr15.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":21},"logName":"13mwvmpw.pkn"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr16","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr16.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr16.vcf"},{"name":"20180321-083514-USB-001_Chr16.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":22},"logName":"1el5i006.7x1j"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr17","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr17.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr17.vcf.idx"},{"name":"20180321-083514-USB-001_Chr17.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":23},"logName":"cffrdzf1.pxv"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr18","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr18.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr18.vcf.idx"},{"name":"20180321-083514-USB-001_Chr18.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":24},"logName":"9lqwlkmm.tvb"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr19","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr19.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr19.vcf.idx"},{"name":"20180321-083514-USB-001_Chr19.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":25},"logName":"cipil7ag.q7"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr20","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr20.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr20.vcf"},{"name":"20180321-083514-USB-001_Chr20.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":26},"logName":"7d8nowa4.4g4"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr01","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr01.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr01.vcf.idx"},{"name":"20180321-083514-USB-001_Chr01.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":7},"logName":"7v7pmwne.x6l"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr02","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr02.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr02.vcf.idx"},{"name":"20180321-083514-USB-001_Chr02.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":8},"logName":"2c0d8m0x.0yu"}@aws-executor-montage-dev-aws-executor-3072
+Executing: {"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr03","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr03.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bam","_id":22,"source":6,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_indel_realigned.bai","_id":23,"source":6,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-USB-001_Chr03.vcf"},{"name":"20180321-083514-USB-001_Chr03.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":9},"logName":"ca0zlc1w.83k"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285165468,
+  end: 1618285234602,
+  duration: 69134,
+  downloading_duration: 0,
+  execution_duration: 69133,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr05',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr05.vcf'
+  ]
+}
+Response: {"start":1618285165468,"end":1618285234602,"duration":69134,"downloading_duration":0,"execution_duration":69133,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr05","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr05.vcf"],"id":11,"resource":"lambda-3072","request_start":1618285165149,"request_end":1618285235051,"request_duration":69902,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr05.vcf","-L","Chr05","--variant","20180321-083514-USB-001_Chr05.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr05.vcf.idx","_id":32,"source":11,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr05.vcf","_id":33,"source":11,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr05.vcf"},{"name":"20180321-083514-GVCF_Chr05.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":32},"logName":"1pzv0ddx.0ng"}@aws-executor-montage-dev-aws-executor-3072
+{
+  start: 1618285167271,
+  end: 1618285233816,
+  duration: 66545,
+  downloading_duration: 0,
+  execution_duration: 66545,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr11',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr11.vcf'
+  ]
+}
+Response: {"start":1618285167271,"end":1618285233816,"duration":66545,"downloading_duration":0,"execution_duration":66545,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr11","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr11.vcf"],"id":17,"resource":"lambda-3072","request_start":1618285165161,"request_end":1618285235068,"request_duration":69907,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr11.vcf","-L","Chr11","--variant","20180321-083514-USB-001_Chr11.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr11.vcf","_id":44,"source":17,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr11.vcf.idx","_id":45,"source":17,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr11.vcf"},{"name":"20180321-083514-GVCF_Chr11.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":38},"logName":"39tonhjq.lg3"}@aws-executor-montage-dev-aws-executor-3072
+{
+  start: 1618285167465,
+  end: 1618285234975,
+  duration: 67510,
+  downloading_duration: 0,
+  execution_duration: 67510,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr16',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr16.vcf'
+  ]
+}
+Response: {"start":1618285167465,"end":1618285234975,"duration":67510,"downloading_duration":0,"execution_duration":67510,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr16","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr16.vcf"],"id":22,"resource":"lambda-3072","request_start":1618285165172,"request_end":1618285235174,"request_duration":70002,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr16.vcf","-L","Chr16","--variant","20180321-083514-USB-001_Chr16.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr16.vcf","_id":54,"source":22,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr16.vcf.idx","_id":55,"source":22,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr16.vcf"},{"name":"20180321-083514-GVCF_Chr16.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":43},"logName":"b8avymge.tw4"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285165513,
+  end: 1618285237088,
+  duration: 71575,
+  downloading_duration: 0,
+  execution_duration: 71575,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr07',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr07.vcf'
+  ]
+}
+Response: {"start":1618285165513,"end":1618285237088,"duration":71575,"downloading_duration":0,"execution_duration":71575,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr07","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr07.vcf"],"id":13,"resource":"lambda-3072","request_start":1618285165154,"request_end":1618285240033,"request_duration":74879,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr07.vcf","-L","Chr07","--variant","20180321-083514-USB-001_Chr07.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr07.vcf","_id":36,"source":13,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr07.vcf.idx","_id":37,"source":13,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr07.vcf.idx"},{"name":"20180321-083514-GVCF_Chr07.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":34},"logName":"6xnf5b9f.8j8"}@aws-executor-montage-dev-aws-executor-3072
+{
+  start: 1618285167474,
+  end: 1618285239019,
+  duration: 71545,
+  downloading_duration: 0,
+  execution_duration: 71544,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr12',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr12.vcf'
+  ]
+}
+Response: {"start":1618285167474,"end":1618285239019,"duration":71545,"downloading_duration":0,"execution_duration":71544,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr12","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr12.vcf"],"id":18,"resource":"lambda-3072","request_start":1618285165163,"request_end":1618285240209,"request_duration":75046,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr12.vcf","-L","Chr12","--variant","20180321-083514-USB-001_Chr12.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr12.vcf.idx","_id":46,"source":18,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr12.vcf","_id":47,"source":18,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr12.vcf.idx"},{"name":"20180321-083514-GVCF_Chr12.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":39},"logName":"c42x1844.xz8"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285167482,
+  end: 1618285237968,
+  duration: 70486,
+  downloading_duration: 0,
+  execution_duration: 70486,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr17',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr17.vcf'
+  ]
+}
+Response: {"start":1618285167482,"end":1618285237968,"duration":70486,"downloading_duration":0,"execution_duration":70486,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr17","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr17.vcf"],"id":23,"resource":"lambda-3072","request_start":1618285165174,"request_end":1618285240496,"request_duration":75322,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{ StatusCode: 202, Payload: '' }
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr17.vcf","-L","Chr17","--variant","20180321-083514-USB-001_Chr17.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr17.vcf.idx","_id":56,"source":23,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr17.vcf","_id":57,"source":23,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr17.vcf"},{"name":"20180321-083514-GVCF_Chr17.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":44},"logName":"1h9f7wfs.91m"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285165525,
+  end: 1618285244453,
+  duration: 78928,
+  downloading_duration: 0,
+  execution_duration: 78928,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr09',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr09.vcf'
+  ]
+}
+Response: {"start":1618285165525,"end":1618285244453,"duration":78928,"downloading_duration":0,"execution_duration":78928,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr09","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr09.vcf"],"id":15,"resource":"lambda-3072","request_start":1618285165158,"request_end":1618285245381,"request_duration":80223,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285165505,
+  end: 1618285240135,
+  duration: 74630,
+  downloading_duration: 0,
+  execution_duration: 74630,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr08',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr08.vcf'
+  ]
+}
+Response: {"start":1618285165505,"end":1618285240135,"duration":74630,"downloading_duration":0,"execution_duration":74630,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr08","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr08.vcf"],"id":14,"resource":"lambda-3072","request_start":1618285165156,"request_end":1618285245392,"request_duration":80236,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285165489,
+  end: 1618285244181,
+  duration: 78692,
+  downloading_duration: 0,
+  execution_duration: 78692,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr06',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr06.vcf'
+  ]
+}
+Response: {"start":1618285165489,"end":1618285244181,"duration":78692,"downloading_duration":0,"execution_duration":78692,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr06","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr06.vcf"],"id":12,"resource":"lambda-3072","request_start":1618285165152,"request_end":1618285245394,"request_duration":80242,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr09.vcf","-L","Chr09","--variant","20180321-083514-USB-001_Chr09.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr09.vcf.idx","_id":40,"source":15,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr09.vcf","_id":41,"source":15,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr09.vcf"},{"name":"20180321-083514-GVCF_Chr09.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":36},"logName":"49z1wd62.vi9"}@aws-executor-montage-dev-aws-executor-3072
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr08.vcf","-L","Chr08","--variant","20180321-083514-USB-001_Chr08.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr08.vcf.idx","_id":38,"source":14,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr08.vcf","_id":39,"source":14,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr08.vcf"},{"name":"20180321-083514-GVCF_Chr08.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":35},"logName":"cgrk4d35.14t"}@aws-executor-montage-dev-aws-executor-3072
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr06.vcf","-L","Chr06","--variant","20180321-083514-USB-001_Chr06.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr06.vcf","_id":34,"source":12,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr06.vcf.idx","_id":35,"source":12,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr06.vcf.idx"},{"name":"20180321-083514-GVCF_Chr06.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":33},"logName":"b4qkxvcv.yq4"}@aws-executor-montage-dev-aws-executor-3072
+{
+  start: 1618285165477,
+  end: 1618285245346,
+  duration: 79869,
+  downloading_duration: 0,
+  execution_duration: 79869,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr04',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr04.vcf'
+  ]
+}
+Response: {"start":1618285165477,"end":1618285245346,"duration":79869,"downloading_duration":0,"execution_duration":79869,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr04","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr04.vcf"],"id":10,"resource":"lambda-3072","request_start":1618285165147,"request_end":1618285245513,"request_duration":80366,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr04.vcf","-L","Chr04","--variant","20180321-083514-USB-001_Chr04.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr04.vcf","_id":30,"source":10,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr04.vcf.idx","_id":31,"source":10,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr04.vcf"},{"name":"20180321-083514-GVCF_Chr04.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":31},"logName":"8j5wdc92.x7p"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285167192,
+  end: 1618285245174,
+  duration: 77982,
+  downloading_duration: 0,
+  execution_duration: 77982,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr14',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr14.vcf'
+  ]
+}
+Response: {"start":1618285167192,"end":1618285245174,"duration":77982,"downloading_duration":0,"execution_duration":77982,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr14","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr14.vcf"],"id":20,"resource":"lambda-3072","request_start":1618285165168,"request_end":1618285245741,"request_duration":80573,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr14.vcf","-L","Chr14","--variant","20180321-083514-USB-001_Chr14.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr14.vcf","_id":50,"source":20,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr14.vcf.idx","_id":51,"source":20,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr14.vcf.idx"},{"name":"20180321-083514-GVCF_Chr14.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":41},"logName":"9qtuk23a.yd5"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285167097,
+  end: 1618285241350,
+  duration: 74253,
+  downloading_duration: 0,
+  execution_duration: 74253,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr13',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr13.vcf'
+  ]
+}
+Response: {"start":1618285167097,"end":1618285241350,"duration":74253,"downloading_duration":0,"execution_duration":74253,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr13","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr13.vcf"],"id":19,"resource":"lambda-3072","request_start":1618285165165,"request_end":1618285245788,"request_duration":80623,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr13.vcf","-L","Chr13","--variant","20180321-083514-USB-001_Chr13.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr13.vcf","_id":48,"source":19,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr13.vcf.idx","_id":49,"source":19,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr13.vcf"},{"name":"20180321-083514-GVCF_Chr13.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":40},"logName":"b3qheyta.mw3"}@aws-executor-montage-dev-aws-executor-3072
+{
+  start: 1618285167674,
+  end: 1618285244381,
+  duration: 76707,
+  downloading_duration: 0,
+  execution_duration: 76707,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr20',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr20.vcf'
+  ]
+}
+Response: {"start":1618285167674,"end":1618285244381,"duration":76707,"downloading_duration":0,"execution_duration":76707,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr20","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr20.vcf"],"id":26,"resource":"lambda-3072","request_start":1618285165180,"request_end":1618285245858,"request_duration":80678,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr20.vcf","-L","Chr20","--variant","20180321-083514-USB-001_Chr20.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr20.vcf","_id":62,"source":26,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr20.vcf.idx","_id":63,"source":26,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr20.vcf.idx"},{"name":"20180321-083514-GVCF_Chr20.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":47},"logName":"bz2h4bvh.vch"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285167593,
+  end: 1618285243361,
+  duration: 75768,
+  downloading_duration: 0,
+  execution_duration: 75768,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr03',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr03.vcf'
+  ]
+}
+Response: {"start":1618285167593,"end":1618285243361,"duration":75768,"downloading_duration":0,"execution_duration":75768,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr03","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr03.vcf"],"id":9,"resource":"lambda-3072","request_start":1618285165188,"request_end":1618285246366,"request_duration":81178,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr03.vcf","-L","Chr03","--variant","20180321-083514-USB-001_Chr03.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr03.vcf","_id":28,"source":9,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr03.vcf.idx","_id":29,"source":9,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr03.vcf"},{"name":"20180321-083514-GVCF_Chr03.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":30},"logName":"7x885oqc.936"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285167175,
+  end: 1618285247109,
+  duration: 79934,
+  downloading_duration: 0,
+  execution_duration: 79934,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr10',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr10.vcf'
+  ]
+}
+Response: {"start":1618285167175,"end":1618285247109,"duration":79934,"downloading_duration":0,"execution_duration":79934,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr10","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr10.vcf"],"id":16,"resource":"lambda-3072","request_start":1618285165160,"request_end":1618285251089,"request_duration":85929,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr10.vcf","-L","Chr10","--variant","20180321-083514-USB-001_Chr10.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr10.vcf","_id":42,"source":16,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr10.vcf.idx","_id":43,"source":16,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr10.vcf"},{"name":"20180321-083514-GVCF_Chr10.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":37},"logName":"7u41y2x2.anh"}@aws-executor-montage-dev-aws-executor-3072
+{
+  start: 1618285167657,
+  end: 1618285250172,
+  duration: 82515,
+  downloading_duration: 0,
+  execution_duration: 82515,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr15',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr15.vcf'
+  ]
+}
+Response: {"start":1618285167657,"end":1618285250172,"duration":82515,"downloading_duration":0,"execution_duration":82515,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr15","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr15.vcf"],"id":21,"resource":"lambda-3072","request_start":1618285165170,"request_end":1618285251126,"request_duration":85956,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr15.vcf","-L","Chr15","--variant","20180321-083514-USB-001_Chr15.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr15.vcf","_id":52,"source":21,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr15.vcf.idx","_id":53,"source":21,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr15.vcf.idx"},{"name":"20180321-083514-GVCF_Chr15.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":42},"logName":"171gmdxr.f2bj"}@aws-executor-montage-dev-aws-executor-3072
+{
+  start: 1618285167552,
+  end: 1618285246146,
+  duration: 78594,
+  downloading_duration: 0,
+  execution_duration: 78594,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr19',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr19.vcf'
+  ]
+}
+Response: {"start":1618285167552,"end":1618285246146,"duration":78594,"downloading_duration":0,"execution_duration":78594,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr19","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr19.vcf"],"id":25,"resource":"lambda-3072","request_start":1618285165179,"request_end":1618285251157,"request_duration":85978,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr19.vcf","-L","Chr19","--variant","20180321-083514-USB-001_Chr19.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr19.vcf.idx","_id":60,"source":25,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr19.vcf","_id":61,"source":25,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr19.vcf.idx"},{"name":"20180321-083514-GVCF_Chr19.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":46},"logName":"zfs6nhr.y3n"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285167603,
+  end: 1618285246289,
+  duration: 78686,
+  downloading_duration: 0,
+  execution_duration: 78686,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr02',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr02.vcf'
+  ]
+}
+Response: {"start":1618285167603,"end":1618285246289,"duration":78686,"downloading_duration":0,"execution_duration":78686,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr02","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr02.vcf"],"id":8,"resource":"lambda-3072","request_start":1618285165184,"request_end":1618285251693,"request_duration":86509,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr02.vcf","-L","Chr02","--variant","20180321-083514-USB-001_Chr02.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr02.vcf.idx","_id":26,"source":8,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr02.vcf","_id":27,"source":8,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr02.vcf"},{"name":"20180321-083514-GVCF_Chr02.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":29},"logName":"cq76uxez.pxk"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285167621,
+  end: 1618285253469,
+  duration: 85848,
+  downloading_duration: 0,
+  execution_duration: 85848,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr18',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr18.vcf'
+  ]
+}
+Response: {"start":1618285167621,"end":1618285253469,"duration":85848,"downloading_duration":0,"execution_duration":85848,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr18","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr18.vcf"],"id":24,"resource":"lambda-3072","request_start":1618285165176,"request_end":1618285257069,"request_duration":91893,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr18.vcf","-L","Chr18","--variant","20180321-083514-USB-001_Chr18.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr18.vcf.idx","_id":58,"source":24,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr18.vcf","_id":59,"source":24,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr18.vcf.idx"},{"name":"20180321-083514-GVCF_Chr18.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":45},"logName":"2s4ci0h2.e5x"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285167585,
+  end: 1618285265600,
+  duration: 98015,
+  downloading_duration: 0,
+  execution_duration: 98015,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'HaplotypeCaller',
+    '--emitRefConfidence',
+    'GVCF',
+    '--variant_index_type',
+    'LINEAR',
+    '--variant_index_parameter',
+    '128000',
+    '-L',
+    'Chr01',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-I',
+    '20180321-083514-USB-001_indel_realigned.bam',
+    '-o',
+    '20180321-083514-USB-001_Chr01.vcf'
+  ]
+}
+Response: {"start":1618285167585,"end":1618285265600,"duration":98015,"downloading_duration":0,"execution_duration":98015,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","HaplotypeCaller","--emitRefConfidence","GVCF","--variant_index_type","LINEAR","--variant_index_parameter","128000","-L","Chr01","-R","Gmax_275_v2.0.fa","-I","20180321-083514-USB-001_indel_realigned.bam","-o","20180321-083514-USB-001_Chr01.vcf"],"id":7,"resource":"lambda-3072","request_start":1618285165182,"request_end":1618285267699,"request_duration":102517,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr01.vcf","-L","Chr01","--variant","20180321-083514-USB-001_Chr01.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-USB-001_Chr01.vcf.idx","_id":24,"source":7,"firingId":1,"sigIdx":1},{"name":"20180321-083514-USB-001_Chr01.vcf","_id":25,"source":7,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-GVCF_Chr01.vcf"},{"name":"20180321-083514-GVCF_Chr01.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":28},"logName":"5p99lzn6.ha2"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285235747,
+  end: 1618285286563,
+  duration: 50816,
+  downloading_duration: 0,
+  execution_duration: 50815,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr16.vcf',
+    '-L',
+    'Chr16',
+    '--variant',
+    '20180321-083514-USB-001_Chr16.vcf'
+  ]
+}
+Response: {"start":1618285235747,"end":1618285286563,"duration":50816,"downloading_duration":0,"execution_duration":50815,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr16.vcf","-L","Chr16","--variant","20180321-083514-USB-001_Chr16.vcf"],"id":43,"resource":"lambda-3072","request_start":1618285235185,"request_end":1618285289640,"request_duration":54455,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285235787,
+  end: 1618285285198,
+  duration: 49411,
+  downloading_duration: 0,
+  execution_duration: 49411,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr11.vcf',
+    '-L',
+    'Chr11',
+    '--variant',
+    '20180321-083514-USB-001_Chr11.vcf'
+  ]
+}
+Response: {"start":1618285235787,"end":1618285285198,"duration":49411,"downloading_duration":0,"execution_duration":49411,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr11.vcf","-L","Chr11","--variant","20180321-083514-USB-001_Chr11.vcf"],"id":38,"resource":"lambda-3072","request_start":1618285235072,"request_end":1618285289642,"request_duration":54570,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285235728,
+  end: 1618285288293,
+  duration: 52565,
+  downloading_duration: 0,
+  execution_duration: 52565,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr05.vcf',
+    '-L',
+    'Chr05',
+    '--variant',
+    '20180321-083514-USB-001_Chr05.vcf'
+  ]
+}
+Response: {"start":1618285235728,"end":1618285288293,"duration":52565,"downloading_duration":0,"execution_duration":52565,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr05.vcf","-L","Chr05","--variant","20180321-083514-USB-001_Chr05.vcf"],"id":32,"resource":"lambda-3072","request_start":1618285235060,"request_end":1618285289696,"request_duration":54636,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285240498,
+  end: 1618285292331,
+  duration: 51833,
+  downloading_duration: 0,
+  execution_duration: 51833,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr12.vcf',
+    '-L',
+    'Chr12',
+    '--variant',
+    '20180321-083514-USB-001_Chr12.vcf'
+  ]
+}
+Response: {"start":1618285240498,"end":1618285292331,"duration":51833,"downloading_duration":0,"execution_duration":51833,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr12.vcf","-L","Chr12","--variant","20180321-083514-USB-001_Chr12.vcf"],"id":39,"resource":"lambda-3072","request_start":1618285240227,"request_end":1618285294443,"request_duration":54216,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285240765,
+  end: 1618285292984,
+  duration: 52219,
+  downloading_duration: 0,
+  execution_duration: 52219,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr17.vcf',
+    '-L',
+    'Chr17',
+    '--variant',
+    '20180321-083514-USB-001_Chr17.vcf'
+  ]
+}
+Response: {"start":1618285240765,"end":1618285292984,"duration":52219,"downloading_duration":0,"execution_duration":52219,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr17.vcf","-L","Chr17","--variant","20180321-083514-USB-001_Chr17.vcf"],"id":44,"resource":"lambda-3072","request_start":1618285240523,"request_end":1618285294626,"request_duration":54103,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285240397,
+  end: 1618285294317,
+  duration: 53920,
+  downloading_duration: 0,
+  execution_duration: 53920,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr07.vcf',
+    '-L',
+    'Chr07',
+    '--variant',
+    '20180321-083514-USB-001_Chr07.vcf'
+  ]
+}
+Response: {"start":1618285240397,"end":1618285294317,"duration":53920,"downloading_duration":0,"execution_duration":53920,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr07.vcf","-L","Chr07","--variant","20180321-083514-USB-001_Chr07.vcf"],"id":34,"resource":"lambda-3072","request_start":1618285240041,"request_end":1618285299632,"request_duration":59591,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285245676,
+  end: 1618285302692,
+  duration: 57016,
+  downloading_duration: 0,
+  execution_duration: 57016,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr06.vcf',
+    '-L',
+    'Chr06',
+    '--variant',
+    '20180321-083514-USB-001_Chr06.vcf'
+  ]
+}
+Response: {"start":1618285245676,"end":1618285302692,"duration":57016,"downloading_duration":0,"execution_duration":57016,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr06.vcf","-L","Chr06","--variant","20180321-083514-USB-001_Chr06.vcf"],"id":33,"resource":"lambda-3072","request_start":1618285245422,"request_end":1618285304680,"request_duration":59258,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285245672,
+  end: 1618285301774,
+  duration: 56102,
+  downloading_duration: 0,
+  execution_duration: 56102,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr09.vcf',
+    '-L',
+    'Chr09',
+    '--variant',
+    '20180321-083514-USB-001_Chr09.vcf'
+  ]
+}
+Response: {"start":1618285245672,"end":1618285301774,"duration":56102,"downloading_duration":0,"execution_duration":56102,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr09.vcf","-L","Chr09","--variant","20180321-083514-USB-001_Chr09.vcf"],"id":36,"resource":"lambda-3072","request_start":1618285245417,"request_end":1618285304718,"request_duration":59301,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285245675,
+  end: 1618285301031,
+  duration: 55356,
+  downloading_duration: 0,
+  execution_duration: 55356,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr08.vcf',
+    '-L',
+    'Chr08',
+    '--variant',
+    '20180321-083514-USB-001_Chr08.vcf'
+  ]
+}
+Response: {"start":1618285245675,"end":1618285301031,"duration":55356,"downloading_duration":0,"execution_duration":55356,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr08.vcf","-L","Chr08","--variant","20180321-083514-USB-001_Chr08.vcf"],"id":35,"resource":"lambda-3072","request_start":1618285245420,"request_end":1618285304719,"request_duration":59299,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285246212,
+  end: 1618285300634,
+  duration: 54422,
+  downloading_duration: 0,
+  execution_duration: 54422,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr13.vcf',
+    '-L',
+    'Chr13',
+    '--variant',
+    '20180321-083514-USB-001_Chr13.vcf'
+  ]
+}
+Response: {"start":1618285246212,"end":1618285300634,"duration":54422,"downloading_duration":0,"execution_duration":54422,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr13.vcf","-L","Chr13","--variant","20180321-083514-USB-001_Chr13.vcf"],"id":40,"resource":"lambda-3072","request_start":1618285245797,"request_end":1618285305162,"request_duration":59365,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285246117,
+  end: 1618285301672,
+  duration: 55555,
+  downloading_duration: 0,
+  execution_duration: 55555,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr14.vcf',
+    '-L',
+    'Chr14',
+    '--variant',
+    '20180321-083514-USB-001_Chr14.vcf'
+  ]
+}
+Response: {"start":1618285246117,"end":1618285301672,"duration":55555,"downloading_duration":0,"execution_duration":55555,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr14.vcf","-L","Chr14","--variant","20180321-083514-USB-001_Chr14.vcf"],"id":41,"resource":"lambda-3072","request_start":1618285245752,"request_end":1618285305173,"request_duration":59421,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285245757,
+  end: 1618285303547,
+  duration: 57790,
+  downloading_duration: 0,
+  execution_duration: 57790,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr04.vcf',
+    '-L',
+    'Chr04',
+    '--variant',
+    '20180321-083514-USB-001_Chr04.vcf'
+  ]
+}
+Response: {"start":1618285245757,"end":1618285303547,"duration":57790,"downloading_duration":0,"execution_duration":57790,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr04.vcf","-L","Chr04","--variant","20180321-083514-USB-001_Chr04.vcf"],"id":31,"resource":"lambda-3072","request_start":1618285245523,"request_end":1618285305227,"request_duration":59704,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285246323,
+  end: 1618285302081,
+  duration: 55758,
+  downloading_duration: 0,
+  execution_duration: 55758,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr20.vcf',
+    '-L',
+    'Chr20',
+    '--variant',
+    '20180321-083514-USB-001_Chr20.vcf'
+  ]
+}
+Response: {"start":1618285246323,"end":1618285302081,"duration":55758,"downloading_duration":0,"execution_duration":55758,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr20.vcf","-L","Chr20","--variant","20180321-083514-USB-001_Chr20.vcf"],"id":47,"resource":"lambda-3072","request_start":1618285245874,"request_end":1618285305562,"request_duration":59688,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285246602,
+  end: 1618285302008,
+  duration: 55406,
+  downloading_duration: 0,
+  execution_duration: 55406,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr03.vcf',
+    '-L',
+    'Chr03',
+    '--variant',
+    '20180321-083514-USB-001_Chr03.vcf'
+  ]
+}
+Response: {"start":1618285246602,"end":1618285302008,"duration":55406,"downloading_duration":0,"execution_duration":55406,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr03.vcf","-L","Chr03","--variant","20180321-083514-USB-001_Chr03.vcf"],"id":30,"resource":"lambda-3072","request_start":1618285246375,"request_end":1618285305736,"request_duration":59361,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285251319,
+  end: 1618285308502,
+  duration: 57183,
+  downloading_duration: 0,
+  execution_duration: 57183,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr10.vcf',
+    '-L',
+    'Chr10',
+    '--variant',
+    '20180321-083514-USB-001_Chr10.vcf'
+  ]
+}
+Response: {"start":1618285251319,"end":1618285308502,"duration":57183,"downloading_duration":0,"execution_duration":57183,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr10.vcf","-L","Chr10","--variant","20180321-083514-USB-001_Chr10.vcf"],"id":37,"resource":"lambda-3072","request_start":1618285251097,"request_end":1618285310414,"request_duration":59317,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285251406,
+  end: 1618285307654,
+  duration: 56248,
+  downloading_duration: 0,
+  execution_duration: 56248,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr19.vcf',
+    '-L',
+    'Chr19',
+    '--variant',
+    '20180321-083514-USB-001_Chr19.vcf'
+  ]
+}
+Response: {"start":1618285251406,"end":1618285307654,"duration":56248,"downloading_duration":0,"execution_duration":56248,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr19.vcf","-L","Chr19","--variant","20180321-083514-USB-001_Chr19.vcf"],"id":46,"resource":"lambda-3072","request_start":1618285251165,"request_end":1618285310460,"request_duration":59295,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285251367,
+  end: 1618285308481,
+  duration: 57114,
+  downloading_duration: 0,
+  execution_duration: 57114,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr15.vcf',
+    '-L',
+    'Chr15',
+    '--variant',
+    '20180321-083514-USB-001_Chr15.vcf'
+  ]
+}
+Response: {"start":1618285251367,"end":1618285308481,"duration":57114,"downloading_duration":0,"execution_duration":57114,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr15.vcf","-L","Chr15","--variant","20180321-083514-USB-001_Chr15.vcf"],"id":42,"resource":"lambda-3072","request_start":1618285251134,"request_end":1618285310468,"request_duration":59334,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285252143,
+  end: 1618285306958,
+  duration: 54815,
+  downloading_duration: 0,
+  execution_duration: 54815,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr02.vcf',
+    '-L',
+    'Chr02',
+    '--variant',
+    '20180321-083514-USB-001_Chr02.vcf'
+  ]
+}
+Response: {"start":1618285252143,"end":1618285306958,"duration":54815,"downloading_duration":0,"execution_duration":54815,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr02.vcf","-L","Chr02","--variant","20180321-083514-USB-001_Chr02.vcf"],"id":29,"resource":"lambda-3072","request_start":1618285251706,"request_end":1618285311016,"request_duration":59310,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285257310,
+  end: 1618285317140,
+  duration: 59830,
+  downloading_duration: 0,
+  execution_duration: 59830,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr18.vcf',
+    '-L',
+    'Chr18',
+    '--variant',
+    '20180321-083514-USB-001_Chr18.vcf'
+  ]
+}
+Response: {"start":1618285257310,"end":1618285317140,"duration":59830,"downloading_duration":0,"execution_duration":59830,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr18.vcf","-L","Chr18","--variant","20180321-083514-USB-001_Chr18.vcf"],"id":45,"resource":"lambda-3072","request_start":1618285257081,"request_end":1618285321611,"request_duration":64530,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285268038,
+  end: 1618285327409,
+  duration: 59371,
+  downloading_duration: 0,
+  execution_duration: 59371,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'GenotypeGVCFs',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-GVCF_Chr01.vcf',
+    '-L',
+    'Chr01',
+    '--variant',
+    '20180321-083514-USB-001_Chr01.vcf'
+  ]
+}
+Response: {"start":1618285268038,"end":1618285327409,"duration":59371,"downloading_duration":0,"execution_duration":59371,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","GenotypeGVCFs","-R","Gmax_275_v2.0.fa","-o","20180321-083514-GVCF_Chr01.vcf","-L","Chr01","--variant","20180321-083514-USB-001_Chr01.vcf"],"id":28,"resource":"lambda-3072","request_start":1618285267708,"request_end":1618285332274,"request_duration":64566,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","CombineVariants","-R","Gmax_275_v2.0.fa","-o","20180321-083514-All.vcf","--variant","20180321-083514-GVCF_Chr01.vcf","--variant","20180321-083514-GVCF_Chr02.vcf","--variant","20180321-083514-GVCF_Chr03.vcf","--variant","20180321-083514-GVCF_Chr04.vcf","--variant","20180321-083514-GVCF_Chr05.vcf","--variant","20180321-083514-GVCF_Chr06.vcf","--variant","20180321-083514-GVCF_Chr07.vcf","--variant","20180321-083514-GVCF_Chr08.vcf","--variant","20180321-083514-GVCF_Chr09.vcf","--variant","20180321-083514-GVCF_Chr10.vcf","--variant","20180321-083514-GVCF_Chr11.vcf","--variant","20180321-083514-GVCF_Chr12.vcf","--variant","20180321-083514-GVCF_Chr13.vcf","--variant","20180321-083514-GVCF_Chr14.vcf","--variant","20180321-083514-GVCF_Chr15.vcf","--variant","20180321-083514-GVCF_Chr16.vcf","--variant","20180321-083514-GVCF_Chr17.vcf","--variant","20180321-083514-GVCF_Chr18.vcf","--variant","20180321-083514-GVCF_Chr19.vcf","--variant","20180321-083514-GVCF_Chr20.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-GVCF_Chr01.vcf","_id":67,"source":27,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr01.vcf.idx","_id":68,"source":27,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr02.vcf","_id":69,"source":28,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr02.vcf.idx","_id":70,"source":28,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr03.vcf","_id":71,"source":29,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr03.vcf.idx","_id":72,"source":29,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr04.vcf","_id":73,"source":30,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr04.vcf.idx","_id":74,"source":30,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr05.vcf","_id":75,"source":31,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr05.vcf.idx","_id":76,"source":31,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr06.vcf.idx","_id":77,"source":32,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr06.vcf","_id":78,"source":32,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr07.vcf.idx","_id":79,"source":33,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr07.vcf","_id":80,"source":33,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr08.vcf","_id":81,"source":34,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr08.vcf.idx","_id":82,"source":34,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr09.vcf","_id":83,"source":35,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr09.vcf.idx","_id":84,"source":35,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr10.vcf","_id":85,"source":36,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr10.vcf.idx","_id":86,"source":36,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr11.vcf","_id":87,"source":37,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr11.vcf.idx","_id":88,"source":37,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr12.vcf.idx","_id":89,"source":38,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr12.vcf","_id":90,"source":38,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr13.vcf","_id":91,"source":39,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr13.vcf.idx","_id":92,"source":39,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr14.vcf.idx","_id":93,"source":40,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr14.vcf","_id":94,"source":40,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr15.vcf.idx","_id":95,"source":41,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr15.vcf","_id":96,"source":41,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr16.vcf","_id":97,"source":42,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr16.vcf.idx","_id":98,"source":42,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr17.vcf","_id":99,"source":43,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr17.vcf.idx","_id":100,"source":43,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr18.vcf.idx","_id":101,"source":44,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr18.vcf","_id":102,"source":44,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr19.vcf.idx","_id":103,"source":45,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr19.vcf","_id":104,"source":45,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr20.vcf.idx","_id":105,"source":46,"firingId":1,"sigIdx":1},{"name":"20180321-083514-GVCF_Chr20.vcf","_id":106,"source":46,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-All.vcf"},{"name":"20180321-083514-All.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":48},"logName":"5a519s29.eu6"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285332625,
+  end: 1618285367894,
+  duration: 35269,
+  downloading_duration: 0,
+  execution_duration: 35268,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'CombineVariants',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-o',
+    '20180321-083514-All.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr01.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr02.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr03.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr04.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr05.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr06.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr07.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr08.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr09.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr10.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr11.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr12.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr13.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr14.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr15.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr16.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr17.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr18.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr19.vcf',
+    '--variant',
+    '20180321-083514-GVCF_Chr20.vcf'
+  ]
+}
+Response: {"start":1618285332625,"end":1618285367894,"duration":35269,"downloading_duration":0,"execution_duration":35268,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","CombineVariants","-R","Gmax_275_v2.0.fa","-o","20180321-083514-All.vcf","--variant","20180321-083514-GVCF_Chr01.vcf","--variant","20180321-083514-GVCF_Chr02.vcf","--variant","20180321-083514-GVCF_Chr03.vcf","--variant","20180321-083514-GVCF_Chr04.vcf","--variant","20180321-083514-GVCF_Chr05.vcf","--variant","20180321-083514-GVCF_Chr06.vcf","--variant","20180321-083514-GVCF_Chr07.vcf","--variant","20180321-083514-GVCF_Chr08.vcf","--variant","20180321-083514-GVCF_Chr09.vcf","--variant","20180321-083514-GVCF_Chr10.vcf","--variant","20180321-083514-GVCF_Chr11.vcf","--variant","20180321-083514-GVCF_Chr12.vcf","--variant","20180321-083514-GVCF_Chr13.vcf","--variant","20180321-083514-GVCF_Chr14.vcf","--variant","20180321-083514-GVCF_Chr15.vcf","--variant","20180321-083514-GVCF_Chr16.vcf","--variant","20180321-083514-GVCF_Chr17.vcf","--variant","20180321-083514-GVCF_Chr18.vcf","--variant","20180321-083514-GVCF_Chr19.vcf","--variant","20180321-083514-GVCF_Chr20.vcf"],"id":48,"resource":"lambda-3072","request_start":1618285332292,"request_end":1618285370217,"request_duration":37925,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","SelectVariants","-nt","2","-R","Gmax_275_v2.0.fa","-selectType","SNP","-V","20180321-083514-All.vcf","-o","20180321-083514-All.vcf_snp_only.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-All.vcf","_id":107,"source":47,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-All.vcf_snp_only.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":49},"logName":"zk024q4.3mr"}@aws-executor-montage-dev-aws-executor-3072
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","SelectVariants","-nt","2","-R","Gmax_275_v2.0.fa","-selectType","INDEL","-V","20180321-083514-All.vcf","-o","20180321-083514-All.vcf_indel_only.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-All.vcf","_id":107,"source":47,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-All.vcf_indel_only.vcf"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":51},"logName":"4z7yyewd.ny7"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285370542,
+  end: 1618285519614,
+  duration: 149072,
+  downloading_duration: 0,
+  execution_duration: 149072,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'SelectVariants',
+    '-nt',
+    '2',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-selectType',
+    'INDEL',
+    '-V',
+    '20180321-083514-All.vcf',
+    '-o',
+    '20180321-083514-All.vcf_indel_only.vcf'
+  ]
+}
+Response: {"start":1618285370542,"end":1618285519614,"duration":149072,"downloading_duration":0,"execution_duration":149072,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","SelectVariants","-nt","2","-R","Gmax_275_v2.0.fa","-selectType","INDEL","-V","20180321-083514-All.vcf","-o","20180321-083514-All.vcf_indel_only.vcf"],"id":51,"resource":"lambda-3072","request_start":1618285370237,"request_end":1618285524969,"request_duration":154732,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285370546,
+  end: 1618285520111,
+  duration: 149565,
+  downloading_duration: 0,
+  execution_duration: 149565,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'SelectVariants',
+    '-nt',
+    '2',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-selectType',
+    'SNP',
+    '-V',
+    '20180321-083514-All.vcf',
+    '-o',
+    '20180321-083514-All.vcf_snp_only.vcf'
+  ]
+}
+Response: {"start":1618285370546,"end":1618285520111,"duration":149565,"downloading_duration":0,"execution_duration":149565,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","SelectVariants","-nt","2","-R","Gmax_275_v2.0.fa","-selectType","SNP","-V","20180321-083514-All.vcf","-o","20180321-083514-All.vcf_snp_only.vcf"],"id":49,"resource":"lambda-3072","request_start":1618285370232,"request_end":1618285524972,"request_duration":154740,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","VariantFiltration","-R","Gmax_275_v2.0.fa","-V","20180321-083514-All.vcf_indel_only.vcf","--filterExpression","QD < 2.0 || FS > 200.0 || MQ < 40 || Haplotypescore > 20.0","--filterName","my_indel_filter","-o","20180321-083514-All_filtered_indel.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-All.vcf_indel_only.vcf","_id":112,"source":50,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-All_filtered_indel.vcf"},{"name":"20180321-083514-All_filtered_indel.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":52},"logName":"3ty9coiv.47n"}@aws-executor-montage-dev-aws-executor-3072
+No config in /home/amnich/Documents/magisterka/CloudFunctionOptimizer, loading config from default location: .
+Executing: {"executable":"gatk-wrapper","args":["-T","VariantFiltration","-R","Gmax_275_v2.0.fa","-V","20180321-083514-All.vcf_snp_only.vcf","--filterExpression","QD < 2.0 || FS > 60.0 || MQ < 40.0 || Haplotypescore > 20.0","--filterName","my_snp_filter","-o","20180321-083514-All_filtered_snp.vcf"],"env":{},"inputs":[{"name":"Gmax_275_v2.0.fa.sa","_id":2,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa","_id":4,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.amb","_id":5,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.bwt","_id":6,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.ann","_id":7,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.pac","_id":8,"data":[{}],"sigIdx":1},{"name":"chromosome.txt","_id":10,"data":[{}],"sigIdx":1},{"name":"software.tar.gz","_id":11,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.dict","_id":12,"data":[{}],"sigIdx":1},{"name":"Gmax_275_v2.0.fa.fai","_id":13,"data":[{}],"sigIdx":1},{"name":"20180321-083514-All.vcf_snp_only.vcf","_id":109,"source":48,"firingId":1,"sigIdx":1}],"outputs":[{"name":"20180321-083514-All_filtered_snp.vcf"},{"name":"20180321-083514-All_filtered_snp.vcf.idx"}],"options":{"storage":"aws","bucket":"hyperflow-soykb","prefix":"data/sources","efs":"/mnt/montage","task_id":50},"logName":"9s2e73i4.64p"}@aws-executor-montage-dev-aws-executor-3072
+{ StatusCode: 202, Payload: '' }
+{ StatusCode: 202, Payload: '' }
+{
+  start: 1618285525325,
+  end: 1618285558963,
+  duration: 33638,
+  downloading_duration: 0,
+  execution_duration: 33638,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'VariantFiltration',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-V',
+    '20180321-083514-All.vcf_snp_only.vcf',
+    '--filterExpression',
+    'QD < 2.0 || FS > 60.0 || MQ < 40.0 || Haplotypescore > 20.0',
+    '--filterName',
+    'my_snp_filter',
+    '-o',
+    '20180321-083514-All_filtered_snp.vcf'
+  ]
+}
+Response: {"start":1618285525325,"end":1618285558963,"duration":33638,"downloading_duration":0,"execution_duration":33638,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","VariantFiltration","-R","Gmax_275_v2.0.fa","-V","20180321-083514-All.vcf_snp_only.vcf","--filterExpression","QD < 2.0 || FS > 60.0 || MQ < 40.0 || Haplotypescore > 20.0","--filterName","my_snp_filter","-o","20180321-083514-All_filtered_snp.vcf"],"id":50,"resource":"lambda-3072","request_start":1618285524976,"request_end":1618285562995,"request_duration":38019,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+{
+  start: 1618285525320,
+  end: 1618285558716,
+  duration: 33396,
+  downloading_duration: 0,
+  execution_duration: 33396,
+  uploading_duration: 0,
+  executable: 'gatk-wrapper',
+  args: [
+    '-T',
+    'VariantFiltration',
+    '-R',
+    'Gmax_275_v2.0.fa',
+    '-V',
+    '20180321-083514-All.vcf_indel_only.vcf',
+    '--filterExpression',
+    'QD < 2.0 || FS > 200.0 || MQ < 40 || Haplotypescore > 20.0',
+    '--filterName',
+    'my_indel_filter',
+    '-o',
+    '20180321-083514-All_filtered_indel.vcf'
+  ]
+}
+Response: {"start":1618285525320,"end":1618285558716,"duration":33396,"downloading_duration":0,"execution_duration":33396,"uploading_duration":0,"executable":"gatk-wrapper","args":["-T","VariantFiltration","-R","Gmax_275_v2.0.fa","-V","20180321-083514-All.vcf_indel_only.vcf","--filterExpression","QD < 2.0 || FS > 200.0 || MQ < 40 || Haplotypescore > 20.0","--filterName","my_indel_filter","-o","20180321-083514-All_filtered_indel.vcf"],"id":52,"resource":"lambda-3072","request_start":1618285524974,"request_end":1618285563007,"request_duration":38033,"type":"lambda-3072"}
+Lambda task: gatk-wrapper completed successfully.
+Workflow [1336] finished. Exec trace: 1,2,3,4,5,6,11,17,22,13,18,23,15,14,12,10,20,19,26,9,16,21,25,8,24,7,42,37,31,38,43,33,32,35,34,39,40,30,46,29,36,45,41,28,44,27,47,50,48,49,51.
